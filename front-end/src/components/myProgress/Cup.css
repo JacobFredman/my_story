@@ -17,3 +17,7 @@
     width: 2em;
     cursor: pointer;
 }
+
+.autoWinCol{
+    background-color: greenyellow;
+}

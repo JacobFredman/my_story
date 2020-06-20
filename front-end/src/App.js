@@ -11,6 +11,8 @@ import HomePage from './components/homePage/HomePage';
 import ConnectUs from './components/connectUs/ConnectUs';
 import UserStatistics from './components/myProgress/userStatistics';
 import SignIn from './components/user/SignIn';
+import Cups_and_points from './components/admin/CupsAndPoints';
+import Demo from './components/Demo';
 
 
 
@@ -27,8 +29,10 @@ function App() {
               <Route exact path="/" component={HomePage} />
               <Route path="/show_progress" component={ShowProgress} />
               <Route path="/user_statistics" component={UserStatistics} />
+              <Route path="/admin/cups_and_points" component={Cups_and_points} />
               <Route path="/sign_in" component={SignIn} />
               <Route path="/connect_us" component={ConnectUs} />
+              <Route path="/demo" component={Demo} />
             </Switch>
           </Col>
         </Row>

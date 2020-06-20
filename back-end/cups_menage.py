@@ -6,6 +6,8 @@ import yaml
 
 cups_menage = Blueprint('cups_menage', __name__)
 
+goals_or_hablits_chapter = 11
+
 
 @cups_menage.route('/initioal_user_cups', methods=['POST'])
 def initial_user_cups():
@@ -32,13 +34,61 @@ def initial_user_cups():
     return 'ok'
 
 
+# @cups_menage.route('/initioal_user_golas_or_habits', methods=['POST'])
+def initioal_user_golas_or_habits():
+    conn._open_connection()
+    mycursor = conn.cursor()
+    initUserStatment = """ Insert into my_db.goals_or_habits(user_name, goals_selected, max_goals, goals_wined) values("binyamin", 0, 0, 0) ;"""
+
+    try:
+        mycursor.execute(initUserStatment)
+        conn.commit()
+    except Exception as e:
+        return 'error', 500
+    finally:
+        conn.close()
+    return 'ok', 200
+
+
+@cups_menage.route('/update_user_goals', methods=['POST'])
+def update_user_goals():
+    user = 'binyamin'
+    SP_paremeters_as_dict = request.get_json(force=True)
+    update_goals_sql = """
+    INSERT INTO my_db.goals_or_habits(user_name, goals_selected, max_goals)
+    values(%s, %s, %s )
+    ON DUPLICATE KEY UPDATE  goals_selected=%s, max_goals=%s
+    """
+
+    conn._open_connection()
+    mycursor = conn.cursor()
+    try:
+        mycursor.execute(update_goals_sql, (user,
+                                            SP_paremeters_as_dict['goals_selected'],
+                                            SP_paremeters_as_dict['max_goals'],
+                                            SP_paremeters_as_dict['goals_selected'],
+                                            SP_paremeters_as_dict['max_goals']))
+        if SP_paremeters_as_dict['goals_selected'] == 1:
+            mycursor.callproc('update_user_cups_sql', (user,
+                                                       SP_paremeters_as_dict['max_goals'],
+                                                       SP_paremeters_as_dict['numOfGoalsAchived'],))
+        conn.commit()
+    except Exception as e:
+        return str(e), 500
+    else:
+        return json.dumps({'rowCount': mycursor.rowcount}), 200
+    finally:
+        conn.close()
+
+
 @cups_menage.route('/get_user_cups', methods=['POST'])
 def getUserCupsForAllChapters():
     sql = """
-    select chapter.id, chapter_name, victory_cups_wined, max_victory_cups, automatic_win
-    FROM my_db.chapter left join my_db.user_cups_by_chapters on chapter.id = user_cups_by_chapters.chapter_id
-    where user_cups_by_chapters.user_name = 'binyamin';
+    select chapter.chapter_id, chapter_name, victory_cups_wined, max_victory_cups, automatic_win
+    FROM my_db.chapter natural join my_db.user_cups
+    where user_cups.user_name = 'binyamin';
     """
+
     conn._open_connection()
     mycursor = conn.cursor()
     try:
@@ -48,13 +98,35 @@ def getUserCupsForAllChapters():
         for row in rows:
             data.append(
                 {'id': row[0], 'chapter_name': row[1], 'wined_cups': row[2], 'max_victory_cups': row[3], 'automatic_win': row[4]})
-        # for x in myresult:
-        #     print(x)
     except Exception as e:
         return str(e)
     finally:
         conn.close()
     return json.dumps({'rows': data}), 200
+
+
+@cups_menage.route('/get_goals_or_habits', methods=['POST'])
+def get_goals_or_habits():
+    sql = """
+    select *
+    FROM my_db.goals_or_habits 
+    where user_name = 'binyamin';
+    """
+
+    conn._open_connection()
+    mycursor = conn.cursor()
+    try:
+        mycursor.execute(sql)
+        rows = mycursor.fetchall()
+        data = []
+        for row in rows:
+            data.append(
+                {'user_name': row[0], 'goal_selected': row[1], 'max_goals': row[2]})
+    except Exception as e:
+        return str(e)
+    finally:
+        conn.close()
+    return json.dumps({'val': data}), 200
 
 
 @cups_menage.route('/get_user_control', methods=['POST'])
@@ -63,26 +135,51 @@ def getUserControl():
     return json.dumps({'val': str(result)}), 200
 
 
-@cups_menage.route('/get_user_control_for_now', methods=['POST'])
-def getUserControlForNow():
-    return getParamter('get_user_self_control', 'binyamin', get_which_chapter_user_holds())
-
-
 @cups_menage.route('/get_user_connection_to_yourself', methods=['POST'])
 def getUserSelfConnection():
-    result = getParamter('get_user_connection_to_yourself', 'binyamin', 1000)
+    result = getParamter('get_user_self_connection', 'binyamin', 1000)
     return json.dumps({'val': str(result)}), 200
 
 
 @cups_menage.route('/get_user_commitment_to_success', methods=['POST'])
 def getUserCommitment_to_success():
-    result = getParamter('get_user_commitment_to_success', 'binyamin', 1000)
+    result = getParamter('get_user_self_commitment', 'binyamin', 1000)
     return json.dumps({'val': str(result)}), 200
 
 
 @cups_menage.route('/get_user_self_fulfillment', methods=['POST'])
 def getUserSelfFulfillment():
     result = getParamter('get_user_self_fulfillment', 'binyamin', 1000)
+    return json.dumps({'val': str(result)}), 200
+
+
+############## get parameter until chapter user holds ##################
+
+@cups_menage.route('/get_user_control_for_now', methods=['POST'])
+def getUserControlForNow():
+    result = getParamter('get_user_self_control', 'binyamin',
+                         get_which_chapter_user_holds())
+    return json.dumps({'val': str(result)}), 200
+
+
+@cups_menage.route('/get_user_connection_to_yourself_for_now', methods=['POST'])
+def getUserSelfConnectionForNow():
+    result = getParamter('get_user_self_connection',
+                         'binyamin',  get_which_chapter_user_holds())
+    return json.dumps({'val': str(result)}), 200
+
+
+@cups_menage.route('/get_user_commitment_to_success_for_now', methods=['POST'])
+def getUserCommitment_to_successForNow():
+    result = getParamter('get_user_self_commitment',
+                         'binyamin',  get_which_chapter_user_holds())
+    return json.dumps({'val': str(result)}), 200
+
+
+@cups_menage.route('/get_user_self_fulfillment_for_now', methods=['POST'])
+def getUserSelfFulfillmentForNow():
+    result = getParamter('get_user_self_fulfillment',
+                         'binyamin',  get_which_chapter_user_holds())
     return json.dumps({'val': str(result)}), 200
 
 
@@ -135,7 +232,7 @@ def getParamter(SP_name, userName, chapterUserHolds):
     finally:
         conn1.close()
     # return json.dumps({'val': str(resultArray[1])}), 200
-    return resultArray[1]
+    return resultArray[0]
 
 
 @cups_menage.route('/get_feadback', methods=['POST'])
@@ -193,10 +290,10 @@ def updateUserCups():
     SP_paremeters_as_dict['newCups'],
     SP_paremeters_as_dict['chapterId'],
     sql = """
-    UPDATE my_db.user_cups_by_chapters
+    UPDATE my_db.user_cups
     SET date_update = CURDATE(), victory_cups_wined = %s
     WHERE user_name = %s and chapter_id = %s
-    and exists (select * from chapter where id = %s and max_victory_cups >= %s and automatic_win = 0 )
+    and exists (select * from chapter where chapter_id = %s and max_victory_cups >= %s and automatic_win = 0 )
     """
     conn._open_connection()
     mycursor = conn.cursor()
@@ -222,10 +319,15 @@ def get_which_chapter_user_holds():
     )
     conn1._open_connection()
     cursor = conn1.cursor()
+    # sql = """
+    # select chapter.id as id, user_cups_by_chapters.victory_cups_wined as userCups, chapter.automatic_win
+    # from chapter
+    # left join `user_cups_by_chapters` on chapter.id = user_cups_by_chapters.chapter_id
+    # where user_name = 'binyamin'
+    # """
     sql = """
-    select chapter.id as id, user_cups_by_chapters.victory_cups_wined as userCups, chapter.automatic_win 
-    from chapter 
-    left join `user_cups_by_chapters` on chapter.id = user_cups_by_chapters.chapter_id
+    select chapter.chapter_id as id, user_cups.victory_cups_wined as userCups, chapter.automatic_win 
+    from chapter natural join `user_cups`
     where user_name = 'binyamin'
     """
     try:
@@ -236,7 +338,16 @@ def get_which_chapter_user_holds():
         return 'error', 500
     finally:
         conn.close()
-    return 'result'
+    lastChapter = 0
+    for x in resultArray:
+        # if x has cups and x is not automatic then get it
+        if x[1] > 0 and x[2] == 0:
+            lastChapter = x[0]
+        # if x is immdietly after a chain of x's
+        elif x[1] > 0 and lastChapter == (x[0] - 1):
+            lastChapter = x[0]
+    print(lastChapter)
+    return str(lastChapter)
 
 
 # def getParamterRelativeToUserChapter(parmterName, userName):

@@ -85,9 +85,17 @@ class NavBarBootStrap extends Component {
                     </LinkContainer>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
+                        <NavDropdown title="ניהול המערכת" id="collasible-nav-dropdown">
+                            <LinkContainer to="/admin/cups_and_points">
+                                <NavDropdown.Item >גביעים ונקודות</NavDropdown.Item>
+                            </LinkContainer>
+                            <LinkContainer to="/admin/users_statistics">
+                                <NavDropdown.Item >נתוני משתמשים</NavDropdown.Item>
+                            </LinkContainer>
+                        </NavDropdown>
                         <Nav className="mr-auto">
                             <LinkContainer to="/show_progress">
-                                <Nav.Link>ההתקדמות שלי</Nav.Link>
+                                <Nav.Link>הגביעים שלי</Nav.Link>
                             </LinkContainer>
                             <LinkContainer to="/connect_us">
                                 <Nav.Link>צור קשר</Nav.Link>
