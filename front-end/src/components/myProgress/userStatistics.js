@@ -9,6 +9,7 @@ import { getDecimalFromFlaskResponse } from '../../utils/helper';
 import ProggressGraph from './ProggressGraph';
 
 
+let counter = 11;
 
 
 class UserStatistics extends Component {
@@ -16,13 +17,9 @@ class UserStatistics extends Component {
         super(props);
         this.state = {
             my_your_control: 0,
-            // ave_your_control: 0,
             my_connection_to_yourself: 0,
-            // ave_connection_to_yourself: 0,
             my_commitment_to_success: 0,
-            // ave_commitment_to_success: 0,
             my_self_fulfillment: 0,
-            // ave_self_fulfillment: 0,
             textcontrol: '',
             textconnection: '',
             textcommitment: '',
@@ -51,8 +48,6 @@ class UserStatistics extends Component {
         this.getData('get_user_commitment_to_success_for_now', 'my_commitment_to_success_relatively');
         this.getData('get_user_self_fulfillment_for_now', 'my_self_fulfillment_relatively');
 
-
-        // this.forceUpdate();
     }
 
     runGetTexts = async () => {
@@ -60,7 +55,6 @@ class UserStatistics extends Component {
         this.getTexts('get_feadback', 'textconnection', 'connection_to_yourself')
         this.getTexts('get_feadback', 'textcommitment', 'commitment_to_success')
         this.getTexts('get_feadback', 'textfulfillment', 'self_fulfillment')
-        // this.forceUpdate();
     }
 
     getData = async (url, stateToUpdate) => {
@@ -69,8 +63,13 @@ class UserStatistics extends Component {
             { "a": "a" },
             { headers: { 'Content-Type': 'application/json' } }
         );
-        console.log(response.data.val);;
-        this.state[stateToUpdate] = response.data.val;
+
+        if (counter > 0) {
+            this.state[stateToUpdate] = response.data.val;
+            counter--;
+        }
+        else
+            this.setState({ [stateToUpdate]: response.data.val });
     }
 
     getTexts = async (url, stateToUpdate, parameterName) => {
@@ -79,9 +78,14 @@ class UserStatistics extends Component {
             { "parameterName": parameterName },
             { headers: { 'Content-Type': 'application/json' } }
         );
-        console.log(response.data.val);;
-        this.state[stateToUpdate] = response.data.val;
-        this.setState({ [stateToUpdate]: response.data.val })
+        // this.state[stateToUpdate] = response.data.val;
+        // this.setState({ [stateToUpdate]: response.data.val })
+        if (counter > 0) {
+            this.state[stateToUpdate] = response.data.val;
+            counter--;
+        }
+        else
+            this.setState({ [stateToUpdate]: response.data.val });
     }
 
     render() {

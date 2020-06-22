@@ -89,6 +89,9 @@ class NavBarBootStrap extends Component {
                             <LinkContainer to="/admin/cups_and_points">
                                 <NavDropdown.Item >גביעים ונקודות</NavDropdown.Item>
                             </LinkContainer>
+                            <LinkContainer to="/admin/feedback_text">
+                                <NavDropdown.Item >טקסט משוב</NavDropdown.Item>
+                            </LinkContainer>
                             <LinkContainer to="/admin/users_statistics">
                                 <NavDropdown.Item >נתוני משתמשים</NavDropdown.Item>
                             </LinkContainer>

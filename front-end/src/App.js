@@ -13,6 +13,8 @@ import UserStatistics from './components/myProgress/userStatistics';
 import SignIn from './components/user/SignIn';
 import Cups_and_points from './components/admin/CupsAndPoints';
 import Demo from './components/Demo';
+import FeedbackText from './components/admin/FeedbackText';
+import AdminReport from './components/admin/AdminReport';
 
 
 
@@ -30,6 +32,8 @@ function App() {
               <Route path="/show_progress" component={ShowProgress} />
               <Route path="/user_statistics" component={UserStatistics} />
               <Route path="/admin/cups_and_points" component={Cups_and_points} />
+              <Route path="/admin/feedback_text" component={FeedbackText} />
+              <Route path="/admin/users_statistics" component={AdminReport} />
               <Route path="/sign_in" component={SignIn} />
               <Route path="/connect_us" component={ConnectUs} />
               <Route path="/demo" component={Demo} />

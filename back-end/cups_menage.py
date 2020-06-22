@@ -13,19 +13,19 @@ goals_or_hablits_chapter = 11
 def initial_user_cups():
     conn._open_connection()
     mycursor = conn.cursor()
-    insertAutoWinStatment = """ INSERT INTO my_db.user_cups_by_chapters
-    SELECT 'binyamin' , curdate(), id, max_victory_cups
+    insertAutoWinStatment = """ INSERT INTO my_db.user_cups
+    SELECT %s , curdate(), chapter_id, max_victory_cups
     FROM my_db.chapter
     WHERE automatic_win = 1;
     """
-    insertZeroStatments = """INSERT INTO my_db.user_cups_by_chapters
-    SELECT 'binyamin', curdate(), id, 0
+    insertZeroStatments = """INSERT INTO my_db.user_cups
+    SELECT %s , curdate(), chapter_id, 0
     FROM my_db.chapter
     WHERE automatic_win = 0;
     """
     try:
-        mycursor.execute(insertAutoWinStatment)
-        mycursor.execute(insertZeroStatments)
+        mycursor.execute(insertAutoWinStatment, ('jac',))
+        mycursor.execute(insertZeroStatments, ('jac',))
         conn.commit()
     except Exception as e:
         return str(e)
@@ -88,9 +88,15 @@ def getUserCupsForAllChapters():
     FROM my_db.chapter natural join my_db.user_cups
     where user_cups.user_name = 'binyamin';
     """
+    conn1 = mysql.connector.connect(
+        host="localhost",
+        user="jac",
+        password="1234",
+        database="my_db"
+    )
 
-    conn._open_connection()
-    mycursor = conn.cursor()
+    conn1._open_connection()
+    mycursor = conn1.cursor()
     try:
         mycursor.execute(sql)
         rows = mycursor.fetchall()
@@ -101,31 +107,38 @@ def getUserCupsForAllChapters():
     except Exception as e:
         return str(e)
     finally:
-        conn.close()
+        conn1.close()
     return json.dumps({'rows': data}), 200
 
 
 @cups_menage.route('/get_goals_or_habits', methods=['POST'])
 def get_goals_or_habits():
     sql = """
-    select *
+    select goals_selected, max_goals
     FROM my_db.goals_or_habits 
     where user_name = 'binyamin';
     """
+    conn1 = mysql.connector.connect(
+        host="localhost",
+        user="jac",
+        password="1234",
+        database="my_db"
+    )
 
-    conn._open_connection()
-    mycursor = conn.cursor()
+    conn1._open_connection()
+    mycursor = conn1.cursor()
     try:
         mycursor.execute(sql)
         rows = mycursor.fetchall()
         data = []
         for row in rows:
             data.append(
-                {'user_name': row[0], 'goal_selected': row[1], 'max_goals': row[2]})
+                # {'user_name': row[0], 'goal_selected': row[1], 'max_goals': row[2]})
+                {'goalsSelected': row[0], 'maxGoals': row[1]})
     except Exception as e:
         return str(e)
     finally:
-        conn.close()
+        conn1.close()
     return json.dumps({'val': data}), 200
 
 
@@ -244,11 +257,12 @@ def get_feadback():
 def getFeedbackText(parameterName, userName):
     parameterName_SpNameDict = {
         "your_control": "get_user_self_control",
-        "connection_to_yourself": "get_user_connection_to_yourself",
-        "commitment_to_success": "get_user_commitment_to_success",
+        "connection_to_yourself": "get_user_self_connection",
+        "commitment_to_success": "get_user_self_commitment",
         "self_fulfillment": "get_user_self_fulfillment"}
     percentOfSeccess = getParamter(
-        parameterName_SpNameDict['your_control'], 'binyamin', 1000)
+        # parameterName_SpNameDict['your_control'], 'binyamin', 1000)
+        parameterName_SpNameDict[parameterName], 'binyamin', 1000)
     percentOfSeccess = percentOfSeccess * 100
 
     conn1 = mysql.connector.connect(
@@ -289,18 +303,24 @@ def updateUserCups():
     SP_paremeters_as_dict = request.get_json(force=True)
     SP_paremeters_as_dict['newCups'],
     SP_paremeters_as_dict['chapterId'],
-    sql = """
-    UPDATE my_db.user_cups
-    SET date_update = CURDATE(), victory_cups_wined = %s
-    WHERE user_name = %s and chapter_id = %s
-    and exists (select * from chapter where chapter_id = %s and max_victory_cups >= %s and automatic_win = 0 )
-    """
+    # sql = """
+    # UPDATE my_db.user_cups
+    # SET date_update = CURDATE(), victory_cups_wined = %s
+    # WHERE user_name = %s and chapter_id = %s
+    # and exists (select * from chapter where chapter_id = %s and max_victory_cups >= %s and automatic_win = 0 )
+    # """
+
     conn._open_connection()
     mycursor = conn.cursor()
     try:
-        mycursor.execute(sql, (SP_paremeters_as_dict['newCups'],
-                               user, SP_paremeters_as_dict['chapterId'], SP_paremeters_as_dict['chapterId'],
-                               SP_paremeters_as_dict['newCups']))
+        # mycursor.execute(sql, (SP_paremeters_as_dict['newCups'],
+        #                        user, SP_paremeters_as_dict['chapterId'], SP_paremeters_as_dict['chapterId'],
+        #                        SP_paremeters_as_dict['newCups']))
+        mycursor.callproc('update_user_cups', (user,
+                                               SP_paremeters_as_dict['newCups'],
+                                               SP_paremeters_as_dict['chapterId'],
+                                               goals_or_hablits_chapter,))
+        conn.commit()
         val = mycursor.fetchone()
     except Exception as e:
         return str(e), 500

@@ -11,10 +11,11 @@ import Modal from 'react-responsive-modal';
 
 
 
-class CupsAndPoints extends Component {
+class FeedbackText extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            FeedbackTexts: [],
             cupsAndPoints: [],
             open: false,
             // SRautomatic_win,
@@ -37,18 +38,18 @@ class CupsAndPoints extends Component {
 
     getData = async () => {
         const response = await axios.post(
-            baseUrl + 'admin/cups_and_points',
+            baseUrl + 'admin/feedback_texts',
             { "a": "a" },
             { headers: { 'Content-Type': 'application/json' } }
         );
         // let cupsAndPointsView = this.mapToView(response.data.rows)
-        this.setState({ cupsAndPoints: response.data.rows });
+        this.setState({ FeedbackTexts: response.data.rows });
         console.log(response.data.rows);
     }
 
     getValue = (id, propertyName) => {
         console.log(id);
-        let resultObj = this.state.cupsAndPoints.find(obj => {
+        let resultObj = this.state.FeedbackTexts.find(obj => {
             return obj.id === id
         })
         console.log(resultObj);
@@ -66,7 +67,7 @@ class CupsAndPoints extends Component {
 
     updateWorkingRowInServer = async () => {
         const response = await axios.post(
-            baseUrl + 'update_chapter_points_max',
+            baseUrl + 'update_feedback_texts',
             { ...this.state.workingRow },
             { headers: { 'Content-Type': 'application/json' } }
         );
@@ -77,8 +78,9 @@ class CupsAndPoints extends Component {
 
 
     updateWorkingRowState = (id) => {
-        let workingRow = this.state.cupsAndPoints.find(obj => {
-            return obj.id === id
+        console.log(id);
+        let workingRow = this.state.FeedbackTexts.find(obj => {
+            return obj.under_or_equal_seccess_percent == id
         })
         this.setState({ workingRow });
         console.log(workingRow);
@@ -86,19 +88,18 @@ class CupsAndPoints extends Component {
 
 
     mapToView = () => {
-        let cap = this.state.cupsAndPoints;
-        console.log(this.state.cupsAndPoints);
-        return this.state.cupsAndPoints.map((chapter) => {
+        let cap = this.state.FeedbackTexts;
+        console.log(this.state.FeedbackTexts);
+        return this.state.FeedbackTexts.map((row) => {
+            console.log(row.under_or_equal_seccess_percent);
             return (
-                <tr key={chapter.id} >
-                    <Button key={chapter.id} onClick={() => { this.setState({ open: true }); this.updateWorkingRowState(chapter.id) }}>ערוך</Button>
-                    <td>{chapter.chapter_name}</td>
-                    <td>{chapter.max_victory_cups}</td>
-                    <td>{chapter.automatic_win ? 'כן' : ''}</td>
-                    <td>{chapter.your_control}</td>
-                    <td>{chapter.connection_to_yourself}</td>
-                    <td>{chapter.commitment_to_success}</td>
-                    <td>{chapter.self_fulfillment}</td>
+                <tr key={row.under_or_equal_seccess_percent} >
+                    <Button key={row.under_or_equal_seccess_percent} onClick={() => { this.setState({ open: true }); this.updateWorkingRowState(row.under_or_equal_seccess_percent) }}>ערוך</Button>
+                    <td>{row.under_or_equal_seccess_percent}</td>
+                    <td>{row.your_control}</td>
+                    <td>{row.connection_to_yourself}</td>
+                    <td>{row.commitment_to_success}</td>
+                    <td>{row.self_fulfillment}</td>
                 </tr>
             )
         }
@@ -121,32 +122,20 @@ class CupsAndPoints extends Component {
                                         <Form dir='rtl' style={{ direction: 'rtl', textAlign: 'right' }}>
                                             <Form.Row>
                                                 <Form.Group controlId="formName">
-                                                    <Form.Label>שם הפרק</Form.Label>
-                                                    <Form.Control type="text" name='chapter_name' onChange={e => this.updateState(e)} defaultValue={this.state.workingRow.chapter_name} />
-                                                </Form.Group>
-                                                <Form.Group controlId="formGoalsAchived">
-                                                    <Form.Label>מספר גביעים מקסימלי</Form.Label>
-                                                    <Form.Control type="number" name='max_victory_cups' onChange={e => this.updateState(e)} defaultValue={this.state.workingRow.max_victory_cups} />
-                                                </Form.Group>
-                                                <Form.Group controlId="formAutoWin">
-                                                    <Form.Label>זכיה אוטומטית</Form.Label>
-                                                    <Form.Control type="number" name='automatic_win' onChange={e => this.updateState(e)} defaultValue={this.state.workingRow.automatic_win} />
-                                                </Form.Group>
-                                                <Form.Group controlId="formSelfControl">
                                                     <Form.Label>שליטה עצמית</Form.Label>
-                                                    <Form.Control type="number" name='your_control' onChange={e => this.updateState(e)} defaultValue={this.state.workingRow.your_control} />
+                                                    <Form.Control aria-label="Recipient's username" aria-describedby="basic-addon2" name='your_control' onChange={e => this.updateState(e)} defaultValue={this.state.workingRow.your_control} />
                                                 </Form.Group>
-                                                <Form.Group controlId="formSelfConnection">
+                                                <Form.Group controlId="formName">
                                                     <Form.Label>חיבור עצמי</Form.Label>
-                                                    <Form.Control type="number" name='connection_to_yourself' onChange={e => this.updateState(e)} defaultValue={this.state.workingRow.connection_to_yourself} />
+                                                    <Form.Control type="text" name='connection_to_yourself' onChange={e => this.updateState(e)} defaultValue={this.state.workingRow.connection_to_yourself} />
                                                 </Form.Group>
-                                                <Form.Group controlId="formSelfConnection">
+                                                <Form.Group controlId="formName">
                                                     <Form.Label>מחוייבות להצלחה</Form.Label>
-                                                    <Form.Control type="number" name='commitment_to_success' onChange={e => this.updateState(e)} defaultValue={this.state.workingRow.commitment_to_success} />
+                                                    <Form.Control type="text" name='commitment_to_success' onChange={e => this.updateState(e)} defaultValue={this.state.workingRow.commitment_to_success} />
                                                 </Form.Group>
-                                                <Form.Group controlId="formGoalsAchived">
+                                                <Form.Group controlId="formName">
                                                     <Form.Label>מימוש עצמי</Form.Label>
-                                                    <Form.Control type="number" name='self_fulfillment' onChange={e => this.updateState(e)} defaultValue={this.state.workingRow.self_fulfillment} />
+                                                    <Form.Control type="text" name='self_fulfillment' onChange={e => this.updateState(e)} defaultValue={this.state.workingRow.self_fulfillment} />
                                                 </Form.Group>
                                                 <Form.Group controlId="formGoalsAchived">
                                                     <Button variant="primary" onClick={() => { this.updateWorkingRowInServer(); this.setState({ open: false }); }}  >אישור</Button>
@@ -167,9 +156,7 @@ class CupsAndPoints extends Component {
                             <thead>
                                 <tr>
                                     <th></th>
-                                    <th>שם הפרק</th>
-                                    <th>מספר גביעים מקסימלי</th>
-                                    <th>זכיה אוטמטית</th>
+                                    <th>עד אחוז</th>
                                     <th>שליטה עצמית</th>
                                     <th>חיבור עצמי</th>
                                     <th>מחוייבות להצלחה</th>
@@ -187,4 +174,4 @@ class CupsAndPoints extends Component {
     }
 }
 
-export default CupsAndPoints;
+export default FeedbackText;
