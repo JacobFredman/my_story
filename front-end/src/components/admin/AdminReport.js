@@ -58,10 +58,11 @@ class AdminReport extends Component {
     mapToView = () => {
         let cap = this.state.usersDetails;
         console.log(this.state.usersDetails);
-        return this.state.usersDetails.map((row) => {
+        return this.state.usersDetails.map((row, index) => {
             console.log(row);
             return (
                 <tr key={row.user_name} >
+                    <td>{index + 1}</td>
                     <td>{row.user_name}</td>
                     <td>{row.age}</td>
                     <td>{row.date_of_registering == null ? '' : moment(row.date_of_registering).format('MM/DD/YYYY')}</td>
@@ -107,6 +108,7 @@ class AdminReport extends Component {
 
     averagesView = () => {
         return <tr style={{ backgroundColor: '#ffffcc' }}>
+            <td></td>
             <td> ממוצע משתמשים</td>
             <td>{this.state.averages['users_age_ave']}</td>
             <td></td>
@@ -141,12 +143,7 @@ class AdminReport extends Component {
                     <Table dir='rtl' style={{ direction: 'rtl', textAlign: 'right' }} bordered hover>
                         <thead>
                             <tr>
-                                {/* <th></th>
-                                <th>עד אחוז</th>
-                                <th>שליטה עצמית</th>
-                                <th>חיבור עצמי</th>
-                                <th>מחוייבות להצלחה</th>
-                                <th>מימוש עצמי</th> */}
+                                <th></th>
                                 <th>שם משתמש</th>
                                 <th>גיל</th>
                                 <th>תאריך הרשמה</th>

@@ -5,15 +5,15 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import { LinkContainer } from 'react-router-bootstrap';
 import User from '../components/user/UserInNavBar';
 import { withRouter } from 'react-router-dom';
+import { baseUrl } from '../utils/StaticData';
+
 
 
 
 
 
 class NavBarBootStrap extends Component {
-
     render() {
-
         return (
             // <div>
             //     <Navbar collapseOnSelect expand="lg" dir='rtl' bg="dark" variant="dark">
@@ -95,6 +95,9 @@ class NavBarBootStrap extends Component {
                             <LinkContainer to="/admin/users_statistics">
                                 <NavDropdown.Item >נתוני משתמשים</NavDropdown.Item>
                             </LinkContainer>
+                            <div onClick={() => window.open(baseUrl + "admin/user_statistics.csv", "_blank")}>
+                                <NavDropdown.Item >נתוני משתמשים באקסל</NavDropdown.Item>
+                            </div>
                         </NavDropdown>
                         <Nav className="mr-auto">
                             <LinkContainer to="/show_progress">

@@ -62,7 +62,7 @@ class showProgress extends Component {
     }
 
     mapToView = () => {
-        console.log(this.state.chaptersAndCups);
+        console.log(this.props);
         return this.state.chaptersAndCups.map((chapter, index) => {
             return (
                 <tr key={index} style={{ cursor: 'pointer' }}>
@@ -161,6 +161,22 @@ class showProgress extends Component {
     }
 
 
+    handleGoalsNum = event => {
+        let { value, min, max } = event.target;
+        value = Math.max(Number(min), Math.min(Number(max), Number(value)));
+
+        this.setState({ maxGoals: value });
+    };
+
+    handleNumOfGoalsAchived = event => {
+        let { value, min } = event.target;
+        value = Math.max(Number(min), Math.min(this.state.maxGoals, Number(value)));
+
+        this.setState({ numOfGoalsAchived: value });
+    };
+
+
+
     render() {
         console.log('rendered');
         return (
@@ -175,13 +191,14 @@ class showProgress extends Component {
                                             <Col>
                                                 <Form dir='rtl' style={{ direction: 'rtl', textAlign: 'right' }}>
                                                     <Form.Row>
-                                                        <Form.Group controlId="formMaxGoals">
+                                                        <Form.Group as={Col} controlId="formMaxGoals">
                                                             <Form.Label>כמה יעדים הגדרתי</Form.Label>
-                                                            <Form.Control type="number" name='maxGoals' onChange={e => { this.state.maxGoals = e.target.value }} defaultValue={this.state.maxGoals} />
+                                                            {/* <Form.Control type="number" min='0' max='30' name='maxGoals' onChange={e => { this.state.maxGoals = e.target.value }} defaultValue={this.state.maxGoals} /> */}
+                                                            <Form.Control type="number" min='0' max='30' name='maxGoals' onChange={e => { this.handleGoalsNum(e) }} value={this.state.maxGoals} />
                                                         </Form.Group>
-                                                        <Form.Group controlId="formGoalsAchived">
+                                                        <Form.Group as={Col} controlId="formGoalsAchived">
                                                             <Form.Label>כמה יעדים השגתי</Form.Label>
-                                                            <Form.Control type="number" name='numOfGoalsAchived' onChange={e => { this.state.numOfGoalsAchived = e.target.value }} defaultValue={this.state.numOfGoalsAchived} />
+                                                            <Form.Control type="number" min='0' name='numOfGoalsAchived' onChange={e => { this.handleNumOfGoalsAchived(e) }} value={this.state.numOfGoalsAchived} />
                                                         </Form.Group>
                                                     </Form.Row>
                                                     <Form.Row>
@@ -221,8 +238,7 @@ class showProgress extends Component {
                                         <tr>
 
                                             <td colSpan="3">
-                                                <Button variant='info'>אני רוצה לראות את המצב שלי בינתיים</Button>
-                                                <Button>אני רוצה לראות תוצאות סופיות</Button>
+                                                <Button onClick={() => this.props.history.push("/user_statistics")}>אני רוצה לראות את המצב שלי</Button>
                                             </td>
                                         </tr>
                                     </tbody>

@@ -3,6 +3,7 @@ import mysql.connector
 from flask import Blueprint, request, jsonify, json
 import decimal
 import yaml
+from staticData import connDict
 
 cups_menage = Blueprint('cups_menage', __name__)
 
@@ -225,12 +226,13 @@ def getUserSelfFulfillmentForNow():
 #     return json.dumps({'val': str(val)}), 200
 
 def getParamter(SP_name, userName, chapterUserHolds):
-    conn1 = mysql.connector.connect(
-        host="localhost",
-        user="jac",
-        password="1234",
-        database="my_db"
-    )
+    # conn1 = mysql.connector.connect(
+    #     host="localhost",
+    #     user="jac",
+    #     password="1234",
+    #     database="my_db"
+    # )
+    conn1 = mysql.connector.connect(**connDict)
     conn1._open_connection()
     mycursor = conn1.cursor()
     resultArray = []

@@ -9,6 +9,8 @@ import GoogleLogin from 'react-google-login';
 import Row from 'react-bootstrap/Row';
 import FacebookLogin from 'react-facebook-login';
 import './singIn.css';
+import axios from 'axios';
+
 // import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 
 
@@ -20,7 +22,7 @@ class SignIn extends Component {
     this.state = {
       userName: '',
       password: '',
-      showUnAuthMsg: false
+      showUnAuthMsg: false,
     };
     // this.sendData();
   }
@@ -59,10 +61,30 @@ class SignIn extends Component {
 
   responseGoogle = (response) => {
     console.log(response);
+    console.log(response.tokenObj);
+    document.cookie = 'google_login_access_token=' + response.tokenObj.access_token + '; path=/'
+  }
+
+  responseFail = () => {
+    this.setState({ showUnAuthMsg: true });
   }
 
   responseFacebook = (response) => {
     console.log(response);
+  }
+
+  check = async () => {
+    // document.cookie = "username=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa; expires=Thu, 18 Dec 2013 12:00:00 UTC; path=/";
+    document.cookie = await 'cookie2=test; expires=Sun, 1 Jan 2023 00:00:00 UTC; path=http://localhost:3000/';
+    const response = await axios.post(
+      baseUrl + 'abcde',
+      { "a": "a" },
+      { headers: { 'Content-Type': 'application/json' } }
+    );
+    // this.setState({ chaptersAndCups: response.data.rows });
+    console.log(response);
+
+
   }
 
 
@@ -121,6 +143,7 @@ class SignIn extends Component {
                 </Form.Group>
               </Form.Row>
               <Button variant="primary" type="submit"> כניסה למערכת</Button>
+              <Button variant="primary" onClick={this.check} type="submit">בדיקה</Button>
             </Form>
           </Col>
         </Row>

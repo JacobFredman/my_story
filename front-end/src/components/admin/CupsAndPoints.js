@@ -116,46 +116,51 @@ class CupsAndPoints extends Component {
                     <Col>
                         <Modal open={this.state.open} onClose={() => this.setState({ open: false })} center>
                             <Container>
-                                <Row>
-                                    <Col>
-                                        <Form dir='rtl' style={{ direction: 'rtl', textAlign: 'right' }}>
-                                            <Form.Row>
-                                                <Form.Group controlId="formName">
-                                                    <Form.Label>שם הפרק</Form.Label>
-                                                    <Form.Control type="text" name='chapter_name' onChange={e => this.updateState(e)} defaultValue={this.state.workingRow.chapter_name} />
-                                                </Form.Group>
-                                                <Form.Group controlId="formGoalsAchived">
-                                                    <Form.Label>מספר גביעים מקסימלי</Form.Label>
-                                                    <Form.Control type="number" name='max_victory_cups' onChange={e => this.updateState(e)} defaultValue={this.state.workingRow.max_victory_cups} />
-                                                </Form.Group>
-                                                <Form.Group controlId="formAutoWin">
+                                {/* <Row>
+                                    <Col> */}
+                                <Form dir='rtl' style={{ direction: 'rtl', textAlign: 'right' }}>
+                                    <Form.Row>
+                                        <Form.Group controlId="formName">
+                                            <Form.Label>שם הפרק</Form.Label>
+                                            <Form.Control size="sm" type="text" name='chapter_name' onChange={e => this.updateState(e)} defaultValue={this.state.workingRow.chapter_name} />
+                                        </Form.Group>
+                                        <Form.Group controlId="formGoalsAchived">
+                                            <Form.Label>מספר גביעים מקסימלי</Form.Label>
+                                            <Form.Control size="sm" type="number" name='max_victory_cups' onChange={e => this.updateState(e)} defaultValue={this.state.workingRow.max_victory_cups} />
+                                        </Form.Group>
+                                        {/* <Form.Group controlId="formAutoWin">
                                                     <Form.Label>זכיה אוטומטית</Form.Label>
                                                     <Form.Control type="number" name='automatic_win' onChange={e => this.updateState(e)} defaultValue={this.state.workingRow.automatic_win} />
-                                                </Form.Group>
-                                                <Form.Group controlId="formSelfControl">
-                                                    <Form.Label>שליטה עצמית</Form.Label>
-                                                    <Form.Control type="number" name='your_control' onChange={e => this.updateState(e)} defaultValue={this.state.workingRow.your_control} />
-                                                </Form.Group>
-                                                <Form.Group controlId="formSelfConnection">
-                                                    <Form.Label>חיבור עצמי</Form.Label>
-                                                    <Form.Control type="number" name='connection_to_yourself' onChange={e => this.updateState(e)} defaultValue={this.state.workingRow.connection_to_yourself} />
-                                                </Form.Group>
-                                                <Form.Group controlId="formSelfConnection">
-                                                    <Form.Label>מחוייבות להצלחה</Form.Label>
-                                                    <Form.Control type="number" name='commitment_to_success' onChange={e => this.updateState(e)} defaultValue={this.state.workingRow.commitment_to_success} />
-                                                </Form.Group>
-                                                <Form.Group controlId="formGoalsAchived">
-                                                    <Form.Label>מימוש עצמי</Form.Label>
-                                                    <Form.Control type="number" name='self_fulfillment' onChange={e => this.updateState(e)} defaultValue={this.state.workingRow.self_fulfillment} />
-                                                </Form.Group>
-                                                <Form.Group controlId="formGoalsAchived">
-                                                    <Button variant="primary" onClick={() => { this.updateWorkingRowInServer(); this.setState({ open: false }); }}  >אישור</Button>
-                                                    <Button variant="primary" onClick={() => this.setState({ open: false })} >ביטול</Button>
-                                                </Form.Group>
-                                            </Form.Row>
-                                        </Form>
-                                    </Col>
-                                </Row>
+                                                </Form.Group> */}
+                                        <Form.Group as={Col} controlId="formBasicCheckbox">
+                                            <Form.Check name='automatic_win' type="checkbox" label="זכיה אוטומטית" />
+                                        </Form.Group>
+                                        <Form.Group controlId="formSelfControl">
+                                            <Form.Label>שליטה עצמית</Form.Label>
+                                            <Form.Control size="sm" type="number" name='your_control' onChange={e => this.updateState(e)} defaultValue={this.state.workingRow.your_control} />
+                                        </Form.Group>
+                                    </Form.Row>
+                                    <Form.Row>
+                                        <Form.Group controlId="formSelfConnection">
+                                            <Form.Label>חיבור עצמי</Form.Label>
+                                            <Form.Control size="sm" type="number" name='connection_to_yourself' onChange={e => this.updateState(e)} defaultValue={this.state.workingRow.connection_to_yourself} />
+                                        </Form.Group>
+                                        <Form.Group controlId="formSelfConnection">
+                                            <Form.Label>מחוייבות להצלחה</Form.Label>
+                                            <Form.Control size="sm" type="number" name='commitment_to_success' onChange={e => this.updateState(e)} defaultValue={this.state.workingRow.commitment_to_success} />
+                                        </Form.Group>
+                                        <Form.Group controlId="formGoalsAchived">
+                                            <Form.Label>מימוש עצמי</Form.Label>
+                                            <Form.Control size="sm" type="number" name='self_fulfillment' onChange={e => this.updateState(e)} defaultValue={this.state.workingRow.self_fulfillment} />
+                                        </Form.Group>
+                                        <Form.Group controlId="formGoalsAchived">
+                                            <Button size="sm" variant="primary" onClick={() => { this.updateWorkingRowInServer(); this.setState({ open: false }); }}  >אישור</Button>
+                                            <Button size="sm" variant="primary" onClick={() => this.setState({ open: false })} >ביטול</Button>
+                                        </Form.Group>
+                                    </Form.Row>
+                                </Form>
+                                {/* </Col>
+                                </Row> */}
                             </Container>
                         </Modal>
                     </Col>

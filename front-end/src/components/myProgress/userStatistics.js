@@ -64,12 +64,12 @@ class UserStatistics extends Component {
             { headers: { 'Content-Type': 'application/json' } }
         );
 
-        if (counter > 0) {
-            this.state[stateToUpdate] = response.data.val;
-            counter--;
-        }
-        else
-            this.setState({ [stateToUpdate]: response.data.val });
+        // if (counter > 0) {
+        //     this.state[stateToUpdate] = response.data.val;
+        //     counter--;
+        // }
+        // else
+        this.setState({ [stateToUpdate]: response.data.val });
     }
 
     getTexts = async (url, stateToUpdate, parameterName) => {
@@ -80,12 +80,12 @@ class UserStatistics extends Component {
         );
         // this.state[stateToUpdate] = response.data.val;
         // this.setState({ [stateToUpdate]: response.data.val })
-        if (counter > 0) {
-            this.state[stateToUpdate] = response.data.val;
-            counter--;
-        }
-        else
-            this.setState({ [stateToUpdate]: response.data.val });
+        // if (counter > 0) {
+        //     this.state[stateToUpdate] = response.data.val;
+        //     counter--;
+        // }
+        // else
+        this.setState({ [stateToUpdate]: response.data.val });
     }
 
     render() {
@@ -118,11 +118,13 @@ class UserStatistics extends Component {
                         />
                     </Col>
                 </Row>
-                <Row>
-                    <Col><p style={{ color: '#8533ff' }}>{this.state.textcontrol}</p> </Col>
-                    <Col>   <p style={{ color: '#3399ff' }}>{this.state.textconnection}</p> </Col>
-                    <Col>    <p style={{ color: '#aaff00' }}>{this.state.textcommitment}</p> </Col>
-                    <Col> <p style={{ color: '#33ff99' }}>{this.state.textfulfillment}</p> </Col>
+                <Row style={{ textAlign: 'right' }}>
+                    <Col>
+                        <Row> <Col><h4 style={{ color: '#8533ff' }}>{this.state.textcontrol}</h4> </Col></Row>
+                        <Row><Col>   <h4 style={{ color: '#3399ff' }}>{this.state.textconnection}</h4> </Col></Row>
+                        <Row> <Col>    <h4 style={{ color: '#aaff00' }}>{this.state.textcommitment}</h4> </Col></Row>
+                        <Row><Col> <h4 style={{ color: '#33ff99' }}>{this.state.textfulfillment}</h4> </Col></Row>
+                    </Col>
                 </Row>
             </React.Fragment>
         );
