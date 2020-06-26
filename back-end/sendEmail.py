@@ -1,9 +1,9 @@
 import smtplib
 from email.mime.text import MIMEText
-from my_dbConnection import conn
 
 
 def getEmailSettings():
+    conn = mysql.connector.connect(**connDict)
     mycursor = conn.cursor()
     mycursor.execute("SELECT * FROM setting")
     settings = mycursor.fetchall()

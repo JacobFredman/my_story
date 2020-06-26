@@ -86,15 +86,14 @@ class CupsAndPoints extends Component {
 
 
     mapToView = () => {
-        let cap = this.state.cupsAndPoints;
         console.log(this.state.cupsAndPoints);
         return this.state.cupsAndPoints.map((chapter) => {
             return (
                 <tr key={chapter.id} >
-                    <Button key={chapter.id} onClick={() => { this.setState({ open: true }); this.updateWorkingRowState(chapter.id) }}>ערוך</Button>
+                    <td> <Button key={chapter.id} onClick={() => { this.setState({ open: true }); this.updateWorkingRowState(chapter.id) }}>ערוך</Button></td>
                     <td>{chapter.chapter_name}</td>
                     <td>{chapter.max_victory_cups}</td>
-                    <td>{chapter.automatic_win ? 'כן' : ''}</td>
+                    <td>{chapter.automatic_win ? 'כן' : <p>hhhh</p>}</td>
                     <td>{chapter.your_control}</td>
                     <td>{chapter.connection_to_yourself}</td>
                     <td>{chapter.commitment_to_success}</td>

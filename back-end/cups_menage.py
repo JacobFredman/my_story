@@ -1,27 +1,28 @@
-from my_dbConnection import conn
 import mysql.connector
 from flask import Blueprint, request, jsonify, json
 import decimal
-import yaml
+# import yaml
 from staticData import connDict
 
 cups_menage = Blueprint('cups_menage', __name__)
 
 goals_or_hablits_chapter = 11
 
+conn = mysql.connector.connect(**connDict)
+
 
 @cups_menage.route('/initioal_user_cups', methods=['POST'])
 def initial_user_cups():
     conn._open_connection()
     mycursor = conn.cursor()
-    insertAutoWinStatment = """ INSERT INTO my_db.user_cups
+    insertAutoWinStatment = """ INSERT INTO user_cups
     SELECT %s , curdate(), chapter_id, max_victory_cups
-    FROM my_db.chapter
+    FROM chapter
     WHERE automatic_win = 1;
     """
-    insertZeroStatments = """INSERT INTO my_db.user_cups
+    insertZeroStatments = """INSERT INTO user_cups
     SELECT %s , curdate(), chapter_id, 0
-    FROM my_db.chapter
+    FROM chapter
     WHERE automatic_win = 0;
     """
     try:
@@ -39,7 +40,7 @@ def initial_user_cups():
 def initioal_user_golas_or_habits():
     conn._open_connection()
     mycursor = conn.cursor()
-    initUserStatment = """ Insert into my_db.goals_or_habits(user_name, goals_selected, max_goals, goals_wined) values("binyamin", 0, 0, 0) ;"""
+    initUserStatment = """ Insert into goals_or_habits(user_name, goals_selected, max_goals, goals_wined) values("binyamin", 0, 0, 0) ;"""
 
     try:
         mycursor.execute(initUserStatment)
@@ -56,7 +57,7 @@ def update_user_goals():
     user = 'binyamin'
     SP_paremeters_as_dict = request.get_json(force=True)
     update_goals_sql = """
-    INSERT INTO my_db.goals_or_habits(user_name, goals_selected, max_goals)
+    INSERT INTO goals_or_habits(user_name, goals_selected, max_goals)
     values(%s, %s, %s )
     ON DUPLICATE KEY UPDATE  goals_selected=%s, max_goals=%s
     """
@@ -86,15 +87,10 @@ def update_user_goals():
 def getUserCupsForAllChapters():
     sql = """
     select chapter.chapter_id, chapter_name, victory_cups_wined, max_victory_cups, automatic_win
-    FROM my_db.chapter natural join my_db.user_cups
+    FROM chapter natural join user_cups
     where user_cups.user_name = 'binyamin';
     """
-    conn1 = mysql.connector.connect(
-        host="localhost",
-        user="jac",
-        password="1234",
-        database="my_db"
-    )
+    conn1 = mysql.connector.connect(**connDict)
 
     conn1._open_connection()
     mycursor = conn1.cursor()
@@ -116,15 +112,10 @@ def getUserCupsForAllChapters():
 def get_goals_or_habits():
     sql = """
     select goals_selected, max_goals
-    FROM my_db.goals_or_habits 
+    FROM goals_or_habits 
     where user_name = 'binyamin';
     """
-    conn1 = mysql.connector.connect(
-        host="localhost",
-        user="jac",
-        password="1234",
-        database="my_db"
-    )
+    conn1 = mysql.connector.connect(**connDict)
 
     conn1._open_connection()
     mycursor = conn1.cursor()
@@ -267,12 +258,7 @@ def getFeedbackText(parameterName, userName):
         parameterName_SpNameDict[parameterName], 'binyamin', 1000)
     percentOfSeccess = percentOfSeccess * 100
 
-    conn1 = mysql.connector.connect(
-        host="localhost",
-        user="jac",
-        password="1234",
-        database="my_db"
-    )
+    conn1 = mysql.connector.connect(**connDict)
     conn1._open_connection()
     cursor = conn1.cursor()
     sql = ''
@@ -333,12 +319,7 @@ def updateUserCups():
 
 
 def get_which_chapter_user_holds():
-    conn1 = mysql.connector.connect(
-        host="localhost",
-        user="jac",
-        password="1234",
-        database="my_db"
-    )
+    conn1 = mysql.connector.connect(**connDict)
     conn1._open_connection()
     cursor = conn1.cursor()
     # sql = """

@@ -4,6 +4,7 @@ import datetime
 import csv
 from admin_report import getChapterDetails, get_users_and_cups, calcAverages
 import mysql.connector
+from staticData import connDict
 
 
 extportToExcel = Blueprint('extportToExcel', __name__)
@@ -27,13 +28,8 @@ extportToExcel = Blueprint('extportToExcel', __name__)
 
 @extportToExcel.route('/admin/user_statistics.csv', methods=['GET'])
 def user_statistics_Excel():
-    conn1 = mysql.connector.connect(
-        host="localhost",
-        user="jac",
-        password="1234",
-        database="my_db"
-    )
-    chapters_datails = getChapterDetails()
+    conn1 = mysql.connector.connect(**connDict)
+    chapters_datails = getChapterDetails(conn1)
     users_details = get_users_and_cups(conn1)
     averages = calcAverages(users_details)
     hebrewNames = ['שם משתמש', 'גיל', 'תאריך הרשמה', 'תאריך עדכון אחרון',
@@ -57,7 +53,8 @@ def createCSVFile1(fieldNames, averagesRowExe,  users_details):
     # generateQuery()
     # milliseconds = int(round(time.time() * 1000))
     # strNow = datetime.datetime.now().strftime("%d-%m-%Y--%H_%M_%S")
-    fileName = 'C:/temp/report.csv'
+    # fileName = 'C:/temp/report.csv'
+    fileName = 'http://story.mmb.org.il/client111/excelFiles/admin_report.csv'
     with open(fileName, mode='w', newline='') as csv_file:
         # writer = csv.DictWriter(csv_file, fieldnames=fieldNames)
         # writer.writeheader()

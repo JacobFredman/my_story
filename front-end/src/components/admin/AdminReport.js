@@ -2,12 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { baseUrl } from '../../utils/StaticData';
 import Table from 'react-bootstrap/Table';
-import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Container from 'react-bootstrap/Container';
-import Form from 'react-bootstrap/Form';
-import Modal from 'react-responsive-modal';
 import moment from 'moment';
 
 
@@ -40,15 +36,12 @@ class AdminReport extends Component {
             chapterNames: response.data.chapters_details,
             usersDetails: response.data.users_details, averages: response.data.averages
         });
-        console.log(response.data.chapters_details);
     }
 
     getValue = (id, propertyName) => {
-        console.log(id);
         let resultObj = this.state.usersDetails.find(obj => {
             return obj.id === id
         })
-        console.log(resultObj);
         return resultObj.propertyName;
     }
 
@@ -56,23 +49,21 @@ class AdminReport extends Component {
 
 
     mapToView = () => {
-        let cap = this.state.usersDetails;
-        console.log(this.state.usersDetails);
         return this.state.usersDetails.map((row, index) => {
-            console.log(row);
             return (
                 <tr key={row.user_name} >
                     <td>{index + 1}</td>
                     <td>{row.user_name}</td>
                     <td>{row.age}</td>
-                    <td>{row.date_of_registering == null ? '' : moment(row.date_of_registering).format('MM/DD/YYYY')}</td>
-                    <td>{row.last_update == null ? '' : moment(row.last_update).format('DD/MM/YYYY')}</td>
+                    {/* <td>{row.date_of_registering == null ? <p>hhhh</p> : moment(row.date_of_registering).format('MM/DD/YYYY')}</td> */}
+                    <td>{row.date_of_registering == null ? null : moment(row.date_of_registering).format('MM/DD/YYYY')}</td>
+                    {/* <td>{row.last_update == null ? <p>hhhh</p> : moment(row.last_update).format('DD/MM/YYYY')}</td> */}
+                    <td>{row.last_update == null ? null : moment(row.last_update).format('DD/MM/YYYY')}</td>
                     {this.cupsView.call(this, row.cups)}
                     <td>{(row.self_control * 100).toFixed(2) + '%'}</td>
                     <td>{(row.self_connection * 100).toFixed(2) + '%'}</td>
                     <td>{(row.self_commitment * 100).toFixed(2) + '%'}</td>
                     <td>{(row.self_fulfillment * 100).toFixed(2) + '%'}</td>
-
                     {/* <td>{row.commitment_to_success}</td> */}
                     {/* <td>{row.self_fulfillment}</td> */}
                 </tr>
@@ -83,15 +74,13 @@ class AdminReport extends Component {
 
 
     cupsView = (cups) => {
-        return cups.map(val =>
-            <td>{val}</td>
+        return cups.map((val, index) =>
+            <td key={index}>{val}</td>
         );
     };
 
     generateChaptersNames = () => {
-        console.log(this.state.chapterNames);
         let a = this.state.chapterNames.map(chapter => {
-            console.log(chapter);
             return (
                 <th
                     key={chapter.chapter_id}
@@ -101,33 +90,23 @@ class AdminReport extends Component {
                 </th>
             )
         });
-        console.log(a);
         return a;
     }
 
 
     averagesView = () => {
-        return <tr style={{ backgroundColor: '#ffffcc' }}>
+        return (<tr style={{ backgroundColor: '#ffffcc' }}>
             <td></td>
-            <td> ממוצע משתמשים</td>
+            <td>ממוצע משתמשים</td>
             <td>{this.state.averages['users_age_ave']}</td>
             <td></td>
             <td></td>
-            {
-                this.state.averages.cupsByChapterAvg !== undefined
-                    ?
-                    this.state.averages.cupsByChapterAvg.map((avgCups, index) =>
-                        <td key={index}> {avgCups}</td>
-                    )
-                    : ''
-            }
+            {this.state.averages.cupsByChapterAvg !== undefined ? this.state.averages.cupsByChapterAvg.map((avgCups, index) => <td key={index}>{avgCups}</td>) : null}
             <td>{(this.state.averages.self_control_avg * 100).toFixed(2) + '%'}</td>
             <td>{(this.state.averages.self_connection_avg * 100).toFixed(2) + '%'}</td>
             <td>{(this.state.averages.self_commitment_avg * 100).toFixed(2) + '%'}</td>
             <td>{(this.state.averages.self_fulfillment_avg * 100).toFixed(2) + '%'}</td>
-
-
-        </tr>
+        </tr>)
     }
 
 
@@ -155,10 +134,7 @@ class AdminReport extends Component {
                                 <th>מימוש עצמי</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            {this.averagesView()}
-                            {this.mapToView()}
-                        </tbody>
+                        <tbody>{this.averagesView()}{this.mapToView()}</tbody>
                     </Table>
                 </Col>
             </Row >

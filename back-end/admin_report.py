@@ -3,19 +3,16 @@ import mysql.connector
 import itertools
 from cups_menage import getParamter
 from statistics import mean
+from staticData import connDict
+
 
 admin_report = Blueprint('admin_report', __name__)
 
 
 @admin_report.route('/admin/get_users_statistics', methods=['POST'])
 def a():
-    conn1 = mysql.connector.connect(
-        host="localhost",
-        user="jac",
-        password="1234",
-        database="my_db"
-    )
-    chapters_datails = getChapterDetails()
+    conn1 = mysql.connector.connect(**connDict)
+    chapters_datails = getChapterDetails(conn1)
     users_details = get_users_and_cups(conn1)
     averages = calcAverages(users_details)
 
@@ -44,20 +41,15 @@ def calcAverages(users_details):
             }
 
 
-def getChapterDetails():
+def getChapterDetails(conn):
     sql = """
     select *
-    FROM my_db.chapter ;
+    FROM chapter ;
     """
-    conn1 = mysql.connector.connect(
-        host="localhost",
-        user="jac",
-        password="1234",
-        database="my_db"
-    )
+    # conn1 = mysql.connector.connect(**connDict)
 
-    conn1._open_connection()
-    mycursor = conn1.cursor()
+    conn._open_connection()
+    mycursor = conn.cursor()
     try:
         mycursor.execute(sql)
         rows = mycursor.fetchall()
@@ -68,7 +60,7 @@ def getChapterDetails():
     except Exception as e:
         print(e)
     finally:
-        conn1.close()
+        conn.close()
     return data
 
 
@@ -125,7 +117,7 @@ def get_users_and_cups(conn):
 #     SELECT `chapter`.`chapter_id`,
 #     `chapter`.`chapter_name`,
 #     `chapter`.`max_victory_cups`
-#     FROM `my_db`.`chapter`;
+#     FROM chapter;
 #     """
 
 #     conn._open_connection()
@@ -148,7 +140,7 @@ def get_users_and_cups(conn):
 # def getUserCupsForAllChapters():
 #     sql = """
 #     select chapter.chapter_id, chapter_name, victory_cups_wined, max_victory_cups, automatic_win
-#     FROM my_db.chapter natural join my_db.user_cups
+#     FROM chapter natural join user_cups
 #     where user_cups.user_name = 'binyamin';
 #     """
 #     conn1 = mysql.connector.connect(

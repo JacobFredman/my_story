@@ -42,7 +42,7 @@ class showProgress extends Component {
 
 
     updateCups = async (chapterId, winedCups) => {
-        const response = await axios.post(
+        await axios.post(
             baseUrl + 'update_user_cups',
             { "newCups": winedCups, "chapterId": chapterId },
             { headers: { 'Content-Type': 'application/json' } }
@@ -76,8 +76,8 @@ class showProgress extends Component {
                         {chapter.wined_cups + '/' + chapter.max_victory_cups}
                         {
                             chapter.automatic_win
-                                ? <p style={{ color: '#2eb82e' }}>זכיה אוטומטית</p>
-                                : ''
+                                ? (<p style={{ color: '#2eb82e' }}>זכיה אוטומטית</p>)
+                                : null
                         }
                     </td>
                 </tr >
@@ -96,9 +96,9 @@ class showProgress extends Component {
 
 
     chapterNameCol = (chapterId, chapterName) => {
-        const chapter_name = (<Row><Col> <p>{chapterName}</p></Col></Row>);
+        const chapter_name = (<Row key={1}><Col> <p>{chapterName}</p></Col></Row>);
         const golasOrHabitsChapterButtons =
-            (<Row>
+            (<Row key={2}>
                 <Col>
                     <ButtonGroup size="sm" vertical>
                         <Button onClick={() => this.onGoalsSelectedClick()}
@@ -180,7 +180,7 @@ class showProgress extends Component {
     render() {
         console.log('rendered');
         return (
-            < React.Fragment >
+            <React.Fragment>
                 <Row>
                     <Col>
                         <Row>
@@ -216,8 +216,6 @@ class showProgress extends Component {
                         </Row>
                         <Row>
                             <Col>
-
-                                {console.log(3)}
                                 <Table dir='rtl' style={{ direction: 'rtl', textAlign: 'right' }} bordered hover>
                                     <thead>
                                         <tr>
@@ -226,17 +224,8 @@ class showProgress extends Component {
                                             <th>גביעים במספרים</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-
-                                        {
-                                            this.state.chaptersAndCups !== undefined
-                                                ?
-                                                this.mapToView()
-                                                : ''
-                                        }
-
+                                    <tbody>{this.state.chaptersAndCups !== undefined ? this.mapToView() : <tr>hhhhhh</tr>}
                                         <tr>
-
                                             <td colSpan="3">
                                                 <Button onClick={() => this.props.history.push("/user_statistics")}>אני רוצה לראות את המצב שלי</Button>
                                             </td>

@@ -11,7 +11,6 @@ class ProggressGraph extends Component {
     };
 
     render() {
-        { console.log(this.control) }
         return (
             <React.Fragment>
                 <Row>

@@ -1,7 +1,6 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-import { Route, Redirect, Switch, BrowserRouter as Router } from 'react-router-dom';
+import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import NavBarBootStrap from '././components/NavBarBootStrap';
 import Row from 'react-bootstrap/Row';
@@ -12,13 +11,14 @@ import ConnectUs from './components/connectUs/ConnectUs';
 import UserStatistics from './components/myProgress/userStatistics';
 import SignIn from './components/user/SignIn';
 import Cups_and_points from './components/admin/CupsAndPoints';
-import Demo from './components/Demo';
 import FeedbackText from './components/admin/FeedbackText';
 import AdminReport from './components/admin/AdminReport';
-
+// process.env.NODE_ENV = 'development';
+// "start": "react-scripts start",
 
 
 function App() {
+  { console.log(typeof (process.env.NODE_ENV)) }
   return (
     <Router>
       <Container >
@@ -36,28 +36,12 @@ function App() {
               <Route path="/admin/users_statistics" component={AdminReport} />
               <Route path="/sign_in" component={SignIn} />
               <Route path="/connect_us" component={ConnectUs} />
-              <Route path="/demo" component={Demo} />
+              {/* <Route path="/demo" component={Demo} /> */}
             </Switch>
           </Col>
         </Row>
       </Container>
     </Router>
-    /*<div className="App">
-       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div> */
   );
 }
 

@@ -78,23 +78,20 @@ class FeedbackText extends Component {
 
 
     updateWorkingRowState = (id) => {
-        console.log(id);
         let workingRow = this.state.FeedbackTexts.find(obj => {
             return obj.under_or_equal_seccess_percent == id
         })
         this.setState({ workingRow });
-        console.log(workingRow);
     }
 
 
     mapToView = () => {
-        let cap = this.state.FeedbackTexts;
         console.log(this.state.FeedbackTexts);
         return this.state.FeedbackTexts.map((row) => {
             console.log(row.under_or_equal_seccess_percent);
             return (
                 <tr key={row.under_or_equal_seccess_percent} >
-                    <Button key={row.under_or_equal_seccess_percent} onClick={() => { this.setState({ open: true }); this.updateWorkingRowState(row.under_or_equal_seccess_percent) }}>ערוך</Button>
+                    <td><Button key={row.under_or_equal_seccess_percent} onClick={() => { this.setState({ open: true }); this.updateWorkingRowState(row.under_or_equal_seccess_percent) }}>ערוך</Button></td>
                     <td>{row.under_or_equal_seccess_percent}</td>
                     <td>{row.your_control}</td>
                     <td>{row.connection_to_yourself}</td>

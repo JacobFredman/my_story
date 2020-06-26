@@ -1,5 +1,6 @@
 from flask import Blueprint, request, json
 import mysql.connector
+from staticData import connDict
 
 
 admin_feedback_texts = Blueprint('admin_feedback_texts', __name__)
@@ -8,12 +9,7 @@ admin_feedback_texts = Blueprint('admin_feedback_texts', __name__)
 @admin_feedback_texts.route('/admin/feedback_texts', methods=['POST'])
 def get_feedback_texts():
     sql = " select * from feedbacktext;"
-    conn = mysql.connector.connect(
-        host="localhost",
-        user="jac",
-        password="1234",
-        database="my_db"
-    )
+    conn = mysql.connector.connect(**connDict)
 
     conn._open_connection()
     cursor = conn.cursor()
@@ -39,7 +35,7 @@ def update_feedback_texts():
     SP_paremeters_as_dict = request.get_json(force=True)
 
     sql = """
-    UPDATE `my_db`.`feedbacktext`
+    UPDATE feedbacktext
     SET
     `your_control` = %s,
     `connection_to_yourself` = %s,
@@ -47,12 +43,7 @@ def update_feedback_texts():
     `self_fulfillment` = %s
     WHERE `under_or_equal_seccess_percent` = %s;
     """
-    conn1 = mysql.connector.connect(
-        host="localhost",
-        user="jac",
-        password="1234",
-        database="my_db"
-    )
+    conn1 = mysql.connector.connect(**connDict)
 
     conn1._open_connection()
     mycursor = conn1.cursor()

@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Chart from "react-google-charts";
-import Container from 'react-bootstrap/Container';
 import axios from 'axios';
 import { baseUrl } from '../../utils/StaticData';
-import { getDecimalFromFlaskResponse } from '../../utils/helper';
 import ProggressGraph from './ProggressGraph';
 
 
-let counter = 11;
 
 
 class UserStatistics extends Component {
@@ -64,11 +60,6 @@ class UserStatistics extends Component {
             { headers: { 'Content-Type': 'application/json' } }
         );
 
-        // if (counter > 0) {
-        //     this.state[stateToUpdate] = response.data.val;
-        //     counter--;
-        // }
-        // else
         this.setState({ [stateToUpdate]: response.data.val });
     }
 
@@ -78,19 +69,10 @@ class UserStatistics extends Component {
             { "parameterName": parameterName },
             { headers: { 'Content-Type': 'application/json' } }
         );
-        // this.state[stateToUpdate] = response.data.val;
-        // this.setState({ [stateToUpdate]: response.data.val })
-        // if (counter > 0) {
-        //     this.state[stateToUpdate] = response.data.val;
-        //     counter--;
-        // }
-        // else
         this.setState({ [stateToUpdate]: response.data.val });
     }
 
     render() {
-        { console.log('rendered') }
-        // { console.log(typeof (this.state.my_your_control)) }
         return (
             <React.Fragment>
                 <Row>

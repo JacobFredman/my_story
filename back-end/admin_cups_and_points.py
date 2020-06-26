@@ -1,5 +1,6 @@
 from flask import Blueprint, request, json
 import mysql.connector
+from staticData import connDict
 
 
 admin_cups_and_points = Blueprint('admin_cups_and_points', __name__)
@@ -8,12 +9,7 @@ admin_cups_and_points = Blueprint('admin_cups_and_points', __name__)
 @admin_cups_and_points.route('/admin/cups_and_points', methods=['POST'])
 def getUserCupsForAllChapters():
     sql = " select * from chapter2 natural join points_max2;"
-    conn = mysql.connector.connect(
-        host="localhost",
-        user="jac",
-        password="1234",
-        database="my_db"
-    )
+    conn = mysql.connector.connect(**connDict)
 
     conn._open_connection()
     cursor = conn.cursor()
@@ -41,12 +37,7 @@ def update_chapter_points_max():
     if not (autoWin == '0' or autoWin == '1' or autoWin == 0 or autoWin == 1):
         return 'automatic_win must be 1 or 0', 500
 
-    conn1 = mysql.connector.connect(
-        host="localhost",
-        user="jac",
-        password="1234",
-        database="my_db"
-    )
+    conn1 = mysql.connector.connect(**connDict)
 
     conn1._open_connection()
     mycursor = conn1.cursor()
