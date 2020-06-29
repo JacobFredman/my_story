@@ -10,6 +10,8 @@ import Row from 'react-bootstrap/Row';
 import FacebookLogin from 'react-facebook-login';
 import './singIn.css';
 import axios from 'axios';
+import { withFirebase } from '../Firebase';
+
 
 // import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 
@@ -20,9 +22,10 @@ class SignIn extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userName: '',
+      email: '',
       password: '',
       showUnAuthMsg: false,
+      authMsg: '',
     };
     // this.sendData();
   }
@@ -31,10 +34,44 @@ class SignIn extends Component {
     this.setState({ [event.target.name]: event.target.value });
   }
 
+  // handleSubmit = event => {
+  //   this.sendData();
+  //   event.preventDefault();
+  // }
+
   handleSubmit = event => {
-    this.sendData();
+    const { email, password } = this.state;
+    console.log(email);
+
+    this.props.firebase
+      .doSignInWithEmailAndPassword(email, password)
+      .then(result => {
+        console.log(result);
+        this.genericSignIn(result);
+        this.setState({ showUnAuthMsg: true, authMsg: 'זוהה בהצלחה' });
+        // this.setState({ ...INITIAL_STATE });
+      })
+      .catch(error => {
+        console.log(error);
+        this.setState({ showUnAuthMsg: true, authMsg: 'לא מזוהה' });
+        // this.setState({ error, showUnAuthMsg: true });
+      });
+
+    this.props.firebase.getTokenId()
+      .then(tokenId => {
+        document.cookie = 'tokenId=' + tokenId + '; expires=' + new Date(new Date().setFullYear(new Date().getFullYear() + 1)) + '; path=/; domain=kjl.lk.com;';
+        document.cookie = 'somecookiename=' + 'tokenId' + '; expires=' + new Date(new Date().setFullYear(new Date().getFullYear() + 1)) + '; path=/; domain=kjl.lk.com;';
+        console.log(tokenId);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+
+
+    // this.sendData();
     event.preventDefault();
   }
+
 
   sendData() {
     fetch(baseUrl + "sign_in", {
@@ -59,31 +96,51 @@ class SignIn extends Component {
   };
 
 
-  responseGoogle = (response) => {
-    console.log(response);
-    console.log(response.tokenObj);
-    document.cookie = 'google_login_access_token=' + response.tokenObj.access_token + '; path=/'
+  // responseGoogle = (response) => {
+  //   console.log(response);
+  //   console.log(response.tokenObj);
+  //   document.cookie = 'google_login_access_token=' + response.tokenObj.access_token + '; path=/'
+  // }
+
+  // responseFail = () => {
+  //   this.setState({ showUnAuthMsg: true });
+  // }
+
+  // responseFacebook = (response) => {
+  //   console.log(response);
+  // }
+
+  googleSignIn = async () => {
+    this.props.firebase.getSignInWithGoogle().then(result => {
+      this.genericSignIn(result);
+    })
+      .catch(error => {
+        this.setState({ showUnAuthMsg: true });
+      })
   }
 
-  responseFail = () => {
-    this.setState({ showUnAuthMsg: true });
+  facebookSignIn = async () => {
+    this.props.firebase.getSignInWithFacebook().then(result => {
+      this.genericSignIn(result);
+    })
+      .catch(error => {
+        console.log(error);
+        this.setState({ showUnAuthMsg: true });
+      })
   }
 
-  responseFacebook = (response) => {
-    console.log(response);
-  }
-
-  check = async () => {
-    // document.cookie = "username=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa; expires=Thu, 18 Dec 2013 12:00:00 UTC; path=/";
-    document.cookie = await 'cookie2=test; expires=Sun, 1 Jan 2023 00:00:00 UTC; path=http://localhost:3000/';
-    const response = await axios.post(
-      baseUrl + 'abcde',
-      { "a": "a" },
-      { headers: { 'Content-Type': 'application/json' } }
-    );
-    // this.setState({ chaptersAndCups: response.data.rows });
-    console.log(response);
-
+  genericSignIn = result => {
+    console.log(result);
+    this.props.firebase.getTokenId()
+      .then(tokenId => {
+        // document.cookie = 'cookie2=' + tokenId + '; expires=Sun, 1 Jan 2023 00:00:00 UTC; path=/';
+        console.log(tokenId);
+        document.cookie = 'tokenId=' + tokenId + '; expires=' + new Date(new Date().setFullYear(new Date().getFullYear() + 1)) + '; path=/';
+      })
+      .catch(error => {
+        console.log(error);
+        this.setState({ showUnAuthMsg: true });
+      });
 
   }
 
@@ -96,13 +153,21 @@ class SignIn extends Component {
             <WarnningWithOk
               show={this.state.showUnAuthMsg}
               onClickOk={() => this.setState({ showUnAuthMsg: false })}
-              title='לא מזוהה'
-              bodyMsg='שם משתמש או סיסמה שגוי, נא נסה שנית'
+              title=''
+              bodyMsg={this.state.authMsg}
             >
             </WarnningWithOk>
           </Col>
         </Row>
         <Row>
+          <Col>
+            <Button onClick={this.googleSignIn} className='btnSignIn googleBtn'>הרשם עם גוגל</Button>
+          </Col>
+          <Col>
+            <Button onClick={this.facebookSignIn} className='btnSignIn facebookBtn'>הרשם עם פייסבוק</Button>
+          </Col>
+        </Row>
+        {/* <Row>
           <Col>
             <GoogleLogin
               clientId="453061761258-m3sij6fvt3jf3biao5dg7r6vqnrsq4n3.apps.googleusercontent.com"
@@ -124,26 +189,26 @@ class SignIn extends Component {
               cssClass="btnSignIn facebookBtn"
               callback={this.responseFacebook} />
           </Col>
-        </Row>
+        </Row> */}
         <Row>
           <Col>
             <Form dir='rtl' onSubmit={this.handleSubmit} >
 
               <Form.Row>
                 <Form.Group as={Col} controlId="formGridEmail">
-                  <Form.Label>שם משתמש</Form.Label>
-                  <Form.Control name='userName' value={this.state.userName} type="text" placeholder="שם משתמש" onChange={this.handleChange} />
+                  <Form.Label>אימייל</Form.Label>
+                  <Form.Control name='email' value={this.state.userName} type="text" placeholder="הקש אימייל" onChange={this.handleChange} />
                 </Form.Group>
               </Form.Row>
 
               <Form.Row>
                 <Form.Group as={Col} controlId="formGridPassword">
-                  <Form.Label>קוד</Form.Label>
-                  <Form.Control name='password' value={this.state.password} type="password" placeholder="קוד" onChange={this.handleChange} />
+                  <Form.Label>סיסמה</Form.Label>
+                  <Form.Control name='password' value={this.state.password} type="password" placeholder="הקש סיסמה" onChange={this.handleChange} />
                 </Form.Group>
               </Form.Row>
-              <Button variant="primary" type="submit"> כניסה למערכת</Button>
-              <Button variant="primary" onClick={this.check} type="submit">בדיקה</Button>
+              <Button onClick={this.handleSubmit} variant="primary" > כניסה למערכת</Button>
+              <Button variant="primary" onClick={this.googleSignIn} >בדיקה</Button>
             </Form>
           </Col>
         </Row>
@@ -153,10 +218,11 @@ class SignIn extends Component {
 }
 
 
-const mapDispatchToProps = dispatch => {
-  return {
-    onGetAuth: val => dispatch({ type: 'AUTH', val }),
-  };
-};
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     onGetAuth: val => dispatch({ type: 'AUTH', val }),
+//   };
+// };
 
-export default connect(null, mapDispatchToProps)(SignIn);
+// export default connect(null, mapDispatchToProps)(SignIn);
+export default withFirebase(SignIn);

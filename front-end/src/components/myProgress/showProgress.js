@@ -55,10 +55,17 @@ class showProgress extends Component {
         const response = await axios.post(
             baseUrl + 'get_user_cups',
             { "a": "a" },
-            { headers: { 'Content-Type': 'application/json' } }
+            { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
         );
         this.setState({ chaptersAndCups: response.data.rows });
         console.log(this.state.chaptersAndCups);
+
+        fetch(baseUrl, {
+            method: 'GET',
+            credentials: 'include'
+            //other options
+        }).then(response => console.log("Response status: ", response.status));
+
     }
 
     mapToView = () => {

@@ -13,6 +13,7 @@ import SignIn from './components/user/SignIn';
 import Cups_and_points from './components/admin/CupsAndPoints';
 import FeedbackText from './components/admin/FeedbackText';
 import AdminReport from './components/admin/AdminReport';
+import SignUp from './components/user/SignUp';
 // process.env.NODE_ENV = 'development';
 // "start": "react-scripts start",
 
@@ -35,6 +36,7 @@ function App() {
               <Route path="/admin/feedback_text" component={FeedbackText} />
               <Route path="/admin/users_statistics" component={AdminReport} />
               <Route path="/sign_in" component={SignIn} />
+              <Route path="/sign_up" component={SignUp} />
               <Route path="/connect_us" component={ConnectUs} />
               {/* <Route path="/demo" component={Demo} /> */}
             </Switch>

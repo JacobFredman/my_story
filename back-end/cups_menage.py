@@ -1,8 +1,12 @@
 import mysql.connector
-from flask import Blueprint, request, jsonify, json
+from flask import Blueprint, request, jsonify, json, Flask, make_response
 import decimal
-# import yaml
 from staticData import connDict
+from user import get_auth, get_user
+from db_connection import get_conn
+# import render
+# from user import login_required
+
 
 cups_menage = Blueprint('cups_menage', __name__)
 
@@ -11,8 +15,8 @@ goals_or_hablits_chapter = 11
 conn = mysql.connector.connect(**connDict)
 
 
-@cups_menage.route('/initioal_user_cups', methods=['POST'])
-def initial_user_cups():
+# @cups_menage.route('/initioal_user_cups', methods=['POST'])
+def initial_user_cups(user):
     conn._open_connection()
     mycursor = conn.cursor()
     insertAutoWinStatment = """ INSERT INTO user_cups
@@ -26,8 +30,8 @@ def initial_user_cups():
     WHERE automatic_win = 0;
     """
     try:
-        mycursor.execute(insertAutoWinStatment, ('jac',))
-        mycursor.execute(insertZeroStatments, ('jac',))
+        mycursor.execute(insertAutoWinStatment, (user,))
+        mycursor.execute(insertZeroStatments, (user,))
         conn.commit()
     except Exception as e:
         return str(e)
@@ -37,19 +41,6 @@ def initial_user_cups():
 
 
 # @cups_menage.route('/initioal_user_golas_or_habits', methods=['POST'])
-def initioal_user_golas_or_habits():
-    conn._open_connection()
-    mycursor = conn.cursor()
-    initUserStatment = """ Insert into goals_or_habits(user_name, goals_selected, max_goals, goals_wined) values("binyamin", 0, 0, 0) ;"""
-
-    try:
-        mycursor.execute(initUserStatment)
-        conn.commit()
-    except Exception as e:
-        return 'error', 500
-    finally:
-        conn.close()
-    return 'ok', 200
 
 
 @cups_menage.route('/update_user_goals', methods=['POST'])
@@ -83,29 +74,61 @@ def update_user_goals():
         conn.close()
 
 
+# @cups_menage.route('/get_user_cups', methods=['POST'])
+# def getUserCupsForAllChapters():
+#     user, localId = get_user(request.cookies.get('tokenId'))
+#     if not user:
+#         return 'Unauthorized user', 401
+
+#     sql = """
+#     select chapter.chapter_id, chapter_name, victory_cups_wined, max_victory_cups, automatic_win
+#     FROM chapter natural join user_cups
+#     where user_cups.user_name = %s;
+#     """
+#     conn1 = mysql.connector.connect(**connDict)
+#     conn1._open_connection()
+#     conn1._open_connection()
+#     mycursor = conn1.cursor()
+#     try:
+#         mycursor.execute(sql, (localId,))
+#         rows = mycursor.fetchall()
+#         data = []
+#         for row in rows:
+#             data.append(
+#                 {'id': row[0], 'chapter_name': row[1], 'wined_cups': row[2], 'max_victory_cups': row[3], 'automatic_win': row[4]})
+#     except Exception as e:
+#         return str(e)
+#     finally:
+#         conn1.close()
+#     response = jsonify({'rows': data})
+#     # response.headers.add('Access-Control-Allow-Origin', '*')
+#     # response.headers['Access-Control-Allow-Credentials'] = True
+#     return response
+#     # return json.dumps({'rows': data}), 200
+
 @cups_menage.route('/get_user_cups', methods=['POST'])
 def getUserCupsForAllChapters():
+    user, localId = get_user(request.cookies.get('tokenId'))
+    if not user:
+        return 'Unauthorized user', 401
+
     sql = """
     select chapter.chapter_id, chapter_name, victory_cups_wined, max_victory_cups, automatic_win
     FROM chapter natural join user_cups
-    where user_cups.user_name = 'binyamin';
+    where user_cups.user_name = %s;
     """
-    conn1 = mysql.connector.connect(**connDict)
-
-    conn1._open_connection()
-    mycursor = conn1.cursor()
+    cursor = get_conn().cursor()
     try:
-        mycursor.execute(sql)
-        rows = mycursor.fetchall()
+        cursor.execute(sql, (localId,))
+        rows = cursor.fetchall()
         data = []
         for row in rows:
             data.append(
                 {'id': row[0], 'chapter_name': row[1], 'wined_cups': row[2], 'max_victory_cups': row[3], 'automatic_win': row[4]})
     except Exception as e:
         return str(e)
-    finally:
-        conn1.close()
-    return json.dumps({'rows': data}), 200
+    response = jsonify({'rows': data})
+    return response
 
 
 @cups_menage.route('/get_goals_or_habits', methods=['POST'])

@@ -1,22 +1,27 @@
 
-from flask import Flask
+from flask import Flask, g
 from about_us import about_us
 from cups_menage import cups_menage
 from admin_cups_and_points import admin_cups_and_points
 from admin_feedback_texts import admin_feedback_texts
 from admin_report import admin_report
 from extportToExcel import extportToExcel
-from user import user
+# from user import user
 from flask_cors import CORS
 from authlib.integrations.flask_client import OAuth
+from user import user
+import mysql.connector
 
 app = Flask(__name__)
 # oauth = OAuth(app)
+# app.config['SERVER_NAME'] = 'localhost'
+# app.config['SESSION_COOKIE_DOMAIN'] = 'localhost'
 
 
-CORS(app)
+CORS(app,  supports_credentials=True)
 
 
+# app.register_blueprint(user)
 app.register_blueprint(user)
 app.register_blueprint(extportToExcel)
 app.register_blueprint(admin_report)
@@ -34,6 +39,10 @@ def aa():
 @app.route('/')
 def hello_world():
     return 'Hello, World!'
+
+
+if __name__ == '__main__':
+    app.run(threaded=True, host='127.0.0.1', port='3500')
 
 
 # # AS simeple as possbile flask google oAuth 2.0

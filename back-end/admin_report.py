@@ -23,11 +23,16 @@ def a():
 
 
 def calcAverages(users_details):
-    self_control_avg = mean([i['self_control'] for i in users_details])
-    self_connection_avg = mean([i['self_connection'] for i in users_details])
-    self_commitment_avg = mean([i['self_commitment'] for i in users_details])
-    self_fulfillment_avg = mean([i['self_fulfillment'] for i in users_details])
-    users_age_ave = mean([i['age'] for i in users_details])
+    self_control_avg = mean(
+        [i['self_control'] for i in users_details if i['self_control'] is not None])
+    self_connection_avg = mean(
+        [i['self_connection'] for i in users_details if i['self_connection'] is not None])
+    self_commitment_avg = mean(
+        [i['self_commitment'] for i in users_details if i['self_commitment'] is not None])
+    self_fulfillment_avg = mean(
+        [i['self_fulfillment'] for i in users_details if i['self_fulfillment'] is not None])
+    users_age_ave = mean([i['age']
+                          for i in users_details if i['age'] is not None])
 
     allUsersCupsLists = [i['cups'] for i in users_details]
     allUsersCupsListsZiped = zip(*allUsersCupsLists)
@@ -50,10 +55,10 @@ def getChapterDetails(conn):
 
     conn._open_connection()
     mycursor = conn.cursor()
+    data = []
     try:
         mycursor.execute(sql)
         rows = mycursor.fetchall()
-        data = []
         for row in rows:
             data.append(
                 {'chapter_id': row[0], 'chapter_name': row[1], 'max_victory_cups': row[2], 'automatic_win': row[3]})

@@ -9,5 +9,7 @@ connDict = {
     "user": "azimcoil_jac",
     "password": "Asdf#5432",
     "database": "azimcoil_story",
-    "port": "3306"
+    "port": "3306",
+    "charset": "utf8",
+    "use_unicode": True
 }

@@ -8,6 +8,8 @@ import { createStore } from 'redux';
 import reducer1 from './store/reducer1';
 import { Provider } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Firebase, { FirebaseContext } from './components/Firebase';
+
 
 
 export const store = createStore(reducer1);
@@ -16,7 +18,8 @@ export const store = createStore(reducer1);
 //   document.getElementById('root'));
 
 
-ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
+ReactDOM.render(<FirebaseContext.Provider value={new Firebase()}> <Provider store={store}><App /></Provider></FirebaseContext.Provider>,
+    document.getElementById('root'));
 // registerServiceWorker();
 
 // ReactDOM.render(

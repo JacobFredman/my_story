@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^7.1.2",
     "axios": "^0.19.2",
     "bootstrap": "^4.5.0",
+    "firebase": "^7.15.5",
     "immutable": "^4.0.0-rc.12",
     "moment": "^2.27.0",
     "react": "^16.13.1",

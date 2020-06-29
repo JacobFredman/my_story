@@ -1,4 +1,7 @@
 import app from 'firebase/app';
+import firebase from 'firebase';
+import 'firebase/auth';
+
 
 {/* <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-app.js"></script> */ }
 
@@ -19,7 +22,35 @@ const config = {
 class Firebase {
     constructor() {
         app.initializeApp(config);
+        this.auth = app.auth();
     }
+
+    doCreateUserWithEmailAndPassword = (email, password) =>
+        this.auth.createUserWithEmailAndPassword(email, password);
+
+    doSignInWithEmailAndPassword = (email, password) =>
+        this.auth.signInWithEmailAndPassword(email, password);
+
+    doSignOut = () => this.auth.signOut();
+
+    doPasswordReset = email => this.auth.sendPasswordResetEmail(email);
+
+    doPasswordUpdate = password =>
+        this.auth.currentUser.updatePassword(password);
+
+    getTokenId = () =>
+        this.auth.currentUser.getIdToken(/* forceRefresh */ true);
+
+    getSignInWithGoogle = () => {
+        var provider = new firebase.auth.GoogleAuthProvider();
+        return this.auth.signInWithPopup(provider);
+    }
+
+    getSignInWithFacebook = () => {
+        var provider = new firebase.auth.FacebookAuthProvider();
+        return this.auth.signInWithPopup(provider);
+    }
+
 }
 
 export default Firebase;
