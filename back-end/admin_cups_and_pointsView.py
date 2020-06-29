@@ -1,12 +1,12 @@
 from flask import Blueprint, request, json
 import mysql.connector
 from staticData import connDict
-
+from initApp import app
 
 admin_cups_and_points = Blueprint('admin_cups_and_points', __name__)
 
 
-@admin_cups_and_points.route('/admin/cups_and_points', methods=['POST'])
+@app.route('/admin/cups_and_points', methods=['POST'])
 def getUserCupsForAllChapters():
     sql = " select * from chapter2 natural join points_max2;"
     conn = mysql.connector.connect(**connDict)
@@ -28,7 +28,7 @@ def getUserCupsForAllChapters():
     return json.dumps({'rows': data}), 200
 
 
-@admin_cups_and_points.route('/update_chapter_points_max', methods=['POST'])
+@app.route('/update_chapter_points_max', methods=['POST'])
 def update_chapter_points_max():
     # return json.dumps({'rowCount': 'mycursor.rowcount'}), 200
 

@@ -1,25 +1,11 @@
-from flask import Blueprint, request, jsonify, json
+from flask import request, jsonify, json, send_file
 import mysql.connector
 import itertools
 from cups_menage import getParamter
 from statistics import mean
 from staticData import connDict
-
-
-admin_report = Blueprint('admin_report', __name__)
-
-
-@admin_report.route('/admin/get_users_statistics', methods=['POST'])
-def a():
-    conn1 = mysql.connector.connect(**connDict)
-    chapters_datails = getChapterDetails(conn1)
-    users_details = get_users_and_cups(conn1)
-    averages = calcAverages(users_details)
-
-    return json.dumps({'users_details': get_users_and_cups(conn1),
-                       'chapters_details': chapters_datails,
-                       'averages': averages
-                       }), 200
+import csv
+from app import get_db_conn
 
 
 def calcAverages(users_details):
@@ -53,19 +39,19 @@ def getChapterDetails(conn):
     """
     # conn1 = mysql.connector.connect(**connDict)
 
-    conn._open_connection()
-    mycursor = conn.cursor()
+    # conn._open_connection()
+    cursor = get_db_conn().cursor()
     data = []
     try:
-        mycursor.execute(sql)
-        rows = mycursor.fetchall()
+        cursor.execute(sql)
+        rows = cursor.fetchall()
         for row in rows:
             data.append(
                 {'chapter_id': row[0], 'chapter_name': row[1], 'max_victory_cups': row[2], 'automatic_win': row[3]})
     except Exception as e:
         print(e)
-    finally:
-        conn.close()
+    # finally:
+    #     conn.close()
     return data
 
 
@@ -76,11 +62,11 @@ def get_users_and_cups(conn):
     order by user_name, chapter_id;
     """
 
-    conn._open_connection()
-    mycursor = conn.cursor()
+    # conn._open_connection()
+    cursor = get_db_conn().cursor()
     try:
-        mycursor.execute(sql)
-        rows = mycursor.fetchall()
+        cursor.execute(sql)
+        rows = cursor.fetchall()
         dbRows = []
         for row in rows:
             dbRows.append(row)
@@ -95,8 +81,8 @@ def get_users_and_cups(conn):
         #     {'user_name': row[0], 'date_of_birth': row[1], 'date_of_birth': row[2]})
     except Exception as e:
         print(e)
-    finally:
-        conn.close()
+    # finally:
+    #     conn.close()
 
     clientRows = []
     def key(datum): return datum[0]
@@ -117,55 +103,25 @@ def get_users_and_cups(conn):
     return clientRows
 
 
-# def get_chapters_details(conn):
-#     sql = """
-#     SELECT `chapter`.`chapter_id`,
-#     `chapter`.`chapter_name`,
-#     `chapter`.`max_victory_cups`
-#     FROM chapter;
-#     """
-
-#     conn._open_connection()
-#     mycursor = conn.cursor()
-
-#     mycursor.execute(sql)
-#     rows = mycursor.fetchall()
-#     data = []
-#     for row in rows:
-#         data.append(
-#             {'user_name': row[0], 'date_of_birth': row[1], 'date_of_birth': row[2]})
-#     except Exception as e:
-#         return str(e)
-#     finally:
-#         conn.close()
-#     return data, 200
-
-
-# @cups_menage.route('/get_user_cups', methods=['POST'])
-# def getUserCupsForAllChapters():
-#     sql = """
-#     select chapter.chapter_id, chapter_name, victory_cups_wined, max_victory_cups, automatic_win
-#     FROM chapter natural join user_cups
-#     where user_cups.user_name = 'binyamin';
-#     """
-#     conn1 = mysql.connector.connect(
-#         host="localhost",
-#         user="jac",
-#         password="1234",
-#         database="my_db"
-#     )
-
-#     conn1._open_connection()
-#     mycursor = conn1.cursor()
-#     try:
-#         mycursor.execute(sql)
-#         rows = mycursor.fetchall()
-#         data = []
-#         for row in rows:
-#             data.append(
-#                 {'id': row[0], 'chapter_name': row[1], 'wined_cups': row[2], 'max_victory_cups': row[3], 'automatic_win': row[4]})
-#     except Exception as e:
-#         return str(e)
-#     finally:
-#         conn1.close()
-#     return json.dumps({'rows': data}), 200
+def createCSVFile1(fieldNames, averagesRowExe,  users_details):
+    # generateQuery()
+    # milliseconds = int(round(time.time() * 1000))
+    # strNow = datetime.datetime.now().strftime("%d-%m-%Y--%H_%M_%S")
+    fileName = 'C:/temp/report.csv'
+    with open(fileName, mode='w', newline='') as csv_file:
+        # writer = csv.DictWriter(csv_file, fieldnames=fieldNames)
+        # writer.writeheader()
+        # writer.writerow(averagesRowExe)
+        writer = csv.writer(csv_file,  quoting=csv.QUOTE_ALL)
+        writer.writerow(fieldNames)
+        writer.writerow(averagesRowExe)
+        for user in users_details:
+            rowForWrite = [
+                user['user_name'], user['age'], user['date_of_registering'], user['last_update'],
+                *user['cups'],
+                (user['self_control'])*100, (user['self_connection']) * 100,
+                (user['self_commitment']) * 100, (user['self_fulfillment'])*100
+            ]
+            writer.writerow(rowForWrite)
+    a = send_file(fileName)
+    return a

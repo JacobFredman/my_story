@@ -1,18 +1,17 @@
 from flask import Blueprint, request, json
 import mysql.connector
 from staticData import connDict
+from initApp import app
+from app import get_db_conn
 
 
-admin_feedback_texts = Blueprint('admin_feedback_texts', __name__)
-
-
-@admin_feedback_texts.route('/admin/feedback_texts', methods=['POST'])
+@app.route('/admin/feedback_texts', methods=['POST'])
 def get_feedback_texts():
     sql = " select * from feedbacktext;"
-    conn = mysql.connector.connect(**connDict)
+    # conn = mysql.connector.connect(**connDict)
 
-    conn._open_connection()
-    cursor = conn.cursor()
+    # conn._open_connection()
+    cursor = get_db_conn().cursor()
     try:
         cursor.execute(sql)
         rows = cursor.fetchall()
@@ -23,12 +22,12 @@ def get_feedback_texts():
                  })
     except Exception as e:
         return str(e)
-    finally:
-        conn.close()
+    # finally:
+    #     conn.close()
     return json.dumps({'rows': data}), 200
 
 
-@admin_feedback_texts.route('/update_feedback_texts', methods=['POST'])
+@app.route('/update_feedback_texts', methods=['POST'])
 def update_feedback_texts():
     # return json.dumps({'rowCount': 'mycursor.rowcount'}), 200
 
@@ -43,10 +42,10 @@ def update_feedback_texts():
     `self_fulfillment` = %s
     WHERE `under_or_equal_seccess_percent` = %s;
     """
-    conn1 = mysql.connector.connect(**connDict)
+    # conn1 = mysql.connector.connect(**connDict)
 
-    conn1._open_connection()
-    mycursor = conn1.cursor()
+    # conn1._open_connection()
+    mycursor = get_db_conn().cursor()
     try:
         mycursor.execute(sql, (
             SP_paremeters_as_dict['your_control'],
@@ -59,11 +58,11 @@ def update_feedback_texts():
         #                                       SP_paremeters_as_dict['max_victory_cups'],
         #                                       SP_paremeters_as_dict['automatic_win'],
         #                                       SP_paremeters_as_dict['id'],))
-        conn1.commit()
+        get_db_conn().commit()
     except Exception as e:
         print(str(e))
         return str(e), 500
     else:
         return json.dumps({'rowCount': mycursor.rowcount}), 200
-    finally:
-        conn1.close()
+    # finally:
+    #     conn1.close()

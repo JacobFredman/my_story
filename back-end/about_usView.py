@@ -1,16 +1,10 @@
-from flask import Blueprint, request
+from flask import request
 import sendEmail
-
-about_us = Blueprint('about_us', __name__)
-
-
-@about_us.route('/a')
-def aa():
-    return 'Hello, a!'
+from initApp import app
 
 
-@about_us.route('/about_us', methods=['POST'])
-def accountList():
+@app.route('/about_us', methods=['POST'])
+def send_q_email():
     SP_paremeters_as_dict = request.get_json(force=True)
     return sendEmail.sendEmail(
         SP_paremeters_as_dict['senderName'],

@@ -3,32 +3,17 @@ from flask import Blueprint, request, jsonify, json, session, g
 from staticData import connDict
 import mysql.connector
 from functools import wraps
+from staticData import fireBaseConfig
+from app import get_db_conn
 
-conn = mysql.connector.connect(**connDict)
-
-
-user = Blueprint('user', __name__)
-
-
-config = {
-    "apiKey": "AIzaSyAfSB03BUXb7SqciMyekuYXsmpPY-norm8",
-    "authDomain": "achraiut.firebaseapp.com",
-    "databaseURL": "https://achraiut.firebaseio.com",
-    "projectId": "achraiut",
-    "storageBucket": "achraiut.appspot.com",
-    "messagingSenderId": "453061761258",
-    "appId": "1:453061761258:web:33670864fd15984789df93",
-    "measurementId": "G-YR7NF3QWGR"
-}
-
-firebase = Firebase(config)
-auth = firebase.auth()
+# firebase = Firebase(fireBaseConfig)
+# auth = firebase.auth()
 
 
 def get_auth():
     if not hasattr(g, 'auth') or not hasattr(g, 'myfirebase'):
-        g.myfirebase = Firebase(config)
-        g.auth = firebase.auth()
+        g.myfirebase = Firebase(fireBaseConfig)
+        g.auth = g.myfirebase.auth()
     return g.auth
 
 
@@ -51,63 +36,40 @@ def get_user(tokenId):
     return user, localId
 
 
-def login_required(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        user = dict(session).get('profile', None)
-        # You would add a check here and usethe user id or something to fetch
-        # the other data for that user/check if they exist
-        if user:
-            return f(*args, **kwargs)
-        return 'You aint logged in, no page for u!'
-    return decorated_function
-
-
-@user.route('/sign_up', methods=['POST'])
-def signUp():
-    request_paremeters_as_dict = request.get_json(force=True)
-    email = request_paremeters_as_dict['email']
-    password = request_paremeters_as_dict['password']
-    user_first_name = request_paremeters_as_dict['user_first_name']
-    user_last_name = request_paremeters_as_dict['user_last_name']
-    try:
-        # if the user allready exists in firebase its un error
-        newUser = get_auth().create_user_with_email_and_password(email, password)
-        # if user_exists(newUser['localId']):
-        #     return 'user_allready_exists', 203
-        add_new_user_in_local_db(
-            newUser['localId'], user_first_name, user_last_name, conn)
-        initial_user_cups(newUser['localId'])
-    except Exception as e:
-        print(e)
-        return 'user not created seccessfuly', 500
-    finally:
-        conn.close()
-    return 'user created seccessfuly', 200
+# def login_required(f):
+#     @wraps(f)
+#     def decorated_function(*args, **kwargs):
+#         user = dict(session).get('profile', None)
+#         # You would add a check here and usethe user id or something to fetch
+#         # the other data for that user/check if they exist
+#         if user:
+#             return f(*args, **kwargs)
+#         return 'You aint logged in, no page for u!'
+#     return decorated_function
 
 
 def add_new_user_in_local_db(user_name, user_first_name, user_last_name, conn):
-    conn._open_connection()
-    cursor = conn.cursor()
+    # ._open_connection()
+    cursor = get_db_conn().cursor()
     try:
         cursor.callproc(
             'add_new_user', (user_name, user_first_name, user_last_name))
     except Exception as e:
-        pass
-    return 0
+        return 0
+    return 1
 
 
 def initial_user_golas_or_habits():
-    conn._open_connection()
-    mycursor = conn.cursor()
+    # conn._open_connection()
+    cursor = get_db_conn().cursor()
     initUserStatment = """ Insert into goals_or_habits(user_name, goals_selected, max_goals, goals_wined) values("binyamin", 0, 0, 0) ;"""
     try:
-        mycursor.execute(initUserStatment)
-        conn.commit()
+        cursor.execute(initUserStatment)
+        get_db_conn().commit()
     except Exception as e:
         return 'error', 500
-    finally:
-        conn.close()
+    # finally:
+    #     conn.close()
     return 'ok', 200
 
 # def user_exists(user):
