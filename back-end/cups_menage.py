@@ -1,16 +1,8 @@
-from app import get_db_conn
+from initApp import get_db_conn
 from flask import json
 
 
 def getParamter(SP_name, userName, chapterUserHolds):
-    # conn1 = mysql.connector.connect(
-    #     host="localhost",
-    #     user="jac",
-    #     password="1234",
-    #     database="my_db"
-    # )
-    # conn1 = mysql.connector.connect(**connDict)
-    # conn1._open_connection()
     cursor = get_db_conn().cursor()
     resultArray = []
     try:
@@ -32,43 +24,57 @@ def getFeedbackText(parameterName, userName):
         "your_control": "get_user_self_control",
         "connection_to_yourself": "get_user_self_connection",
         "commitment_to_success": "get_user_self_commitment",
-        "self_fulfillment": "get_user_self_fulfillment"}
+        "self_fulfillment": "get_user_self_fulfillment",
+    }
     percentOfSeccess = getParamter(
         # parameterName_SpNameDict['your_control'], 'binyamin', 1000)
-        parameterName_SpNameDict[parameterName], 'binyamin', 1000)
+        parameterName_SpNameDict[parameterName],
+        userName,
+        1000,
+    )
     percentOfSeccess = percentOfSeccess * 100
+    # percentOfSeccess = 20
 
     # conn1 = mysql.connector.connect(**connDict)
     # conn1._open_connection()
     cursor = get_db_conn().cursor()
-    sql = ''
+    sql = ""
     if percentOfSeccess <= 40:
-        sql = 'select %s from feedbacktext where under_or_equal_seccess_percent = 40' % (
-            parameterName,)
+        sql = (
+            "select %s from feedbacktext where under_or_equal_seccess_percent = 40"
+            % (parameterName,)
+        )
     elif percentOfSeccess <= 60:
-        sql = 'select %s from feedbacktext where under_or_equal_seccess_percent = 60' % (
-            parameterName,)
+        sql = (
+            "select %s from feedbacktext where under_or_equal_seccess_percent = 60"
+            % (parameterName,)
+        )
     elif percentOfSeccess <= 80:
-        sql = 'select %s from feedbacktext where under_or_equal_seccess_percent = 80' % (
-            parameterName,)
+        sql = (
+            "select %s from feedbacktext where under_or_equal_seccess_percent = 80"
+            % (parameterName,)
+        )
     else:
-        sql = 'select %s from feedbacktext where under_or_equal_seccess_percent = 100' % (
-            parameterName,)
+        sql = (
+            "select %s from feedbacktext where under_or_equal_seccess_percent = 100"
+            % (parameterName,)
+        )
     try:
+        # cursor.execute(
+        #     'select your_control from feedbacktext where under_or_equal_seccess_percent = 40')
         cursor.execute(sql)
         textResult = cursor.fetchone()
     except Exception as e:
         print(str(e))
-        return 'error', 500
+        return "error", 500
     # finally:
     #     conn.close()
-        return json.dumps({'val': textResult}), 200
+    return json.dumps({"val": textResult}), 200
 
 
 def get_which_chapter_user_holds():
     # conn1 = mysql.connector.connect(**connDict)
     # conn1._open_connection()
-    cursor = get_db_conn().cursor()
     # sql = """
     # select chapter.id as id, user_cups_by_chapters.victory_cups_wined as userCups, chapter.automatic_win
     # from chapter
@@ -80,12 +86,13 @@ def get_which_chapter_user_holds():
     from chapter natural join `user_cups`
     where user_name = 'binyamin'
     """
+    cursor = get_db_conn().cursor()
     try:
         cursor.execute(sql)
         resultArray = cursor.fetchall()
     except Exception as e:
         print(str(e))
-        return 'error', 500
+        return "error", 500
     # finally:
     #     conn.close()
     lastChapter = 0
@@ -121,4 +128,4 @@ def initial_user_cups(user):
         return str(e)
     # finally:
     #     conn.close()
-    return 'ok'
+    return "ok"

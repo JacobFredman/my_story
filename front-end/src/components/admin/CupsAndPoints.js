@@ -5,7 +5,6 @@ import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-responsive-modal';
 
@@ -39,38 +38,39 @@ class CupsAndPoints extends Component {
         const response = await axios.post(
             baseUrl + 'admin/cups_and_points',
             { "a": "a" },
-            { headers: { 'Content-Type': 'application/json' } }
+            { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
         );
         // let cupsAndPointsView = this.mapToView(response.data.rows)
         this.setState({ cupsAndPoints: response.data.rows });
-        console.log(response.data.rows);
     }
 
     getValue = (id, propertyName) => {
-        console.log(id);
         let resultObj = this.state.cupsAndPoints.find(obj => {
             return obj.id === id
         })
-        console.log(resultObj);
         return resultObj.propertyName;
     }
 
     updateState = (e) => {
         // const objIndex = this.state.cupsAndPoints.findIndex((obj => obj.id == id));
-        this.state.workingRow = { ...this.state.workingRow, [e.target.name]: e.target.value };
+        if (e.target.type === 'checkbox')
+            // this.state.workingRow = { ...this.state.workingRow, [e.target.name]: e.target.checked };
+            this.setState({ workingRow: { ...this.state.workingRow, [e.target.name]: e.target.checked } });
+        else
+            // this.state.workingRow = { ...this.state.workingRow, [e.target.name]: e.target.value };
+            this.setState({ workingRow: { ...this.state.workingRow, [e.target.name]: e.target.value } });
+
         // this.state.cupsAndPoints[objIndex][property] = value;
         // this.forceUpdate();
-        console.log(this.state.workingRow);
     }
 
 
     updateWorkingRowInServer = async () => {
-        const response = await axios.post(
+        await axios.post(
             baseUrl + 'update_chapter_points_max',
             { ...this.state.workingRow },
-            { headers: { 'Content-Type': 'application/json' } }
+            { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
         );
-        console.log(response.data.rows);
         this.getData();
     }
 
@@ -81,19 +81,17 @@ class CupsAndPoints extends Component {
             return obj.id === id
         })
         this.setState({ workingRow });
-        console.log(workingRow);
     }
 
 
     mapToView = () => {
-        console.log(this.state.cupsAndPoints);
         return this.state.cupsAndPoints.map((chapter) => {
             return (
                 <tr key={chapter.id} >
                     <td> <Button key={chapter.id} onClick={() => { this.setState({ open: true }); this.updateWorkingRowState(chapter.id) }}>ערוך</Button></td>
                     <td>{chapter.chapter_name}</td>
                     <td>{chapter.max_victory_cups}</td>
-                    <td>{chapter.automatic_win ? 'כן' : <p>hhhh</p>}</td>
+                    <td>{chapter.automatic_win ? 'כן' : null}</td>
                     <td>{chapter.your_control}</td>
                     <td>{chapter.connection_to_yourself}</td>
                     <td>{chapter.commitment_to_success}</td>
@@ -114,53 +112,55 @@ class CupsAndPoints extends Component {
                 <Row>
                     <Col>
                         <Modal open={this.state.open} onClose={() => this.setState({ open: false })} center>
-                            <Container>
-                                {/* <Row>
+                            {/* <Container> */}
+                            {/* <Row>
                                     <Col> */}
-                                <Form dir='rtl' style={{ direction: 'rtl', textAlign: 'right' }}>
-                                    <Form.Row>
-                                        <Form.Group controlId="formName">
-                                            <Form.Label>שם הפרק</Form.Label>
-                                            <Form.Control size="sm" type="text" name='chapter_name' onChange={e => this.updateState(e)} defaultValue={this.state.workingRow.chapter_name} />
-                                        </Form.Group>
-                                        <Form.Group controlId="formGoalsAchived">
-                                            <Form.Label>מספר גביעים מקסימלי</Form.Label>
-                                            <Form.Control size="sm" type="number" name='max_victory_cups' onChange={e => this.updateState(e)} defaultValue={this.state.workingRow.max_victory_cups} />
-                                        </Form.Group>
-                                        {/* <Form.Group controlId="formAutoWin">
+                            <Form dir='rtl' style={{ direction: 'rtl', textAlign: 'right' }}>
+                                <Form.Row>
+                                    <Form.Group controlId="formName">
+                                        <Form.Label>שם הפרק</Form.Label>
+                                        <Form.Control size="sm" type="text" name='chapter_name' onChange={e => this.updateState(e)} defaultValue={this.state.workingRow.chapter_name} />
+                                    </Form.Group>
+                                    <Form.Group controlId="formGoalsAchived">
+                                        <Form.Label>מספר גביעים מקסימלי</Form.Label>
+                                        <Form.Control size="sm" type="number" name='max_victory_cups' onChange={e => this.updateState(e)} defaultValue={this.state.workingRow.max_victory_cups} />
+                                    </Form.Group>
+                                    {/* <Form.Group controlId="formAutoWin">
                                                     <Form.Label>זכיה אוטומטית</Form.Label>
                                                     <Form.Control type="number" name='automatic_win' onChange={e => this.updateState(e)} defaultValue={this.state.workingRow.automatic_win} />
                                                 </Form.Group> */}
-                                        <Form.Group as={Col} controlId="formBasicCheckbox">
-                                            <Form.Check name='automatic_win' type="checkbox" label="זכיה אוטומטית" />
-                                        </Form.Group>
-                                        <Form.Group controlId="formSelfControl">
-                                            <Form.Label>שליטה עצמית</Form.Label>
-                                            <Form.Control size="sm" type="number" name='your_control' onChange={e => this.updateState(e)} defaultValue={this.state.workingRow.your_control} />
-                                        </Form.Group>
-                                    </Form.Row>
-                                    <Form.Row>
-                                        <Form.Group controlId="formSelfConnection">
-                                            <Form.Label>חיבור עצמי</Form.Label>
-                                            <Form.Control size="sm" type="number" name='connection_to_yourself' onChange={e => this.updateState(e)} defaultValue={this.state.workingRow.connection_to_yourself} />
-                                        </Form.Group>
-                                        <Form.Group controlId="formSelfConnection">
-                                            <Form.Label>מחוייבות להצלחה</Form.Label>
-                                            <Form.Control size="sm" type="number" name='commitment_to_success' onChange={e => this.updateState(e)} defaultValue={this.state.workingRow.commitment_to_success} />
-                                        </Form.Group>
-                                        <Form.Group controlId="formGoalsAchived">
-                                            <Form.Label>מימוש עצמי</Form.Label>
-                                            <Form.Control size="sm" type="number" name='self_fulfillment' onChange={e => this.updateState(e)} defaultValue={this.state.workingRow.self_fulfillment} />
-                                        </Form.Group>
-                                        <Form.Group controlId="formGoalsAchived">
-                                            <Button size="sm" variant="primary" onClick={() => { this.updateWorkingRowInServer(); this.setState({ open: false }); }}  >אישור</Button>
-                                            <Button size="sm" variant="primary" onClick={() => this.setState({ open: false })} >ביטול</Button>
-                                        </Form.Group>
-                                    </Form.Row>
-                                </Form>
-                                {/* </Col>
+                                    {/* <Form.Group as={Col} controlId="formBasicCheckbox"> */}
+                                    <Col>
+                                        <Form.Check onClick={this.updateState} defaultChecked={this.state.workingRow.automatic_win} name='automatic_win' type="checkbox" label="זכיה אוטומטית" />
+                                    </Col>
+                                    {/* </Form.Group> */}
+                                </Form.Row>
+                                <Form.Row>
+                                    <Form.Group controlId="formSelfControl">
+                                        <Form.Label>שליטה עצמית</Form.Label>
+                                        <Form.Control size="sm" type="number" name='your_control' onChange={e => this.updateState(e)} defaultValue={this.state.workingRow.your_control} />
+                                    </Form.Group>
+                                    <Form.Group controlId="formSelfConnection">
+                                        <Form.Label>חיבור עצמי</Form.Label>
+                                        <Form.Control size="sm" type="number" name='connection_to_yourself' onChange={e => this.updateState(e)} defaultValue={this.state.workingRow.connection_to_yourself} />
+                                    </Form.Group>
+                                    <Form.Group controlId="formSelfConnection">
+                                        <Form.Label>מחוייבות להצלחה</Form.Label>
+                                        <Form.Control size="sm" type="number" name='commitment_to_success' onChange={e => this.updateState(e)} defaultValue={this.state.workingRow.commitment_to_success} />
+                                    </Form.Group>
+                                    <Form.Group controlId="formGoalsAchived">
+                                        <Form.Label>מימוש עצמי</Form.Label>
+                                        <Form.Control size="sm" type="number" name='self_fulfillment' onChange={e => this.updateState(e)} defaultValue={this.state.workingRow.self_fulfillment} />
+                                    </Form.Group>
+                                    <Form.Group controlId="formGoalsAchived">
+                                        <Button size="sm" variant="primary" onClick={() => { this.updateWorkingRowInServer(); this.setState({ open: false }); }}  >אישור</Button>
+                                        <Button size="sm" variant="primary" onClick={() => this.setState({ open: false })} >ביטול</Button>
+                                    </Form.Group>
+                                </Form.Row>
+                            </Form>
+                            {/* </Col>
                                 </Row> */}
-                            </Container>
+                            {/* </Container> */}
                         </Modal>
                     </Col>
                 </Row>

@@ -6,6 +6,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 import User from '../components/user/UserInNavBar';
 import { withRouter } from 'react-router-dom';
 import { baseUrl } from '../utils/StaticData';
+import { connect } from 'react-redux';
 
 
 
@@ -20,24 +21,38 @@ class NavBarBootStrap extends Component {
             </LinkContainer>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
-                <NavDropdown title="ניהול המערכת" id="collasible-nav-dropdown">
-                    <LinkContainer to="/admin/cups_and_points">
-                        <NavDropdown.Item >גביעים ונקודות</NavDropdown.Item>
-                    </LinkContainer>
-                    <LinkContainer to="/admin/feedback_text">
-                        <NavDropdown.Item >טקסט משוב</NavDropdown.Item>
-                    </LinkContainer>
-                    <LinkContainer to="/admin/users_statistics">
-                        <NavDropdown.Item >נתוני משתמשים</NavDropdown.Item>
-                    </LinkContainer>
-                    <div onClick={() => window.open(baseUrl + "admin/user_statistics.csv", "_blank")}>
-                        <NavDropdown.Item >נתוני משתמשים באקסל</NavDropdown.Item>
-                    </div>
-                </NavDropdown>
-                <Nav className="mr-auto">
-                    <LinkContainer to="/show_progress">
-                        <Nav.Link>הגביעים שלי</Nav.Link>
-                    </LinkContainer>
+                {
+                    this.props.is_admin
+                        ?
+                        <NavDropdown title="ניהול המערכת" id="collasible-nav-dropdown">
+                            <LinkContainer to="/admin/cups_and_points">
+                                <NavDropdown.Item >גביעים ונקודות</NavDropdown.Item>
+                            </LinkContainer>
+                            <LinkContainer to="/admin/feedback_text">
+                                <NavDropdown.Item >טקסט משוב</NavDropdown.Item>
+                            </LinkContainer>
+                            <LinkContainer to="/admin/users_statistics">
+                                <NavDropdown.Item >נתוני משתמשים</NavDropdown.Item>
+                            </LinkContainer>
+                            <div onClick={() => window.open(baseUrl + "admin/user_statistics.csv", "_blank")}>
+                                <NavDropdown.Item >נתוני משתמשים באקסל</NavDropdown.Item>
+                            </div>
+                        </NavDropdown>
+                        : null
+                }
+                {
+                    this.props.email ?
+                        <Nav className="mr-auto">
+                            <LinkContainer to="/show_progress">
+                                <Nav.Link>הגביעים שלי</Nav.Link>
+                            </LinkContainer>
+                            <LinkContainer to="/user_statistics">
+                                <Nav.Link>המצב שלי</Nav.Link>
+                            </LinkContainer>
+                        </Nav>
+                        : null
+                }
+                <Nav>
                     <LinkContainer to="/connect_us">
                         <Nav.Link>צור קשר</Nav.Link>
                     </LinkContainer>
@@ -54,4 +69,13 @@ class NavBarBootStrap extends Component {
     }
 }
 
-export default withRouter(NavBarBootStrap);
+
+const mapStateToProps = state => {
+    state = state.toJS();
+    return {
+        is_admin: state.tokenAndDetails.is_admin,
+        email: state.tokenAndDetails.email
+    };
+}
+
+export default connect(mapStateToProps, null)(withRouter(NavBarBootStrap));

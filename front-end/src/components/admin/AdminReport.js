@@ -29,7 +29,7 @@ class AdminReport extends Component {
         const response = await axios.post(
             baseUrl + 'admin/get_users_statistics',
             { "a": "a" },
-            { headers: { 'Content-Type': 'application/json' } }
+            { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
         );
         // let cupsAndPointsView = this.mapToView(response.data.rows)
         this.setState({

@@ -1,11 +1,10 @@
 import app from 'firebase/app';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
+// import firebase from 'firebase';
 import 'firebase/auth';
 
 
-{/* <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-app.js"></script> */ }
 
-{/* <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-analytics.js"></script> */ }
 
 
 const config = {
@@ -33,6 +32,8 @@ class Firebase {
 
     doSignOut = () => this.auth.signOut();
 
+    getCurrentUser = () => this.auth.currentUser;
+
     doPasswordReset = email => this.auth.sendPasswordResetEmail(email);
 
     doPasswordUpdate = password =>
@@ -43,13 +44,19 @@ class Firebase {
 
     getSignInWithGoogle = () => {
         var provider = new firebase.auth.GoogleAuthProvider();
+        // var provider = firebase.auth.GoogleAuthProvider();
         return this.auth.signInWithPopup(provider);
     }
 
     getSignInWithFacebook = () => {
         var provider = new firebase.auth.FacebookAuthProvider();
+        // var provider = this.auth.FacebookAuthProvider();
         return this.auth.signInWithPopup(provider);
     }
+
+    // sendPasswordResetEmail = (emailAddress) => {
+    //     this.auth.sendPasswordResetEmail(emailAddress);
+    // }
 
 }
 

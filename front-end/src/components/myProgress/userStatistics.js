@@ -57,7 +57,7 @@ class UserStatistics extends Component {
         const response = await axios.post(
             baseUrl + url,
             { "a": "a" },
-            { headers: { 'Content-Type': 'application/json' } }
+            { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
         );
 
         this.setState({ [stateToUpdate]: response.data.val });
@@ -67,7 +67,7 @@ class UserStatistics extends Component {
         const response = await axios.post(
             baseUrl + url,
             { "parameterName": parameterName },
-            { headers: { 'Content-Type': 'application/json' } }
+            { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
         );
         this.setState({ [stateToUpdate]: response.data.val });
     }

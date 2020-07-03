@@ -34,8 +34,8 @@ class SignUp extends Component {
 
     handleSubmit = async () => {
         const { user_first_name, user_last_name, email, passwordOne } = this.state;
-        const respone = await axios.post(
-            baseUrl + 'initioal_user_cups',
+        await axios.post(
+            baseUrl + 'sign_up',
             {
                 "email": email,
                 "password": passwordOne,
@@ -44,29 +44,10 @@ class SignUp extends Component {
             },
             { headers: { 'Content-Type': 'application/json' } }
         )
-        console.log(respone.data);
+
+        this.props.history.push("/sign_in/")
     }
 
-
-    // handleSubmit = event => {
-    //     const { username, email, passwordOne } = this.state;
-    //     console.log(email);
-    //     console.log(passwordOne);
-
-    //     this.props.firebase
-    //         .doCreateUserWithEmailAndPassword(email, passwordOne)
-    //         .then(authUser => {
-    //             console.log('aaaaa' + authUser);
-    //             // this.setState({ ...INITIAL_STATE });
-    //         })
-    //         .catch(error => {
-    //             console.log(error);
-    //             // this.setState({ error, showUnAuthMsg: true });
-    //         });
-
-    //     // this.sendData();
-    //     event.preventDefault();
-    // }
 
     isInvalid = () => {
         const { user_first_name, user_last_name, email, passwordOne, passwordTwo } = this.state;
@@ -131,7 +112,6 @@ class SignUp extends Component {
                         </Form>
                     </Col>
                 </Row>
-                {console.log(this)}
             </React.Fragment>
         );
     }

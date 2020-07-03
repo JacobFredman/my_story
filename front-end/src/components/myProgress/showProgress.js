@@ -45,7 +45,7 @@ class showProgress extends Component {
         await axios.post(
             baseUrl + 'update_user_cups',
             { "newCups": winedCups, "chapterId": chapterId },
-            { headers: { 'Content-Type': 'application/json' } }
+            { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
         );
         this.getData();
     }
@@ -56,20 +56,13 @@ class showProgress extends Component {
             baseUrl + 'get_user_cups',
             { "a": "a" },
             { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
+            // { headers: { 'Content-Type': 'application/json' } }
         );
         this.setState({ chaptersAndCups: response.data.rows });
-        console.log(this.state.chaptersAndCups);
-
-        fetch(baseUrl, {
-            method: 'GET',
-            credentials: 'include'
-            //other options
-        }).then(response => console.log("Response status: ", response.status));
 
     }
 
     mapToView = () => {
-        console.log(this.props);
         return this.state.chaptersAndCups.map((chapter, index) => {
             return (
                 <tr key={index} style={{ cursor: 'pointer' }}>
@@ -150,19 +143,19 @@ class showProgress extends Component {
 
     updateGoals = async (goals_selected) => {
         this.setState({ open: false });
-        const response = await axios.post(
+        await axios.post(
             baseUrl + 'update_user_goals',
             { "max_goals": this.state.maxGoals, "goals_selected": goals_selected, "numOfGoalsAchived": this.state.numOfGoalsAchived },
-            { headers: { 'Content-Type': 'application/json' } }
+            { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
         );
-        console.log(response.data.rows);
     }
 
     getGoalsOrHabits = async () => {
         const response = await axios.post(
             baseUrl + 'get_goals_or_habits',
             { "a": "a" },
-            { headers: { 'Content-Type': 'application/json' } }
+            { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
+            // { headers: { 'Content-Type': 'application/json' } }
         );
         this.setState({ ...response.data.val[0], open: false });
     }
@@ -185,7 +178,6 @@ class showProgress extends Component {
 
 
     render() {
-        console.log('rendered');
         return (
             <React.Fragment>
                 <Row>
@@ -231,7 +223,7 @@ class showProgress extends Component {
                                             <th>גביעים במספרים</th>
                                         </tr>
                                     </thead>
-                                    <tbody>{this.state.chaptersAndCups !== undefined ? this.mapToView() : <tr>hhhhhh</tr>}
+                                    <tbody>{this.state.chaptersAndCups !== undefined ? this.mapToView() : null}
                                         <tr>
                                             <td colSpan="3">
                                                 <Button onClick={() => this.props.history.push("/user_statistics")}>אני רוצה לראות את המצב שלי</Button>

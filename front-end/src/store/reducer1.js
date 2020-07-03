@@ -2,9 +2,8 @@ const { fromJS } = require('immutable');
 const structur = fromJS(
     {
         tokenAndDetails: {
-            encodedToken: null,
-            USR_LVL_ID: null,
-            USR_NAME: null
+            email: null,
+            is_admin: 0
         },
         loading: { val: false }
     }
@@ -19,6 +18,9 @@ const reducer1 = (state = structur, action) => {
         case 'SEARCHINFO':
             const updatedPPLSearchInfo = state.updateIn(['searchInfo', action.name], () => action.val);
             return updatedPPLSearchInfo;
+        case 'AUTH':
+            const updatedAuth = state.updateIn(['tokenAndDetails'], () => action.val)
+            return updatedAuth;
         default:
             return state;
     }

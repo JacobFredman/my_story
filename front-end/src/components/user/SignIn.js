@@ -5,12 +5,11 @@ import Button from 'react-bootstrap/Button';
 import { baseUrl } from '../../utils/StaticData';
 import { connect } from 'react-redux';
 import { WarnningWithOk } from '../../masseges/Warnnings';
-import GoogleLogin from 'react-google-login';
 import Row from 'react-bootstrap/Row';
-import FacebookLogin from 'react-facebook-login';
 import './singIn.css';
 import axios from 'axios';
 import { withFirebase } from '../Firebase';
+import Container from 'react-bootstrap/Container';
 
 
 // import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
@@ -41,30 +40,17 @@ class SignIn extends Component {
 
   handleSubmit = event => {
     const { email, password } = this.state;
-    console.log(email);
 
     this.props.firebase
       .doSignInWithEmailAndPassword(email, password)
       .then(result => {
-        console.log(result);
         this.genericSignIn(result);
         this.setState({ showUnAuthMsg: true, authMsg: 'זוהה בהצלחה' });
         // this.setState({ ...INITIAL_STATE });
       })
       .catch(error => {
-        console.log(error);
         this.setState({ showUnAuthMsg: true, authMsg: 'לא מזוהה' });
         // this.setState({ error, showUnAuthMsg: true });
-      });
-
-    this.props.firebase.getTokenId()
-      .then(tokenId => {
-        document.cookie = 'tokenId=' + tokenId + '; expires=' + new Date(new Date().setFullYear(new Date().getFullYear() + 1)) + '; path=/; domain=kjl.lk.com;';
-        document.cookie = 'somecookiename=' + 'tokenId' + '; expires=' + new Date(new Date().setFullYear(new Date().getFullYear() + 1)) + '; path=/; domain=kjl.lk.com;';
-        console.log(tokenId);
-      })
-      .catch(error => {
-        console.log(error);
       });
 
 
@@ -73,48 +59,22 @@ class SignIn extends Component {
   }
 
 
-  sendData() {
-    fetch(baseUrl + "sign_in", {
-      method: "post",
-      headers: { 'Content-Type': 'multipart/form-data' },
-      body: JSON.stringify({
-        "userName": this.state.userName,
-        "password": this.state.password
-      })
-    })
-      .then((response) => {
-        if (response.ok)
-          window.UserUtils.updateTimeOut()
-        if (response.status === 401)
-          this.setState({ showUnAuthMsg: true });
-        response.json()
-          .then(data => {
-            this.props.onGetAuth(data);
-            this.props.history.push({ pathname: '/' });
-          });
-      });
+  updateMyDb = async (tokenId) => {
+    const respone = await axios.post(
+      baseUrl + 'sign_in',
+      { "tokenId": tokenId },
+      { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
+    );
+    this.props.onGetAuth(respone.data);
+    // a = { email: "jacov141@gmail.com", is_admin: 0 }
   };
-
-
-  // responseGoogle = (response) => {
-  //   console.log(response);
-  //   console.log(response.tokenObj);
-  //   document.cookie = 'google_login_access_token=' + response.tokenObj.access_token + '; path=/'
-  // }
-
-  // responseFail = () => {
-  //   this.setState({ showUnAuthMsg: true });
-  // }
-
-  // responseFacebook = (response) => {
-  //   console.log(response);
-  // }
 
   googleSignIn = async () => {
     this.props.firebase.getSignInWithGoogle().then(result => {
       this.genericSignIn(result);
     })
       .catch(error => {
+        console.log(error);
         this.setState({ showUnAuthMsg: true });
       })
   }
@@ -130,18 +90,35 @@ class SignIn extends Component {
   }
 
   genericSignIn = result => {
-    console.log(result);
     this.props.firebase.getTokenId()
       .then(tokenId => {
         // document.cookie = 'cookie2=' + tokenId + '; expires=Sun, 1 Jan 2023 00:00:00 UTC; path=/';
-        console.log(tokenId);
-        document.cookie = 'tokenId=' + tokenId + '; expires=' + new Date(new Date().setFullYear(new Date().getFullYear() + 1)) + '; path=/';
+        // document.cookie = 'tokenId=' + tokenId + '; expires=' + new Date(new Date().setFullYear(new Date().getFullYear() + 1)) + '; path=/';
+        document.cookie = 'tokenId=' + tokenId + '; expires=' + new Date(new Date().setHours(new Date().getHours() + 1)) + '; path=/';
+        this.updateMyDb(tokenId)
+        this.props.history.push("/")
       })
       .catch(error => {
-        console.log(error);
         this.setState({ showUnAuthMsg: true });
       });
 
+
+  }
+
+
+  isInvalid = () => {
+    const { email, password } = this.state;
+    return (
+      password.length < 6 ||
+      password === '' ||
+      email === '')
+  }
+
+
+  sendPaawordReset = () => {
+    this.props.firebase.doPasswordReset(this.state.email)
+    const fStr = ': במידה ואתה רשום אימייל  עם איפוס הסיסמה נשלח לכתובת  ';
+    this.setState({ authMsg: this.state.email + fStr, showUnAuthMsg: true });
   }
 
 
@@ -161,68 +138,59 @@ class SignIn extends Component {
         </Row>
         <Row>
           <Col>
-            <Button onClick={this.googleSignIn} className='btnSignIn googleBtn'>הרשם עם גוגל</Button>
-          </Col>
-          <Col>
-            <Button onClick={this.facebookSignIn} className='btnSignIn facebookBtn'>הרשם עם פייסבוק</Button>
-          </Col>
-        </Row>
-        {/* <Row>
-          <Col>
-            <GoogleLogin
-              clientId="453061761258-m3sij6fvt3jf3biao5dg7r6vqnrsq4n3.apps.googleusercontent.com"
-              buttonText="הרשם עם גוגל"
-              onSuccess={this.responseGoogle}
-              onFailure={this.responseGoogle}
-              cookiePolicy={'single_host_origin'}
-              className="btnSignIn googleBtn"
-            />
-          </Col>
-          <Col>
-            <FacebookLogin
-              cookie={false}
-              appId="294738178333455"
-              buttonText="הרשם עם פייסבוק"
-              autoLoad={false}
-              fields="name,email,picture"
-              onClick={this.componentClicked}
-              cssClass="btnSignIn facebookBtn"
-              callback={this.responseFacebook} />
-          </Col>
-        </Row> */}
-        <Row>
-          <Col>
-            <Form dir='rtl' onSubmit={this.handleSubmit} >
+            <Container style={{ maxWidth: '400px' }} fluid="sm" >
+              <Row>
+                <Col>
+                  <Button onClick={this.googleSignIn} className='btnSignIn googleBtn'>הרשם עם גוגל</Button>
+                </Col>
+                <Col>
+                  <Button onClick={this.facebookSignIn} className='btnSignIn facebookBtn'>הרשם עם פייסבוק</Button>
+                </Col>
+              </Row>
 
-              <Form.Row>
-                <Form.Group as={Col} controlId="formGridEmail">
-                  <Form.Label>אימייל</Form.Label>
-                  <Form.Control name='email' value={this.state.userName} type="text" placeholder="הקש אימייל" onChange={this.handleChange} />
-                </Form.Group>
-              </Form.Row>
+              <Row>
+                <Col>
 
-              <Form.Row>
-                <Form.Group as={Col} controlId="formGridPassword">
-                  <Form.Label>סיסמה</Form.Label>
-                  <Form.Control name='password' value={this.state.password} type="password" placeholder="הקש סיסמה" onChange={this.handleChange} />
-                </Form.Group>
-              </Form.Row>
-              <Button onClick={this.handleSubmit} variant="primary" > כניסה למערכת</Button>
-              <Button variant="primary" onClick={this.googleSignIn} >בדיקה</Button>
-            </Form>
+                  <Form dir='rtl' style={{ textAlign: 'right', direction: 'rtl' }} onSubmit={this.handleSubmit} >
+                    <Form.Row>
+                      <Form.Group as={Col} controlId="formGridEmail">
+                        <Form.Label>אימייל</Form.Label>
+                        <Form.Control name='email' value={this.state.userName} type="email" placeholder="הקש אימייל" onChange={this.handleChange} />
+                      </Form.Group>
+                    </Form.Row>
+
+                    <Form.Row>
+                      <Form.Group as={Col} controlId="formGridPassword">
+                        <Form.Label>סיסמה</Form.Label>
+                        <Form.Control name='password' value={this.state.password} type="password" placeholder="הקש סיסמה" onChange={this.handleChange} />
+                      </Form.Group>
+                    </Form.Row>
+                    <Row>
+                      <Col>
+                        <Button disabled={this.isInvalid()} onClick={this.handleSubmit} variant="primary" > כניסה למערכת</Button>
+                      </Col>
+                      <Col>
+                        <Button onClick={this.sendPaawordReset} size='sm' variant='outline-info'>שכחתי סיסמה</Button>
+                      </Col>
+                    </Row>
+                    {/* <Button variant="primary" onClick={this.googleSignIn} >בדיקה</Button> */}
+                  </Form>
+                </Col>
+              </Row>
+            </Container>
           </Col>
-        </Row>
-      </React.Fragment>
+        </Row >
+      </React.Fragment >
     );
   }
 }
 
 
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     onGetAuth: val => dispatch({ type: 'AUTH', val }),
-//   };
-// };
+const mapDispatchToProps = dispatch => {
+  return {
+    onGetAuth: val => dispatch({ type: 'AUTH', val }),
+  };
+};
 
 // export default connect(null, mapDispatchToProps)(SignIn);
-export default withFirebase(SignIn);
+export default connect(null, mapDispatchToProps)(withFirebase(SignIn));

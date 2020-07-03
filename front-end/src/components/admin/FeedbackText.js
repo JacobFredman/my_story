@@ -40,38 +40,32 @@ class FeedbackText extends Component {
         const response = await axios.post(
             baseUrl + 'admin/feedback_texts',
             { "a": "a" },
-            { headers: { 'Content-Type': 'application/json' } }
+            { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
         );
         // let cupsAndPointsView = this.mapToView(response.data.rows)
         this.setState({ FeedbackTexts: response.data.rows });
-        console.log(response.data.rows);
     }
 
     getValue = (id, propertyName) => {
-        console.log(id);
         let resultObj = this.state.FeedbackTexts.find(obj => {
             return obj.id === id
         })
-        console.log(resultObj);
         return resultObj.propertyName;
     }
 
     updateState = (e) => {
         // const objIndex = this.state.cupsAndPoints.findIndex((obj => obj.id == id));
-        this.state.workingRow = { ...this.state.workingRow, [e.target.name]: e.target.value };
+        this.setState({ workingRow: { ...this.state.workingRow, [e.target.name]: e.target.value } });
         // this.state.cupsAndPoints[objIndex][property] = value;
-        // this.forceUpdate();
-        console.log(this.state.workingRow);
     }
 
 
     updateWorkingRowInServer = async () => {
-        const response = await axios.post(
+        await axios.post(
             baseUrl + 'update_feedback_texts',
             { ...this.state.workingRow },
-            { headers: { 'Content-Type': 'application/json' } }
+            { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
         );
-        console.log(response.data.rows);
         this.getData();
     }
 
@@ -79,16 +73,14 @@ class FeedbackText extends Component {
 
     updateWorkingRowState = (id) => {
         let workingRow = this.state.FeedbackTexts.find(obj => {
-            return obj.under_or_equal_seccess_percent == id
+            return obj.under_or_equal_seccess_percent === id
         })
         this.setState({ workingRow });
     }
 
 
     mapToView = () => {
-        console.log(this.state.FeedbackTexts);
         return this.state.FeedbackTexts.map((row) => {
-            console.log(row.under_or_equal_seccess_percent);
             return (
                 <tr key={row.under_or_equal_seccess_percent} >
                     <td><Button key={row.under_or_equal_seccess_percent} onClick={() => { this.setState({ open: true }); this.updateWorkingRowState(row.under_or_equal_seccess_percent) }}>ערוך</Button></td>

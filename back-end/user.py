@@ -4,14 +4,14 @@ from staticData import connDict
 import mysql.connector
 from functools import wraps
 from staticData import fireBaseConfig
-from app import get_db_conn
+from initApp import get_db_conn
 
 # firebase = Firebase(fireBaseConfig)
 # auth = firebase.auth()
 
 
 def get_auth():
-    if not hasattr(g, 'auth') or not hasattr(g, 'myfirebase'):
+    if not hasattr(g, "auth") or not hasattr(g, "myfirebase"):
         g.myfirebase = Firebase(fireBaseConfig)
         g.auth = g.myfirebase.auth()
     return g.auth
@@ -25,15 +25,26 @@ def get_auth():
 a = 3
 
 
-def get_user(tokenId):
+def get_user_firebase(tokenId):
     try:
-        user = get_auth().get_account_info(tokenId)['users'][0]
+        user = get_auth().get_account_info(tokenId)["users"][0]
         if not user:
             return None
     except:
         return None
-    localId = user['localId']
+    localId = user["localId"]
     return user, localId
+
+
+def is_user_admin(tokenId):
+    try:
+        user = get_auth().get_account_info(tokenId)["users"][0]
+        if not user:
+            return None
+    except:
+        return None
+    localId = user["localId"]
+    return isUserAdmin(localId)
 
 
 # def login_required(f):
@@ -52,8 +63,7 @@ def add_new_user_in_local_db(user_name, user_first_name, user_last_name, conn):
     # ._open_connection()
     cursor = get_db_conn().cursor()
     try:
-        cursor.callproc(
-            'add_new_user', (user_name, user_first_name, user_last_name))
+        cursor.callproc("add_new_user", (user_name, user_first_name, user_last_name))
     except Exception as e:
         return 0
     return 1
@@ -67,20 +77,33 @@ def initial_user_golas_or_habits():
         cursor.execute(initUserStatment)
         get_db_conn().commit()
     except Exception as e:
-        return 'error', 500
+        return "error", 500
     # finally:
     #     conn.close()
-    return 'ok', 200
+    return "ok", 200
 
-# def user_exists(user):
-#     conn._open_connection()
-#     cursor = conn.cursor()
-#     sql = "select EXISTS ( select * from user where user.user_name = 'jac') as user_exists;"
-#     try:
-#         result = cursor.execute(sql, (user,))
-#         conn.commit()
-#     except Exception as e:
-#         return -1
-#     finally:
-#         conn.close()
-#     return result
+
+def user_exists(user):
+    # conn._open_connection()
+    sql = "select exists(select *  from user where user.user_name = %s);"
+    # sql = "select *  from user where user.user_name = %s;"
+    cursor = get_db_conn().cursor()
+    try:
+        cursor.execute(sql, (user,))
+        row = cursor.fetchone()
+        a = 444
+    except Exception as e:
+        return -1
+    return row[0]
+
+
+def isUserAdmin(user):
+    sql = "select is_admin from user where user_name = %s;"
+    cursor = get_db_conn().cursor()
+    try:
+        cursor.execute(sql, (user,))
+        row = cursor.fetchone()
+        a = 444
+    except Exception as e:
+        return 0
+    return row[0]

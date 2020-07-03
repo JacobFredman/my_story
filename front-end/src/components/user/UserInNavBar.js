@@ -4,13 +4,20 @@ import Nav from 'react-bootstrap/Nav';
 import { LinkContainer } from 'react-router-bootstrap';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { withFirebase } from '../Firebase';
+
 
 
 
 class UserInNavBar extends Component {
     logOff = () => {
-        window.UserUtils.disconnect();
-        // this.props.onGetAuth({ encodedToken: null, USR_LVL_ID: null, USR_NAME: null });
+        this.props.firebase.doSignOut();
+        document.cookie = 'tokenId=signedOut; path=/;';
+        // window.UserUtils.disconnect();
+        this.props.onGetAuth({
+            email: null,
+            is_admin: 0
+        });
         this.props.history.push({ pathname: '/sign_in' });
         // this.redirectNotConnectedUser();
     }
@@ -34,10 +41,14 @@ class UserInNavBar extends Component {
                 </React.Fragment>
         else // user not connected
             userConnection =
-                <LinkContainer to="/sign_in">
-                    <Nav.Link >התחבר</Nav.Link>
-                </LinkContainer>
-
+                <React.Fragment>
+                    <LinkContainer to="/sign_in">
+                        <Nav.Link >התחבר</Nav.Link>
+                    </LinkContainer>
+                    <LinkContainer to="/sign_up">
+                        <Nav.Link >הרשם</Nav.Link>
+                    </LinkContainer>
+                </React.Fragment>
         return (
             <React.Fragment>
                 {userConnection}
@@ -50,18 +61,18 @@ class UserInNavBar extends Component {
 const mapStateToProps = state => {
     state = state.toJS();
     return {
-        userName: state.tokenAndDetails.USR_NAME
+        userName: state.tokenAndDetails.email
     };
 }
 
 // const mapStateToProps = state => ({ todos: state.todos })
 
 
-// const mapDispatchToProps = dispatch => {
-//     return {
-//         onGetAuth: val => dispatch({ type: 'AUTH', val }),
-//     };
-// };
+const mapDispatchToProps = dispatch => {
+    return {
+        onGetAuth: val => dispatch({ type: 'AUTH', val }),
+    };
+};
 
-export default connect(mapStateToProps)(withRouter(UserInNavBar));
+export default withFirebase(connect(mapStateToProps, mapDispatchToProps)(withRouter(UserInNavBar)));
 // export default connect(mapStateToProps)(UserInNavBar);

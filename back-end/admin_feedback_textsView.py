@@ -1,12 +1,18 @@
 from flask import Blueprint, request, json
 import mysql.connector
 from staticData import connDict
-from initApp import app
-from app import get_db_conn
+from initApp import app, get_db_conn
+from user import is_user_admin
 
 
-@app.route('/admin/feedback_texts', methods=['POST'])
+@app.route("/admin/feedback_texts", methods=["POST"])
 def get_feedback_texts():
+    try:
+        if not is_user_admin(request.cookies.get("tokenId")):
+            return "not admin user", 401
+    except Exception as e:
+        print(e)
+        return "not admin user", 401
     sql = " select * from feedbacktext;"
     # conn = mysql.connector.connect(**connDict)
 
@@ -18,17 +24,28 @@ def get_feedback_texts():
         data = []
         for row in rows:
             data.append(
-                {'under_or_equal_seccess_percent': row[0], 'your_control': row[1], 'connection_to_yourself': row[2], 'commitment_to_success': row[3], 'self_fulfillment': row[4],
-                 })
+                {
+                    "under_or_equal_seccess_percent": row[0],
+                    "your_control": row[1],
+                    "connection_to_yourself": row[2],
+                    "commitment_to_success": row[3],
+                    "self_fulfillment": row[4],
+                }
+            )
     except Exception as e:
         return str(e)
     # finally:
     #     conn.close()
-    return json.dumps({'rows': data}), 200
+    return json.dumps({"rows": data}), 200
 
 
-@app.route('/update_feedback_texts', methods=['POST'])
+@app.route("/update_feedback_texts", methods=["POST"])
 def update_feedback_texts():
+    try:
+        if not is_user_admin(request.cookies.get("tokenId")):
+            return "not admin user", 401
+    except:
+        return "not admin user", 401
     # return json.dumps({'rowCount': 'mycursor.rowcount'}), 200
 
     SP_paremeters_as_dict = request.get_json(force=True)
@@ -47,13 +64,16 @@ def update_feedback_texts():
     # conn1._open_connection()
     mycursor = get_db_conn().cursor()
     try:
-        mycursor.execute(sql, (
-            SP_paremeters_as_dict['your_control'],
-            SP_paremeters_as_dict['connection_to_yourself'],
-            SP_paremeters_as_dict['commitment_to_success'],
-            SP_paremeters_as_dict['self_fulfillment'],
-            SP_paremeters_as_dict['under_or_equal_seccess_percent'],
-        ))
+        mycursor.execute(
+            sql,
+            (
+                SP_paremeters_as_dict["your_control"],
+                SP_paremeters_as_dict["connection_to_yourself"],
+                SP_paremeters_as_dict["commitment_to_success"],
+                SP_paremeters_as_dict["self_fulfillment"],
+                SP_paremeters_as_dict["under_or_equal_seccess_percent"],
+            ),
+        )
         # mycursor.execute(update_chapter_sql, (SP_paremeters_as_dict['chapter_name'],
         #                                       SP_paremeters_as_dict['max_victory_cups'],
         #                                       SP_paremeters_as_dict['automatic_win'],
@@ -63,6 +83,6 @@ def update_feedback_texts():
         print(str(e))
         return str(e), 500
     else:
-        return json.dumps({'rowCount': mycursor.rowcount}), 200
+        return json.dumps({"rowCount": mycursor.rowcount}), 200
     # finally:
     #     conn1.close()
