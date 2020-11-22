@@ -6,6 +6,7 @@ from statistics import mean
 from staticData import connDict
 import csv
 from initApp import get_db_conn
+import os.path
 
 
 def calcAverages(users_details):
@@ -134,7 +135,10 @@ def createCSVFile1(fieldNames, averagesRowExe, users_details):
     # generateQuery()
     # milliseconds = int(round(time.time() * 1000))
     # strNow = datetime.datetime.now().strftime("%d-%m-%Y--%H_%M_%S")
-    fileName = "C:/temp/report.csv"
+    # fileName = os.path.join("report_admin.csv")
+    fileName = "report_admin.csv"
+    print(fileName)
+    # fileName = "C:/temp/report.csv"
     with open(fileName, mode="w", newline="") as csv_file:
         # writer = csv.DictWriter(csv_file, fieldnames=fieldNames)
         # writer.writeheader()

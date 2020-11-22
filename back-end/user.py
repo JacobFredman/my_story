@@ -84,26 +84,24 @@ def initial_user_golas_or_habits():
 
 
 def user_exists(user):
-    # conn._open_connection()
-    sql = "select exists(select *  from user where user.user_name = %s);"
-    # sql = "select *  from user where user.user_name = %s;"
-    cursor = get_db_conn().cursor()
+    sql = "select count(*) as a  from user where user.user_name = %s;"
     try:
+        cursor = get_db_conn().cursor()
         cursor.execute(sql, (user,))
         row = cursor.fetchone()
         a = 444
     except Exception as e:
-        return -1
+        print("error in checking user exsists" + str(e))
     return row[0]
 
 
 def isUserAdmin(user):
-    sql = "select is_admin from user where user_name = %s;"
-    cursor = get_db_conn().cursor()
+    sql = "select is_admin from user where user_name =%s;"
     try:
+        cursor = get_db_conn().cursor()
         cursor.execute(sql, (user,))
         row = cursor.fetchone()
         a = 444
     except Exception as e:
-        return 0
+        return "error"
     return row[0]

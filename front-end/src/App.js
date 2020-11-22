@@ -15,6 +15,9 @@ import FeedbackText from './components/admin/FeedbackText';
 import AdminReport from './components/admin/AdminReport';
 import SignUp from './components/user/SignUp';
 import UpdateReduxe from './utils/UpdateRedux';
+import Part1 from './components/Progress2/Part1';
+import Progress from './components/helpComponents/Progress';
+import Example from './components/helpComponents/Example';
 // process.env.NODE_ENV = 'development';
 // "start": "react-scripts start",
 
@@ -40,7 +43,10 @@ function App() {
                 <Route path="/sign_in" component={SignIn} />
                 <Route path="/sign_up" component={SignUp} />
                 <Route path="/connect_us" component={ConnectUs} />
-                {/* <Route path="/demo" component={Demo} /> */}
+
+                <Route path="/progress/part1" component={Part1} />
+                <Route path="/progress1" component={Progress} />
+                <Route path="/example" component={Example} />
               </Switch>
             </Col>
           </Row>
