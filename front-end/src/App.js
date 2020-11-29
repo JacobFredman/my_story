@@ -28,9 +28,9 @@ function App() {
       <UpdateReduxe></UpdateReduxe>
       <Router>
         <Container >
-          <Row>
+          {/* <Row>
             <Col><NavBarBootStrap ></NavBarBootStrap></Col>
-          </Row>
+          </Row> */}
           <Row>
             <Col>
               <Switch>
