@@ -13,6 +13,10 @@ import Modal from 'react-responsive-modal';
 import Container from 'react-bootstrap/Container';
 import 'react-responsive-modal/styles.css';
 import Form from 'react-bootstrap/Form';
+import NavBarDesigned from '../NavBarDesigned';
+import Helmet from 'react-helmet';
+// import Background from '../../Photos/background-image-silver-snow.jpg';
+import Background from '../../Photos/whatsppBackground.jpg';
 
 
 
@@ -76,7 +80,7 @@ class showProgress extends Component {
                         {chapter.wined_cups + '/' + chapter.max_victory_cups}
                         {
                             chapter.automatic_win
-                                ? (<p style={{ color: '#2eb82e' }}>זכיה אוטומטית</p>)
+                                ? (<p style={{ fontSize: 'x-small' }}>זכיה אוטומטית</p>)
                                 : null
                         }
                     </td>
@@ -96,7 +100,12 @@ class showProgress extends Component {
 
 
     chapterNameCol = (chapterId, chapterName) => {
-        const chapter_name = (<Row key={1}><Col> <p>{chapterName}</p></Col></Row>);
+        // const chapter_name = (<Row key={1}><Col> <p>{chapterName}</p></Col></Row>);
+        const breakNameInd = chapterName.indexOf("-") === -1 ? chapterName.length : chapterName.indexOf("-")
+        const chapter_name = (<Row key={1}><Col>
+            <h6 style={{ marginBottom: '0px' }}>{chapterName.substring(0, breakNameInd)}</h6>
+            <p style={{ marginBottom: '0px' }}>{chapterName.substring(breakNameInd + 1, chapterName.length)}</p>
+        </Col></Row>);
         const golasOrHabitsChapterButtons =
             (<Row key={2}>
                 <Col>
@@ -179,9 +188,25 @@ class showProgress extends Component {
 
     render() {
         return (
-            <React.Fragment>
-                <Row>
+            <React.Fragment >
+                {/* <Row style={{ backgroundImage: "transparent url(" + Background + ")" }}> */}
+                <Row style={{
+                    background: 'transparent url(' + Background + ') 0% 0% padding-box'
+                }}>
                     <Col>
+                        {/* <Helmet bodyAttributes={{ style: 'background: transparent linear-gradient(45deg, #8BBF3F 0%, #43C2CF 100%) 0% 0% no-repeat padding-box' }} /> */}
+                        <div style={{
+                            // top: '-30px',
+                            width: '100%',
+                            height: '15px',
+                            // float: 'left',
+                            // background: 'transparent linear-gradient(88deg, #F15F33 0%, #BF1A84 100%) 0% 0% no-repeat padding-box',
+                            background: 'transparent linear-gradient(88deg, #F15F33 0%, #BF1A84 100%) ',
+                            borderRadius: '66px',
+                            opacity: '1'
+                        }}>
+                        </div>
+                        <NavBarDesigned></NavBarDesigned>
                         <Row>
                             <Col>
                                 <Modal open={this.state.open} onClose={() => this.setState({ open: false })} center>
@@ -214,16 +239,21 @@ class showProgress extends Component {
                             </Col>
                         </Row>
                         <Row>
-                            <Col>
-                                <Table dir='rtl' style={{ direction: 'rtl', textAlign: 'right' }} bordered hover>
+                            <Col></Col>
+                            <Col xs="auto" md={7}>
+                                <div style={{ width: '100%', background: '#FFFFFF', height: '20px', marginTop: '30px' }}>
+
+                                </div>
+                                <Table dir='rtl' style={{ direction: 'rtl', textAlign: 'right', background: '#FFFFFF' }} hover>
                                     <thead>
-                                        <tr>
+                                        <tr style={{ background: '#F6F9FF 0% 0% no-repeat padding-box', color: '#24A3AA' }}>
                                             <th>שם הפרק</th>
-                                            <th>מספר גביעים</th>
-                                            <th>גביעים במספרים</th>
+                                            <th>מספר הגביעים שצברת</th>
+                                            <th>צבירה</th>
                                         </tr>
                                     </thead>
-                                    <tbody>{this.state.chaptersAndCups !== undefined ? this.mapToView() : null}
+                                    <tbody>
+                                        {this.state.chaptersAndCups !== undefined ? this.mapToView() : null}
                                         <tr>
                                             <td colSpan="3">
                                                 <Button onClick={() => this.props.history.push("/user_statistics")}>אני רוצה לראות את המצב שלי</Button>
@@ -232,6 +262,7 @@ class showProgress extends Component {
                                     </tbody>
                                 </Table>
                             </Col>
+                            <Col></Col>
                         </Row>
                     </Col>
                 </Row>

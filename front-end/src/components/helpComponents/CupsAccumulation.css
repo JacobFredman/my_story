@@ -1,0 +1,38 @@
+
+
+.cupAccumBorder {
+    display: flex;
+    height: 2rem;
+    overflow: hidden;
+    line-height: 0;
+    /* font-size: .75rem; */
+    border: solid 1px;
+    border-color: #F4CC6B ;
+    background-color:#FFFFFF;
+    border-radius: .70rem;
+    margin-bottom: 50px;
+
+    top: 25%;
+    position: absolute;
+    z-index: 1;
+}
+
+
+.circleAroundCup {
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    border-radius: 50%;
+    border: #F4CC6B solid 2px;
+    border-style: dashed;
+    font-size: 15px;
+    background-color: #FFFFFF;
+    color: red;
+    text-align: center;
+    /* background:#8B008B; */
+
+    position: absolute;
+    /* bottom: 0; */
+    z-index: 2;
+    font-weight: bold;
+  }

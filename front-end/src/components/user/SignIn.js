@@ -10,6 +10,10 @@ import './singIn.css';
 import axios from 'axios';
 import { withFirebase } from '../Firebase';
 import Container from 'react-bootstrap/Container';
+import Helmet from 'react-helmet';
+import '../user/SignUp.css';
+
+
 
 
 // import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
@@ -125,6 +129,8 @@ class SignIn extends Component {
   render() {
     return (
       <React.Fragment>
+        <Helmet bodyAttributes={{ style: 'background: transparent linear-gradient(45deg, #8BBF3F 0%, #43C2CF 100%) 0% 0% no-repeat padding-box' }} />
+
         <Row>
           <Col>
             <WarnningWithOk
@@ -136,50 +142,80 @@ class SignIn extends Component {
             </WarnningWithOk>
           </Col>
         </Row>
-        <Row>
-          <Col>
-            <Container style={{ maxWidth: '400px' }} fluid="sm" >
+        {/* <Row>
+          <Col> */}
+        {/* <Container style={{ maxWidth: '380px' }} fluid="sm" > */}
+        <Container className="d-flex align-items-center" style={{ textAlign: 'center', maxWidth: '380px', height: '100vh' }} >
+          {/* <h1>hhhhhh</h1> */}
+          <Row style={{ margin: 'auto' }}>
+            <Col>
               <Row>
                 <Col>
-                  <Button onClick={this.googleSignIn} className='btnSignIn googleBtn'>הרשם עם גוגל</Button>
-                </Col>
-                <Col>
-                  <Button onClick={this.facebookSignIn} className='btnSignIn facebookBtn'>הרשם עם פייסבוק</Button>
+                  <h2 style={{ textAlign: 'center', color: '#FFFFFF' }}>התחברות</h2>
                 </Col>
               </Row>
+              <Row>
+                <Col>
+                  <div onClick={this.facebookSignIn} className='btnSignIn facebookBtn'>התחבר באמצעות פייסבוק</div>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
 
+                  <div onClick={this.googleSignIn} className='btnSignIn googleBtn'> GOOGLE התחבר באמצעות</div>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+
+                  <h4 className="midLine">או</h4>
+                </Col>
+              </Row>
               <Row>
                 <Col>
 
                   <Form dir='rtl' style={{ textAlign: 'right', direction: 'rtl' }} onSubmit={this.handleSubmit} >
                     <Form.Row>
                       <Form.Group as={Col} controlId="formGridEmail">
-                        <Form.Label>אימייל</Form.Label>
-                        <Form.Control name='email' value={this.state.userName} type="email" placeholder="הקש אימייל" onChange={this.handleChange} />
+                        <Form.Control style={{ textAlign: 'center' }} name='email' value={this.state.userName} type="email" placeholder="שם משתמש/מייל" onChange={this.handleChange} />
                       </Form.Group>
                     </Form.Row>
 
                     <Form.Row>
                       <Form.Group as={Col} controlId="formGridPassword">
-                        <Form.Label>סיסמה</Form.Label>
-                        <Form.Control name='password' value={this.state.password} type="password" placeholder="הקש סיסמה" onChange={this.handleChange} />
+                        <Form.Control style={{ textAlign: 'center' }} name='password' value={this.state.password} type="password" placeholder="סיסמה" onChange={this.handleChange} />
                       </Form.Group>
                     </Form.Row>
                     <Row>
                       <Col>
-                        <Button disabled={this.isInvalid()} onClick={this.handleSubmit} variant="primary" > כניסה למערכת</Button>
+                        {/* <Button onClick={this.sendPaawordReset} size='sm' variant='outline-info'>שכחתי סיסמה</Button> */}
+                        <div className="goOnBtn" onClick={() => this.handleSubmit()}>כניסה</div>
                       </Col>
+                    </Row>
+                    <Row>
                       <Col>
-                        <Button onClick={this.sendPaawordReset} size='sm' variant='outline-info'>שכחתי סיסמה</Button>
+                        <div className="goToSignUpContainer">
+                          <div style={{ color: '#FFFFFF', textAlign: 'left', flex: '0 0 70%' }}>אין לך עדיין חשבון?</div>
+                          <div onClick={() => this.props.history.push("/sign_up/")} style={{ color: '#61147B', flex: '2', textAlign: 'right', cursor: 'pointer' }}>הרשמ/י</div>
+                        </div>
+                        <Row>
+                          <Col>
+                            <div className="goToSignUpContainer">
+                              <div onClick={this.sendPaawordReset} style={{ color: '#61147B', flex: '2', textAlign: 'center', cursor: 'pointer' }}>שכחתי סיסמה</div>
+                            </div>
+                          </Col>
+                        </Row>
                       </Col>
                     </Row>
                     {/* <Button variant="primary" onClick={this.googleSignIn} >בדיקה</Button> */}
                   </Form>
                 </Col>
               </Row>
-            </Container>
-          </Col>
-        </Row >
+            </Col>
+          </Row>
+        </Container>
+        {/* </Col>
+        </Row > */}
       </React.Fragment >
     );
   }

@@ -14,6 +14,7 @@ import '../user/SignUp.css';
 
 
 
+
 const INITIAL_STATE = {
     user_first_name: '',
     user_last_name: '',
@@ -78,10 +79,15 @@ class SignUp extends Component {
                         </WarnningWithOk>
                     </Col>
                 </Row>
-                <Row>
-                    <Col>
-                        <Container style={{ maxWidth: '600px' }} fluid="sm">
-                            <Row>
+
+                {/* <Row> */}
+                {/* <Col> */}
+                {/* <div style={{ height: "100px" }} className="align-items-center"> */}
+                <Container className="d-flex align-items-center" style={{ textAlign: 'center', maxWidth: '600px', height: '100vh' }} >
+                    <Row style={{ margin: 'auto' }}>
+                        <Col>
+
+                            <Row >
                                 <Col>
                                     <h2 style={{ textAlign: 'center', color: '#FFFFFF' }}>הצטרפות</h2>
                                 </Col>
@@ -121,17 +127,17 @@ class SignUp extends Component {
                             </Row>
                             <Row>
                                 <Col >
-
                                     <div className="goToSignUpContainer">
                                         <div style={{ color: '#FFFFFF', textAlign: 'left', flex: '0 0 60%' }}>כבר יש לך חשבון?</div>
-                                        <div style={{ color: '#61147B', flex: '2', textAlign: 'right' }}>הכנס/י</div>
+                                        <div onClick={() => this.props.history.push("/sign_in/")} style={{ color: '#61147B', flex: '2', textAlign: 'right', cursor: 'pointer' }}>הכנס/י</div>
                                     </div>
                                 </Col>
                             </Row>
-
-                        </Container>
-                    </Col>
-                </Row>
+                        </Col>
+                    </Row>
+                </Container>
+                {/* </Col> */}
+                {/* </Row> */}
                 {/* <Row>
                     <Col>
                         <Form dir='rtl' onSubmit={this.handleSubmit} >
@@ -169,7 +175,7 @@ class SignUp extends Component {
                         </Form>
                     </Col>
                 </Row> */}
-            </React.Fragment>
+            </React.Fragment >
         );
     }
 }

@@ -5,7 +5,7 @@ import Container from 'react-bootstrap/Container';
 import NavBarBootStrap from '././components/NavBarBootStrap';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import ShowProgress from './components/myProgress/showProgress';
+// import ShowProgress from './components/myProgress/showProgress';
 import HomePage from './components/homePage/HomePage';
 import ConnectUs from './components/connectUs/ConnectUs';
 import UserStatistics from './components/myProgress/userStatistics';
@@ -18,6 +18,11 @@ import UpdateReduxe from './utils/UpdateRedux';
 import Part1 from './components/Progress2/Part1';
 import Progress from './components/helpComponents/Progress';
 import Example from './components/helpComponents/Example';
+
+import ShowProgress from './components/myProgress/showProgress'
+// import ShowProgress from './components/Progress2/ShowProgress';
+import CupsAccumulation from './components/helpComponents/CupsAccumulation';
+
 // process.env.NODE_ENV = 'development';
 // "start": "react-scripts start",
 
@@ -31,11 +36,11 @@ function App() {
           {/* <Row>
             <Col><NavBarBootStrap ></NavBarBootStrap></Col>
           </Row> */}
+          {/* <Route path="/show_progress" component={ShowProgress} /> */}
           <Row>
             <Col>
               <Switch>
                 <Route exact path="/" component={HomePage} />
-                <Route path="/show_progress" component={ShowProgress} />
                 <Route path="/user_statistics" component={UserStatistics} />
                 <Route path="/admin/cups_and_points" component={Cups_and_points} />
                 <Route path="/admin/feedback_text" component={FeedbackText} />
@@ -47,7 +52,14 @@ function App() {
                 <Route path="/progress/part1" component={Part1} />
                 <Route path="/progress1" component={Progress} />
                 <Route path="/example" component={Example} />
+                <Route path="/show_progress" component={ShowProgress} />
+                <Route path="/Cups_accumulation" component={CupsAccumulation} />
               </Switch>
+              {/* <Col>1 of 3</Col>
+            <Col md="auto">Variable width content</Col>
+            <Col >
+              3 of 3
+    </Col> */}
             </Col>
           </Row>
         </Container>
