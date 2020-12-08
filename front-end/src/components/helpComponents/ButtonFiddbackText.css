@@ -1,0 +1,21 @@
+
+.btnFiddback{
+    background: transparent linear-gradient(78deg, #F15F33 0%, #BF1A84 100%) 0% 0% no-repeat padding-box;
+    border-radius: 66px;
+    opacity: 1;
+    text-align: center;
+    width: 100%;
+    /* height: 30px;    */
+
+    /* font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-bold) 37px/35px var(--unnamed-font-family-assistant); */
+    font: normal normal bold 26px/24px Assistant;
+    letter-spacing: var(--unnamed-character-spacing-0);
+    letter-spacing: 0px;
+color: #FFFFFF;
+padding: 10px;
+}
+
+.btnFiddback:hover{
+    cursor: pointer;
+    background: transparent linear-gradient(78deg, #d35833 0%, #aa1d79 100%) 0% 0% no-repeat padding-box;
+}

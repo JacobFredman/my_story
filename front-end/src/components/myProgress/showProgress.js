@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useRef } from 'react';
 import Table from 'react-bootstrap/Table';
 import { MdLocalBar } from 'react-icons/md';
 import { GrFormClose } from 'react-icons/gr';
@@ -15,8 +15,13 @@ import 'react-responsive-modal/styles.css';
 import Form from 'react-bootstrap/Form';
 import NavBarDesigned from '../NavBarDesigned';
 import Helmet from 'react-helmet';
-// import Background from '../../Photos/background-image-silver-snow.jpg';
-import Background from '../../Photos/whatsppBackground.jpg';
+import Background from '../../Photos/backGroundWhatsApp1.svg';
+import Cup from '../helpComponents/Cup';
+import './ShowProgress.css';
+import AllRotatedPartsNames from '../helpComponents/AllRotatedPartsNames';
+import ButtonFiddbackText from '../helpComponents/ButtonFiddbackText';
+import BackGroundLeftRoad from '../../Photos/BackGroundLeftRoad.svg';
+
 
 
 
@@ -27,22 +32,45 @@ class showProgress extends Component {
         this.state = {
             chaptersAndCups: undefined,
             chaptersAndCupsView: undefined,
+            ChapterNumberBeginOfPart: [5, 9, 15, 20, 23, 26, 27],
+            refsToBeginOfParts: [],
+            beginOfPartsPostions: [],
             open: false,
             goalsSelected: false,
             goalsOrHabitsChapterId: 11,
             maxGoals: 0,
-            numOfGoalsAchived: 0
+            numOfGoalsAchived: 0,
         };
     };
+
 
     componentDidMount() {
         this.getData();
     }
 
+    getPositions = () => {
+        let a = [];
+        if (this.state.refsToBeginOfParts[3]) {
+            console.log(this.state.refsToBeginOfParts[3]);
+            // console.log(window.scrolly + this.state.refsToBeginOfParts[3].getBoundingClientRect().top);
+            for (let i = 0; i < 6; i++) {
+
+                // this.state.beginOfPartsPostions[i] = window.scrolly + this.state.refsToBeginOfParts[i].getBoundingClientRect().top;
+                a[i] = this.state.refsToBeginOfParts[i].getBoundingClientRect().top;
+                // + this.state.refsToBeginOfParts[i].getBoundingClientRect()
+            }
+            console.log(a);
+            this.setState({ beginOfPartsPostions: [...a] });
+        }
+    }
+
     getData = async () => {
         await this.getGoalsOrHabits();
         await this.getChaptersAndCups();
+        this.getPositions();
     }
+
+
 
 
     updateCups = async (chapterId, winedCups) => {
@@ -102,10 +130,18 @@ class showProgress extends Component {
     chapterNameCol = (chapterId, chapterName) => {
         // const chapter_name = (<Row key={1}><Col> <p>{chapterName}</p></Col></Row>);
         const breakNameInd = chapterName.indexOf("-") === -1 ? chapterName.length : chapterName.indexOf("-")
-        const chapter_name = (<Row key={1}><Col>
-            <h6 style={{ marginBottom: '0px' }}>{chapterName.substring(0, breakNameInd)}</h6>
-            <p style={{ marginBottom: '0px' }}>{chapterName.substring(breakNameInd + 1, chapterName.length)}</p>
-        </Col></Row>);
+        const chapter_name = (
+            <Row key={1}><Col>
+                {this.state.ChapterNumberBeginOfPart.includes(chapterId) ?
+                    <div ref={ele => (this.state.refsToBeginOfParts[this.state.ChapterNumberBeginOfPart.findIndex(i => i === chapterId)] = ele)} id={'chapter' + chapterId} style={{ height: '10px', width: '10px', backgroundColor: 'blue' }}></div>
+                    : ''
+                }
+                {console.log(this.state.refsToBeginOfParts)}
+                <h6 className="chapterName">{chapterName.substring(0, breakNameInd)}</h6>
+                <p className="chapterNameSecondery" style={{ marginBottom: '0px' }}>{chapterName.substring(breakNameInd + 1, chapterName.length)}</p>
+            </Col></Row>
+        );
+
         const golasOrHabitsChapterButtons =
             (<Row key={2}>
                 <Col>
@@ -140,11 +176,13 @@ class showProgress extends Component {
         var i = 1;
         for (; i <= wined_cups; i++) {
             let a = i
-            result.push(<MdLocalBar key={a} className='WinedCup' onClick={() => this.updateCups(chapterId, a)} />)
+            // result.push(<MdLocalBar key={a} className='WinedCup' onClick={() => this.updateCups(chapterId, a)} />)
+            result.push(<Cup key={a} height={25} marginPx={3} gold={true} onClick={() => this.updateCups(chapterId, a)} />)
         }
         for (; i <= max; i++) {
             let a = i
-            result.push(<MdLocalBar key={a} className='UnWinedCup' onClick={() => this.updateCups(chapterId, a)} />)
+            // result.push(<MdLocalBar key={a} className='UnWinedCup' onClick={() => this.updateCups(chapterId, a)} />)
+            result.push(<Cup key={a} height={25} marginPx={3} gold={false} onClick={() => this.updateCups(chapterId, a)} />)
         }
 
         return <td style={tdTagStyle}> {result} </td>;
@@ -187,11 +225,14 @@ class showProgress extends Component {
 
 
     render() {
+        { console.log('rendered') }
         return (
             <React.Fragment >
                 {/* <Row style={{ backgroundImage: "transparent url(" + Background + ")" }}> */}
-                <Row style={{
-                    background: 'transparent url(' + Background + ') 0% 0% padding-box'
+                <Row className="backStyle" style={{
+                    // background: 'transparent url(' + Background + ') 0% 0% padding-box'
+                    // background: 'transparent url(' + Background + '), url(' + BackGroundLeftRoad + ') left bottom no-repeat'
+                    // background: 'url(' + BackGroundLeftRoad + ') left bottom no-repeat'
                 }}>
                     <Col>
                         {/* <Helmet bodyAttributes={{ style: 'background: transparent linear-gradient(45deg, #8BBF3F 0%, #43C2CF 100%) 0% 0% no-repeat padding-box' }} /> */}
@@ -240,27 +281,56 @@ class showProgress extends Component {
                         </Row>
                         <Row>
                             <Col></Col>
-                            <Col xs="auto" md={7}>
-                                <div style={{ width: '100%', background: '#FFFFFF', height: '20px', marginTop: '30px' }}>
-
-                                </div>
-                                <Table dir='rtl' style={{ direction: 'rtl', textAlign: 'right', background: '#FFFFFF' }} hover>
+                            <Col xs={10} md={7} style={{ paddingRight: '0' }}>
+                                <Table size="sm" dir='rtl' style={{ direction: 'rtl', textAlign: 'right', background: '#FFFFFF', boxShadow: '0px 0px 20px #00000029', marginTop: '30px' }} hover>
                                     <thead>
+                                        <tr>
+                                            <td>
+                                                <div style={{ height: '20px' }}></div>
+                                            </td>
+                                        </tr>
                                         <tr style={{ background: '#F6F9FF 0% 0% no-repeat padding-box', color: '#24A3AA' }}>
-                                            <th>שם הפרק</th>
-                                            <th>מספר הגביעים שצברת</th>
-                                            <th>צבירה</th>
+                                            <th className="headerTable">שם הפרק</th>
+                                            <th className="headerTable">מספר הגביעים שצברת</th>
+                                            <th className="headerTable">צבירה</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {this.state.chaptersAndCups !== undefined ? this.mapToView() : null}
-                                        <tr>
+                                        <tr >
                                             <td colSpan="3">
-                                                <Button onClick={() => this.props.history.push("/user_statistics")}>אני רוצה לראות את המצב שלי</Button>
+                                                <Container>
+                                                    <Row style={{ direction: 'rtl' }}>
+                                                        <Col></Col>
+                                                        <Col xs={8}>
+                                                            <div style={{ marginBottom: '20px', marginTop: '20px' }}>
+                                                                <ButtonFiddbackText onClick={() => this.props.history.push("/user_statistics")} />
+                                                            </div>
+                                                        </Col>
+                                                        <Col><p style={{ font: 'normal normal 600 16px/13px Assistant', color: '#AB3C96', position: 'absolute', top: '20%' }}>אפס מסע</p></Col>
+                                                    </Row>
+                                                </Container>
+                                                {/* <Button onClick={() => this.props.history.push("/user_statistics")}>אני רוצה לראות את המצב שלי</Button> */}
                                             </td>
                                         </tr>
                                     </tbody>
                                 </Table>
+                            </Col>
+                            <Col xs={1} style={{ paddingLeft: '0', paddingRight: '0' }}>
+                                {this.state.beginOfPartsPostions[3] !== undefined ? console.log(this.state.beginOfPartsPostions[0]) : console.log('undefined')}
+
+                                {this.state.beginOfPartsPostions[3] !== undefined ?
+                                    <AllRotatedPartsNames
+                                        part1YLocation={this.state.beginOfPartsPostions[0]}
+                                        part2YLocation={this.state.beginOfPartsPostions[1]}
+                                        part3YLocation={this.state.beginOfPartsPostions[2]}
+                                        part4YLocation={this.state.beginOfPartsPostions[3]}
+                                        part5YLocation={this.state.beginOfPartsPostions[4]}
+                                        part6YLocation={this.state.beginOfPartsPostions[5]}
+                                        part7YLocation={this.state.beginOfPartsPostions[6]}
+                                        part8YLocation={this.state.beginOfPartsPostions[7]} />
+                                    : ''
+                                }
                             </Col>
                             <Col></Col>
                         </Row>

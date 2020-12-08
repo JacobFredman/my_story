@@ -1,0 +1,26 @@
+.rPartName{
+    /* height: 300px; */
+    direction: rtl;
+    width: 35px;
+    background-color: turquoise;
+    /* transform: rotate(-90deg); */
+    text-align: center;
+    border-radius: 0px 25px 25px 0px;
+    color: #ffffff;
+    /* margin-left: 200px; */
+    /* margin: 100px; */
+
+    display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pPartName{
+    /* background-color: red; */
+    /* transform: rotate(-90deg);
+    padding-right: 60px; */
+    direction: rtl;
+    writing-mode: vertical-rl;
+text-orientation: sideways;
+
+}
