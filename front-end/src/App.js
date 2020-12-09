@@ -23,6 +23,8 @@ import ShowProgress from './components/myProgress/showProgress'
 // import ShowProgress from './components/Progress2/ShowProgress';
 import CupsAccumulation from './components/helpComponents/CupsAccumulation';
 import AllRotatedPartsNames from './components/helpComponents/AllRotatedPartsNames';
+import Example2 from './components/helpComponents/Example2';
+import ShowProgress2 from './components/myProgress/ShowProgress2';
 
 // process.env.NODE_ENV = 'development';
 // "start": "react-scripts start",
@@ -57,6 +59,9 @@ function App() {
                 <Route path="/show_progress" component={ShowProgress} />
                 <Route path="/Cups_accumulation" component={CupsAccumulation} />
                 <Route path="/Rotated_part_names" component={AllRotatedPartsNames} />
+                {/* <Route path="/Font_example" component={Example2} /> */}
+                <Route path="/Show_progress2" component={ShowProgress2} />
+
               </Switch>
               {/* <Col>1 of 3</Col>
             <Col md="auto">Variable width content</Col>

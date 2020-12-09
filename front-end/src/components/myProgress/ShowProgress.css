@@ -2,7 +2,8 @@
     background-image: url('../../Photos/BackGroundLeftRoad.svg'), url('../../Photos/backGroundWhatsApp1.svg') ;
     /* background-image: url('../../Photos/BackGroundLeftRoad.svg') ; */
     /* background-image: url('../../Photos//backGroundWhatsApp1.svg'), ; */
-    background-position: left bottom, left top;
+    /* background-position: right bottom, left top; */
+    background-position: bottom, left top;
     background-repeat: no-repeat, repeat;
     /* background-size:500px 1000px, contain ; */
 }
@@ -30,10 +31,15 @@ margin-bottom: 0px;
 .headerTable{
     font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-bold) 20px/23px var(--unnamed-font-family-avigul-fm);
 letter-spacing: var(--unnamed-character-spacing-0);
-font: normal normal bold 20px/23px Avigul FM;
+font: normal normal bold 20px/23px 'Avigul';
+font-family: 'Avigul';
 letter-spacing: 0px;
 color: #24A3AA;
 opacity: 1;
 text-align: right;
 
+}
+
+.Trow1:hover{
+    background-color: #43C2CF ;
 }

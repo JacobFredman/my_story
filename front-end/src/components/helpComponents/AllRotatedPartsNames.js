@@ -4,7 +4,7 @@ import RotatedPartName from './RotatedPartName';
 const AllRotatedPartsNames = (props) => {
 
     return (
-        <div style={{ marginTop: '90px' }}>
+        <div style={{ marginTop: '92px' }}>
             <RotatedPartName height={props.part2YLocation - props.part1YLocation} background='transparent linear-gradient(15deg, #0088CE 0%, #AB3C96 100%) 0% 0% no-repeat padding-box' partNum='1' />
             <RotatedPartName height={props.part3YLocation - props.part2YLocation} background=' transparent linear-gradient(15deg, #8BBF3F 0%, #43C2CF 100%) 0% 0% no-repeat padding-box' partNum='2' />
             <RotatedPartName height={props.part4YLocation - props.part3YLocation} background='transparent linear-gradient(9deg, #F1654F 0%, #F5C25D 100%) 0% 0% no-repeat padding-box' partNum='3' />

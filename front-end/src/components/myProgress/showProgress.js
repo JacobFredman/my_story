@@ -14,13 +14,14 @@ import Container from 'react-bootstrap/Container';
 import 'react-responsive-modal/styles.css';
 import Form from 'react-bootstrap/Form';
 import NavBarDesigned from '../NavBarDesigned';
-import Helmet from 'react-helmet';
 import Background from '../../Photos/backGroundWhatsApp1.svg';
 import Cup from '../helpComponents/Cup';
 import './ShowProgress.css';
 import AllRotatedPartsNames from '../helpComponents/AllRotatedPartsNames';
 import ButtonFiddbackText from '../helpComponents/ButtonFiddbackText';
 import BackGroundLeftRoad from '../../Photos/BackGroundLeftRoad.svg';
+import { connect } from 'react-redux';
+
 
 
 
@@ -31,9 +32,9 @@ class showProgress extends Component {
         super(props);
         this.state = {
             chaptersAndCups: undefined,
-            chaptersAndCupsView: undefined,
-            ChapterNumberBeginOfPart: [5, 9, 15, 20, 23, 26, 27],
+            ChapterNumberBeginOfPart: [1, 5, 8, 14, 20, 23, 26],
             refsToBeginOfParts: [],
+            refEndLastPart: undefined,
             beginOfPartsPostions: [],
             open: false,
             goalsSelected: false,
@@ -51,15 +52,11 @@ class showProgress extends Component {
     getPositions = () => {
         let a = [];
         if (this.state.refsToBeginOfParts[3]) {
-            console.log(this.state.refsToBeginOfParts[3]);
             // console.log(window.scrolly + this.state.refsToBeginOfParts[3].getBoundingClientRect().top);
-            for (let i = 0; i < 6; i++) {
-
-                // this.state.beginOfPartsPostions[i] = window.scrolly + this.state.refsToBeginOfParts[i].getBoundingClientRect().top;
+            for (let i = 0; i < this.state.refsToBeginOfParts.length; i++)
                 a[i] = this.state.refsToBeginOfParts[i].getBoundingClientRect().top;
-                // + this.state.refsToBeginOfParts[i].getBoundingClientRect()
-            }
-            console.log(a);
+
+            a.push(this.state.refEndLastPart.getBoundingClientRect().top);
             this.setState({ beginOfPartsPostions: [...a] });
         }
     }
@@ -74,6 +71,7 @@ class showProgress extends Component {
 
 
     updateCups = async (chapterId, winedCups) => {
+        alert('update cups');
         await axios.post(
             baseUrl + 'update_user_cups',
             { "newCups": winedCups, "chapterId": chapterId },
@@ -91,13 +89,15 @@ class showProgress extends Component {
             // { headers: { 'Content-Type': 'application/json' } }
         );
         this.setState({ chaptersAndCups: response.data.rows });
-
+        this.props.OnGetChaptersAndCups({ chaptersAndCups: response.data.rows });
+        // this.props.OnGetChaptersAndCups({ chaptersAndCups: 'aaaaaaaaaaaaaaa' }, () => console.log(this.props.chaptersAndCups + '2121'));
+        console.log(this.props.chaptersAndCups);
     }
 
     mapToView = () => {
         return this.state.chaptersAndCups.map((chapter, index) => {
             return (
-                <tr key={index} style={{ cursor: 'pointer' }}>
+                <tr key={index} className="Trow1">
                     <td>
                         {this.chapterNameCol(chapter.id, chapter.chapter_name)}
                     </td>
@@ -126,17 +126,22 @@ class showProgress extends Component {
         this.updateGoals(false);
     }
 
+    fillRefOfPartsLocations = (chapterId) => {
+        let divPointer;
+        if (this.state.ChapterNumberBeginOfPart.includes(chapterId))
+            divPointer = <div ref={ele => (this.state.refsToBeginOfParts[this.state.ChapterNumberBeginOfPart.findIndex(i => i === chapterId)] = ele)} id={'chapter' + chapterId} style={{ height: '1px', width: '10px', backgroundColor: 'blue' }}></div>
+        // if (this.state.ChapterNumberBeginOfPart[this.state.ChapterNumberBeginOfPart.length - 1] === chapterId) // if the chapter is the last one in array
+        //     this.state.refsToBeginOfParts.push(this.state.refEndLastPart);
+        return divPointer;
+    }
+
 
     chapterNameCol = (chapterId, chapterName) => {
         // const chapter_name = (<Row key={1}><Col> <p>{chapterName}</p></Col></Row>);
         const breakNameInd = chapterName.indexOf("-") === -1 ? chapterName.length : chapterName.indexOf("-")
         const chapter_name = (
             <Row key={1}><Col>
-                {this.state.ChapterNumberBeginOfPart.includes(chapterId) ?
-                    <div ref={ele => (this.state.refsToBeginOfParts[this.state.ChapterNumberBeginOfPart.findIndex(i => i === chapterId)] = ele)} id={'chapter' + chapterId} style={{ height: '10px', width: '10px', backgroundColor: 'blue' }}></div>
-                    : ''
-                }
-                {console.log(this.state.refsToBeginOfParts)}
+                {this.fillRefOfPartsLocations(chapterId)}
                 <h6 className="chapterName">{chapterName.substring(0, breakNameInd)}</h6>
                 <p className="chapterNameSecondery" style={{ marginBottom: '0px' }}>{chapterName.substring(breakNameInd + 1, chapterName.length)}</p>
             </Col></Row>
@@ -156,7 +161,7 @@ class showProgress extends Component {
 
 
         if (chapterId === this.state.goalsOrHabitsChapterId) {
-            return [chapterName, golasOrHabitsChapterButtons];
+            return [chapter_name, golasOrHabitsChapterButtons];
         }
         return chapter_name;
         // <Col onChange={this.setGender.bind(this)}>
@@ -167,8 +172,8 @@ class showProgress extends Component {
 
     cupsCol = (chapterId, max, wined_cups, automatic_win) => {
         let tdTagStyle = {};
-        if (automatic_win)
-            tdTagStyle = { backgroundColor: '#e6ffe6' }
+        // if (automatic_win)
+        //     tdTagStyle = { backgroundColor: '#e6ffe6' }
         if (chapterId === this.state.goalsOrHabitsChapterId && this.state.goalsSelected)
             tdTagStyle = { backgroundColor: '#bfbfbf' };
 
@@ -177,12 +182,12 @@ class showProgress extends Component {
         for (; i <= wined_cups; i++) {
             let a = i
             // result.push(<MdLocalBar key={a} className='WinedCup' onClick={() => this.updateCups(chapterId, a)} />)
-            result.push(<Cup key={a} height={25} marginPx={3} gold={true} onClick={() => this.updateCups(chapterId, a)} />)
+            result.push(<span onClick={() => this.updateCups(chapterId, a)}> <Cup key={a} height={25} marginPx={3} gold={true} onClick={() => this.updateCups(chapterId, a)} /></span>)
         }
         for (; i <= max; i++) {
             let a = i
             // result.push(<MdLocalBar key={a} className='UnWinedCup' onClick={() => this.updateCups(chapterId, a)} />)
-            result.push(<Cup key={a} height={25} marginPx={3} gold={false} onClick={() => this.updateCups(chapterId, a)} />)
+            result.push(<span onClick={() => this.updateCups(chapterId, a)}><Cup key={a} height={25} marginPx={3} gold={false} onClick={() => this.updateCups(chapterId, a)} /></span>)
         }
 
         return <td style={tdTagStyle}> {result} </td>;
@@ -226,16 +231,13 @@ class showProgress extends Component {
 
     render() {
         { console.log('rendered') }
+        { console.log(this.props.chaptersAndCups) }
+
         return (
             <React.Fragment >
                 {/* <Row style={{ backgroundImage: "transparent url(" + Background + ")" }}> */}
-                <Row className="backStyle" style={{
-                    // background: 'transparent url(' + Background + ') 0% 0% padding-box'
-                    // background: 'transparent url(' + Background + '), url(' + BackGroundLeftRoad + ') left bottom no-repeat'
-                    // background: 'url(' + BackGroundLeftRoad + ') left bottom no-repeat'
-                }}>
-                    <Col>
-                        {/* <Helmet bodyAttributes={{ style: 'background: transparent linear-gradient(45deg, #8BBF3F 0%, #43C2CF 100%) 0% 0% no-repeat padding-box' }} /> */}
+                <Row className="backStyle">
+                    <Col >
                         <div style={{
                             // top: '-30px',
                             width: '100%',
@@ -282,7 +284,7 @@ class showProgress extends Component {
                         <Row>
                             <Col></Col>
                             <Col xs={10} md={7} style={{ paddingRight: '0' }}>
-                                <Table size="sm" dir='rtl' style={{ direction: 'rtl', textAlign: 'right', background: '#FFFFFF', boxShadow: '0px 0px 20px #00000029', marginTop: '30px' }} hover>
+                                <Table size="sm" dir='rtl' style={{ direction: 'rtl', textAlign: 'right', background: '#FFFFFF', boxShadow: '0px 0px 20px #00000029', marginTop: '30px' }} >
                                     <thead>
                                         <tr>
                                             <td>
@@ -301,7 +303,10 @@ class showProgress extends Component {
                                             <td colSpan="3">
                                                 <Container>
                                                     <Row style={{ direction: 'rtl' }}>
-                                                        <Col></Col>
+                                                        <Col>
+                                                            {/* <div ref={ele => (this.state.refsToBeginOfParts[this.state.ChapterNumberBeginOfPart.findIndex(i => i === chapterId)] = ele)} id={'chapter' + chapterId} style={{ height: '1px', width: '10px', backgroundColor: 'blue' }}></div> */}
+                                                            <div ref={ele => (this.state.refEndLastPart = ele)} id={'end'} style={{ height: '1px', width: '10px', backgroundColor: 'blue' }}></div>
+                                                        </Col>
                                                         <Col xs={8}>
                                                             <div style={{ marginBottom: '20px', marginTop: '20px' }}>
                                                                 <ButtonFiddbackText onClick={() => this.props.history.push("/user_statistics")} />
@@ -318,7 +323,6 @@ class showProgress extends Component {
                             </Col>
                             <Col xs={1} style={{ paddingLeft: '0', paddingRight: '0' }}>
                                 {this.state.beginOfPartsPostions[3] !== undefined ? console.log(this.state.beginOfPartsPostions[0]) : console.log('undefined')}
-
                                 {this.state.beginOfPartsPostions[3] !== undefined ?
                                     <AllRotatedPartsNames
                                         part1YLocation={this.state.beginOfPartsPostions[0]}
@@ -334,11 +338,42 @@ class showProgress extends Component {
                             </Col>
                             <Col></Col>
                         </Row>
+                        <div style={{
+                            // top: '-30px',
+                            width: '100%',
+                            height: '15px',
+                            // float: 'left',
+                            // background: 'transparent linear-gradient(88deg, #F15F33 0%, #BF1A84 100%) 0% 0% no-repeat padding-box',
+                            background: 'transparent linear-gradient(88deg, #F15F33 0%, #BF1A84 100%) ',
+                            borderRadius: '66px',
+                            opacity: '1'
+                        }}>
+                        </div>
                     </Col>
                 </Row>
             </React.Fragment >
         );
     }
+
+
+    // export default showProgress; 
 }
 
-export default showProgress; 
+
+const mapStateToProps = state => {
+    return {
+        is_admin: state.tokenAndDetails.is_admin,
+        email: state.tokenAndDetails.email,
+        chaptersAndCups: state.chaptersAndCups
+    };
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        // dispatching plain actions
+        increment: () => dispatch({ type: 'INCREMENT' }),
+        OnGetChaptersAndCups: val => dispatch({ type: 'CHAPTERSANDCUPS', val })
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(showProgress);

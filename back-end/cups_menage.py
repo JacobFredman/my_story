@@ -39,26 +39,22 @@ def getFeedbackText(parameterName, userName):
     # conn1._open_connection()
     cursor = get_db_conn().cursor()
     sql = ""
-    if percentOfSeccess <= 40:
+    if percentOfSeccess <= 49.99:
         sql = (
-            "select %s from feedbacktext where under_or_equal_seccess_percent = 40"
+            "select %s from feedbacktext where under_or_equal_seccess_percent = 49.99"
             % (parameterName,)
         )
-    elif percentOfSeccess <= 60:
+    elif percentOfSeccess <= 69.99:
         sql = (
-            "select %s from feedbacktext where under_or_equal_seccess_percent = 60"
+            "select %s from feedbacktext where under_or_equal_seccess_percent = 69.99"
             % (parameterName,)
         )
-    elif percentOfSeccess <= 80:
-        sql = (
-            "select %s from feedbacktext where under_or_equal_seccess_percent = 80"
-            % (parameterName,)
-        )
-    else:
+    elif percentOfSeccess <= 100:
         sql = (
             "select %s from feedbacktext where under_or_equal_seccess_percent = 100"
             % (parameterName,)
         )
+
     try:
         # cursor.execute(
         #     'select your_control from feedbacktext where under_or_equal_seccess_percent = 40')

@@ -12,7 +12,7 @@ const ProgressGradient = (props) => {
                 <Col>
 
 
-                    <div className="circle circle2" style={{}} style={{ background: `${props.color}` }}>{props.percent + '%'}</div>
+                    <div className="circle circle2" style={{}} style={{ background: `${props.color}`, fontFamily: 'Avigul' }}>{props.percent + '%'}</div>
                     <div className="progress progress2">
                         <div className="progress-bar progress-bar2" style={{ width: props.percent + '%', background: `${props.color}` }}>
                         </div>

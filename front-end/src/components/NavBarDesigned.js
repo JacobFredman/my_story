@@ -16,12 +16,12 @@ const NavBarDesigned = () => {
             }}>
                 <Col>
                     <div style={{ marginTop: '25px', marginBottom: '25px', marginLeft: '25px' }} >
-                        <ProgressGradient color='linear-gradient(77deg, #F15F33 0%, #BF1A84 100%)' backGroundImage="linear-gradient(77deg, #F15F33 0%, #BF1A84 100%)" percent='70' ></ProgressGradient>
+                        <ProgressGradient color='linear-gradient(77deg, #F15F33 0%, #BF1A84 100%)' backGroundImage="linear-gradient(77deg, #F15F33 0%, #BF1A84 100%)" percent='32' ></ProgressGradient>
                         {/* <Progress backGroundImage="linear-gradient(77deg, #F15F33 0%, #BF1A84 100%)" color='#873FFF' percent='70' ></Progress> */}
                     </div>
                 </Col>
                 <Col>
-                    <h2 style={{ color: '#F15F33', fontWeight: 'bold', padding: '20px 20px 20px 20px' }}>ההתקדמות במסע</h2>
+                    <h2 style={{ color: '#F15F33', fontFamily: 'Avigul', fontWeight: 'bold', padding: '20px 20px 20px 20px' }}>ההתקדמות במסע</h2>
                     {/* <h2 style={{
                     color: '#F15F33',
                     // verticalAlign: 'middle',
