@@ -31,9 +31,9 @@ def getUserCupsForAllChapters1():
         return "Unauthorized user", 401
 
     sql = """
-    select chapter.chapter_id, chapter_name, victory_cups_wined, max_victory_cups, automatic_win
+    SELECT chapter.chapter_id, chapter_name, victory_cups_wined, max_victory_cups, automatic_win, is_readed, part_number
     FROM chapter natural join user_cups
-    where user_cups.user_name = %s;
+    WHERE user_cups.user_name = %s;
     """
     cursor = get_db_conn().cursor()
     try:
@@ -45,9 +45,11 @@ def getUserCupsForAllChapters1():
                 {
                     "id": row[0],
                     "chapter_name": row[1],
-                    "wined_cups": row[2],
+                    "victory_cups_wined": row[2],
                     "max_victory_cups": row[3],
                     "automatic_win": row[4],
+                    "is_readed": row[5],
+                    "part_number": row[6],
                 }
             )
     except Exception as e:

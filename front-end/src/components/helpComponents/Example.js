@@ -6,6 +6,13 @@ import ProgressGradient from './ProgressGradient';
 
 
 const Example = () => {
+
+
+
+
+
+
+
     return (
         <React.Fragment>
             {/* <Row>

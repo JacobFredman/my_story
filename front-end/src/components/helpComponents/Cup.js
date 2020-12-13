@@ -1,4 +1,5 @@
 import React from 'react';
+import '../myProgress/Cup.css';
 
 const Cup = (props) => {
     const widthPoprportion = 0.755;
@@ -29,6 +30,7 @@ const Cup = (props) => {
         </g>
     </svg>
 
+    // { alert(props.identify) }
     return (
         props.gold ? goldCup : grayCup
     );

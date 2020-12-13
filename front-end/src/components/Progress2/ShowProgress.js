@@ -6,9 +6,23 @@ import Example from '../../components/helpComponents/Example';
 import CupsAccumulation from '../helpComponents/CupsAccumulation';
 import Container from 'react-bootstrap/Container';
 import { IoIosPin } from "react-icons/io";
+import { useSelector } from 'react-redux';
 
 
 const ShowProgress = () => {
+    const chaptersAndCups = useSelector(state => state.chaptersAndCups);
+    const getChapterLastReaded = () => {
+        // if (chaptersAndCups) {
+        for (let i = chaptersAndCups.lentgh; i >= 0; i--) {
+            if (chaptersAndCups[i].is_readed)
+                return chaptersAndCups[i];
+        }
+        return chaptersAndCups[0];
+        // }
+    }
+
+
+
     return (
 
         <React.Fragment>
@@ -44,7 +58,9 @@ const ShowProgress = () => {
                                         <Col xs="auto">
                                             <IoIosPin size="5em" style={{ color: '#C68E30' }}></IoIosPin>
                                             <h4 style={{ color: '#C68E30' }}>אתה נמצא</h4>
-                                            <h4 style={{ color: '#C68E30' }}>בחלק 2</h4>
+                                            {/* <h4 style={{ color: '#C68E30' }}>בחלק 2</h4> */}
+                                            {console.log(chaptersAndCups ? getChapterLastReaded().part_number + 'בחלק' : 'no')}
+                                            <h4 style={{ color: '#C68E30' }}>{chaptersAndCups ? getChapterLastReaded().part_number + 'בחלק' : ''}</h4>
                                             <h4 style={{ color: '#C68E30' }}>פרק ג</h4>
                                         </Col>
                                     </Row>

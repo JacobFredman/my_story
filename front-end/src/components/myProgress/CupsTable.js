@@ -6,6 +6,8 @@ import TableCupsRows from './TableCupsRows';
 import { useSelector, useDispatch } from 'react-redux';
 import { baseUrl } from '../../utils/StaticData';
 import axios from 'axios';
+import { getChaptersAndCups } from './UpdateCups';
+
 
 
 
@@ -18,23 +20,10 @@ const CupsTable = () => {
 
     const getData = async () => {
         // await getGoalsOrHabits();
-        await getChaptersAndCups();
+        const rowsData = await getChaptersAndCups();
+        dispatch({ type: 'CHAPTERSANDCUPS', val: rowsData.data.rows });
     }
 
-    const getChaptersAndCups = async () => {
-        const response = await axios.post(
-            baseUrl + 'get_user_cups',
-            { "a": "a" },
-            { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
-            // { headers: { 'Content-Type': 'application/json' } }
-        );
-        // this.setState({ chaptersAndCups: response.data.rows });
-        // dispatch({ type: 'CHAPTERSANDCUPS', chaptersAndCups: response.data.rows });
-        dispatch({ type: 'CHAPTERSANDCUPS', val: response.data.rows });
-        // this.props.OnGetChaptersAndCups({ chaptersAndCups: response.data.rows });
-        // this.props.OnGetChaptersAndCups({ chaptersAndCups: 'aaaaaaaaaaaaaaa' }, () => console.log(this.props.chaptersAndCups + '2121'));
-        console.log(chaptersAndCups);
-    }
 
     useEffect(() => {
         getData();

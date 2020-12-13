@@ -20,7 +20,7 @@ import NavBarDesigned from '../NavBarDesigned';
 // import Background from '../../Photos/backGroundWhatsApp1.svg';
 // import Cup from '../helpComponents/Cup';
 import './ShowProgress.css';
-// import AllRotatedPartsNames from '../helpComponents/AllRotatedPartsNames';
+import AllRotatedPartsNames from '../helpComponents/AllRotatedPartsNames';
 // import ButtonFiddbackText from '../helpComponents/ButtonFiddbackText';
 // import BackGroundLeftRoad from '../../Photos/BackGroundLeftRoad.svg';
 import CupsTable from './CupsTable';
@@ -28,11 +28,10 @@ import { useSelector, useDispatch } from 'react-redux';
 
 
 const ShowProgress2 = () => {
-    const chaptersAndCups = useSelector(state => state);
+    const refsToBeginOfParts = useSelector(state => state.refsToBeginOfParts);
     const dispathc = useDispatch();
-    // dispathc({ type: "CHAPTERSANDCUPS" });
 
-    console.log(chaptersAndCups);
+
     return (
         // <React.Fragment>
         <div>
@@ -46,20 +45,9 @@ const ShowProgress2 = () => {
                         <Col xs={10} md={7} style={{ paddingRight: '0' }}>
                             <CupsTable />
                         </Col>
-                        {/* <Col xs={1} style={{ paddingLeft: '0', paddingRight: '0' }}>
-                            {this.state.beginOfPartsPostions[3] !== undefined ?
-                                <AllRotatedPartsNames
-                                    part1YLocation={this.state.beginOfPartsPostions[0]}
-                                    part2YLocation={this.state.beginOfPartsPostions[1]}
-                                    part3YLocation={this.state.beginOfPartsPostions[2]}
-                                    part4YLocation={this.state.beginOfPartsPostions[3]}
-                                    part5YLocation={this.state.beginOfPartsPostions[4]}
-                                    part6YLocation={this.state.beginOfPartsPostions[5]}
-                                    part7YLocation={this.state.beginOfPartsPostions[6]}
-                                    part8YLocation={this.state.beginOfPartsPostions[7]} />
-                                : ''
-                            }
-                        </Col> */}
+                        <Col xs={1} style={{ paddingLeft: '0', paddingRight: '0' }}>
+                            {refsToBeginOfParts[1] !== undefined ? <AllRotatedPartsNames /> : ''}
+                        </Col>
                         <Col></Col>
                     </Row>
 

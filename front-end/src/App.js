@@ -19,8 +19,8 @@ import Part1 from './components/Progress2/Part1';
 import Progress from './components/helpComponents/Progress';
 import Example from './components/helpComponents/Example';
 
-import ShowProgress from './components/myProgress/showProgress'
-// import ShowProgress from './components/Progress2/ShowProgress';
+// import ShowProgress from './components/myProgress/showProgress'
+import ShowProgress from './components/Progress2/ShowProgress';
 import CupsAccumulation from './components/helpComponents/CupsAccumulation';
 import AllRotatedPartsNames from './components/helpComponents/AllRotatedPartsNames';
 import Example2 from './components/helpComponents/Example2';

@@ -1,22 +1,32 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+
+
+
 
 const DivsForColoredPartsLocations = (props) => {
+    // const refsToBeginOfParts = useSelector(state => state.refsToBeginOfParts);
+    // const state = useSelector(state => state);
+    const dispatch = useDispatch();
+    const myRef = useRef();
 
-    const divPointer = () => {
-        if (this.state.ChapterNumberBeginOfPart.includes(props.chapterId)) {
-            return <div
-                ref={ele => (this.state.refsToBeginOfParts[this.state.ChapterNumberBeginOfPart.findIndex(i => i === props.chapterId)] = ele)}
-                id={'chapter' + props.chapterId}
-                style={{ height: '1px', width: '10px', backgroundColor: 'blue' }}
-            />
-        }
-        else
-            return ''
-    }
+    useEffect(() => {
+        // const subscription = props.source.subscribe();
+        dispatch({ type: 'ADDREFTOBEGINOFPART', ref: myRef });
+    }, []);
 
-    return (
-        divPointer
-    );
+    let result;
+    result = <div
+        // ref={ele => (refsToBeginOfParts[props.chapter.part_number] = ele)}
+        ref={myRef}
+        id={'chapter' + props.chapter.id}
+        style={{ height: '1px', width: '1px' }}
+    />
+
+    // console.log(state);
+
+
+    return result;
 };
 
 export default DivsForColoredPartsLocations;

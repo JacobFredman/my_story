@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Table from 'react-bootstrap/Table';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -9,8 +9,14 @@ import { useSelector, useDispatch } from 'react-redux';
 
 
 const TableCupsBottom = () => {
-    // const refEndLastPart = useSelector(state => state.refEndLastPart);
-    const dispatch = useDispatch({ type: 'RefEndLastPart' });
+    const refEndLastPart = useSelector(state => state.refEndLastPart);
+    const dispatch = useDispatch();
+    const myRef = useRef();
+
+    useEffect(() => {
+        dispatch({ type: 'RefEndLastPart', myRef });
+        console.log(myRef);
+    }, []);
 
     // const divPointer = <div ref={ele => (dispatch({ type: 'RefEndLastPart', ele }))} id={'end'} style={{ height: '1px', width: '10px', backgroundColor: 'blue' }}></div>; 
 
@@ -20,7 +26,7 @@ const TableCupsBottom = () => {
                 <Container>
                     <Row style={{ direction: 'rtl' }}>
                         <Col>
-                            {/* <div ref={ele => (dispatch({ type: 'RefEndLastPart', ele }))} id={'end'} style={{ height: '1px', width: '10px', backgroundColor: 'blue' }}></div> */}
+                            <div ref={myRef} id={'end'} style={{ height: '1px', width: '10px', backgroundColor: 'blue' }} />
                         </Col>
                         <Col xs={8}>
                             <div style={{ marginBottom: '20px', marginTop: '20px' }}>

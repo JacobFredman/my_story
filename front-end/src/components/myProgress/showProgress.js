@@ -53,8 +53,10 @@ class showProgress extends Component {
         let a = [];
         if (this.state.refsToBeginOfParts[3]) {
             // console.log(window.scrolly + this.state.refsToBeginOfParts[3].getBoundingClientRect().top);
-            for (let i = 0; i < this.state.refsToBeginOfParts.length; i++)
+            for (let i = 0; i < this.state.refsToBeginOfParts.length; i++) {
                 a[i] = this.state.refsToBeginOfParts[i].getBoundingClientRect().top;
+                // console.log(a[i] = this.state.refsToBeginOfParts[i]);
+            }
 
             a.push(this.state.refEndLastPart.getBoundingClientRect().top);
             this.setState({ beginOfPartsPostions: [...a] });
@@ -102,10 +104,10 @@ class showProgress extends Component {
                         {this.chapterNameCol(chapter.id, chapter.chapter_name)}
                     </td>
                     {/* <td> */}
-                    {this.cupsCol.call(this, chapter.id, chapter.max_victory_cups, chapter.wined_cups, chapter.automatic_win)}
+                    {this.cupsCol.call(this, chapter.id, chapter.max_victory_cups, chapter.victory_cups_wined, chapter.automatic_win)}
                     {/* </td> */}
                     <td>
-                        {chapter.wined_cups + '/' + chapter.max_victory_cups}
+                        {chapter.victory_cups_wined + '/' + chapter.max_victory_cups}
                         {
                             chapter.automatic_win
                                 ? (<p style={{ fontSize: 'x-small' }}>זכיה אוטומטית</p>)
@@ -170,7 +172,7 @@ class showProgress extends Component {
         // </Col>
     }
 
-    cupsCol = (chapterId, max, wined_cups, automatic_win) => {
+    cupsCol = (chapterId, max, victory_cups_wined, automatic_win) => {
         let tdTagStyle = {};
         // if (automatic_win)
         //     tdTagStyle = { backgroundColor: '#e6ffe6' }
@@ -179,7 +181,7 @@ class showProgress extends Component {
 
         let result = [<GrFormClose key={0} onClick={() => this.updateCups(chapterId, 0)} />];
         var i = 1;
-        for (; i <= wined_cups; i++) {
+        for (; i <= victory_cups_wined; i++) {
             let a = i
             // result.push(<MdLocalBar key={a} className='WinedCup' onClick={() => this.updateCups(chapterId, a)} />)
             result.push(<span onClick={() => this.updateCups(chapterId, a)}> <Cup key={a} height={25} marginPx={3} gold={true} onClick={() => this.updateCups(chapterId, a)} /></span>)

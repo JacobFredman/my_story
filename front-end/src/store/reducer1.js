@@ -29,9 +29,19 @@ const initState = {
     },
     loading: { val: false },
     chaptersAndCups: undefined,
-
+    refsToBeginOfParts: [],
     refEndLastPart: undefined
 };
+
+const ChangeChapterReadStatus = (chapter, is_readed) => {
+    if (is_readed)
+        return { ...chapter, is_readed }
+    else
+        if (chapter.automatic_win)
+            return { ...chapter, is_readed, victory_cups_wined: chapter.max_victory_cups }
+        else
+            return { ...chapter, is_readed, victory_cups_wined: 0 }
+}
 
 
 const reducer1 = (state = initState, action) => {
@@ -42,8 +52,38 @@ const reducer1 = (state = initState, action) => {
         case 'CHAPTERSANDCUPS':
             state = { ...state, chaptersAndCups: action.val };
             break;
+        case 'UPDATEWINEDCUPSCHAPTER':
+            state = {
+                ...state,
+                chaptersAndCups: state.chaptersAndCups.map(chapter =>
+                    chapter.id === action.chapterId
+                        && action.victory_cups_wined <= chapter.max_victory_cups
+                        && action.victory_cups_wined >= 0
+                        && !chapter.automatic_win
+                        ? { ...chapter, victory_cups_wined: action.victory_cups_wined }
+                        : chapter
+                )
+            };
+            break;
+        case 'CHANGECHAPTERREADSTATUS':
+            state = {
+                ...state,
+                chaptersAndCups: state.chaptersAndCups.map(chapter =>
+                    chapter.id === action.chapterId ? ChangeChapterReadStatus(chapter, action.is_readed)
+                        : chapter
+                )
+            };
+            break;
+        case 'ADDREFTOBEGINOFPART':
+            // state.refsToBeginOfParts.push(action.ref);
+            state = {
+                ...state,
+                chaptersAndCups: state.chaptersAndCups.map(ch => ch),
+                refsToBeginOfParts: [...state.refsToBeginOfParts, action.ref]
+            }
+            break;
         case 'RefEndLastPart':
-            state = { ...state, refEndLastPart: action.val };
+            state = { ...state, refEndLastPart: action.myRef };
             break;
         default:
             return state;

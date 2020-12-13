@@ -43,3 +43,9 @@ text-align: right;
 .Trow1:hover{
     background-color: #43C2CF ;
 }
+
+
+.Trow1UnReded{
+    cursor: pointer;
+    opacity: 0.2;
+}
