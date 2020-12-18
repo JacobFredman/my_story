@@ -10,7 +10,7 @@ const NavBarDesigned = () => {
             <Row style={{
                 // height: '120px',
                 // border: 'solid 1px',
-                color: 'transparent linear-gradient(77deg, #F15F33 0%, #BF1A84 100%) 0% 0% no-repeat padding-box;',
+                color: 'transparent linear-gradient(77deg, #F15F33 0%, #BF1A84 100%) 0% 0% no-repeat padding-box',
                 background: '#FFFFFF 0% 0% no-repeat padding-box',
                 boxShadow: '20px 20px 24px #0000001A'
             }}>

@@ -21,6 +21,44 @@ goals_or_hablits_chapter = 11
 # @cups_menage.route('/initioal_user_golas_or_habits', methods=['POST'])
 
 
+# @app.route("/get_user_cups", methods=["POST"])
+# def getUserCupsForAllChapters1():
+#     try:
+#         user, localId = get_user_firebase(request.cookies.get("tokenId"))
+#         if not user:
+#             return "Unauthorized user", 401
+#     except:
+#         return "Unauthorized user", 401
+
+#     sql = """
+#     SELECT chapter.chapter_id, chapter_name, victory_cups_wined, max_victory_cups, automatic_win, is_readed, part_number
+#     FROM chapter natural join user_cups
+#     WHERE user_cups.user_name = %s;
+#     """
+#     cursor = get_db_conn().cursor()
+#     try:
+#         cursor.execute(sql, (localId,))
+#         rows = cursor.fetchall()
+#         data = []
+#         for row in rows:
+#             data.append(
+#                 {
+#                     "id": row[0],
+#                     "chapter_name": row[1],
+#                     "victory_cups_wined": row[2],
+#                     "max_victory_cups": row[3],
+#                     "automatic_win": row[4],
+#                     "is_readed": row[5],
+#                     "part_number": row[6],
+#                 }
+#             )
+#     except Exception as e:
+#         print(str(e))
+#         return "error", 500
+#     response = jsonify({"rows": data})
+#     return response
+
+
 @app.route("/get_user_cups", methods=["POST"])
 def getUserCupsForAllChapters1():
     try:
@@ -30,30 +68,27 @@ def getUserCupsForAllChapters1():
     except:
         return "Unauthorized user", 401
 
-    sql = """
-    SELECT chapter.chapter_id, chapter_name, victory_cups_wined, max_victory_cups, automatic_win, is_readed, part_number
-    FROM chapter natural join user_cups
-    WHERE user_cups.user_name = %s;
-    """
-    cursor = get_db_conn().cursor()
     try:
-        cursor.execute(sql, (localId,))
-        rows = cursor.fetchall()
+        cursor = get_db_conn().cursor()
+        cursor.callproc("get_user_cups", (localId,))
         data = []
-        for row in rows:
-            data.append(
-                {
-                    "id": row[0],
-                    "chapter_name": row[1],
-                    "victory_cups_wined": row[2],
-                    "max_victory_cups": row[3],
-                    "automatic_win": row[4],
-                    "is_readed": row[5],
-                    "part_number": row[6],
-                }
-            )
+        # abc = cursor.stored_results().fetchall()
+        for result in cursor.stored_results():
+            for row in result.fetchall():
+                data.append(
+                    {
+                        "id": row[0],
+                        "chapter_name": row[1],
+                        "victory_cups_wined": row[2],
+                        "max_victory_cups": row[3],
+                        "automatic_win": row[4],
+                        "is_readed": row[5],
+                        "part_number": row[6],
+                    }
+                )
     except Exception as e:
-        return str(e)
+        print(str(e))
+        return "error", 500
     response = jsonify({"rows": data})
     return response
 
@@ -86,7 +121,7 @@ def get_goals_or_habits():
                 {"goalsSelected": row[0], "maxGoals": row[1]}
             )
     except Exception as e:
-        return str(e)
+        return "error", 500
     # finally:
     #     conn1.close()
     return json.dumps({"val": data}), 200
@@ -101,6 +136,10 @@ def getUserControl():
     except:
         return "Unauthorized user", 401
     result = getParamter("get_user_self_control", localId, 1000)
+    try:
+        val = int(result)  # in case of None
+    except ValueError:
+        result = 0
     return json.dumps({"val": str(result)}), 200
 
 
@@ -113,6 +152,10 @@ def getUserSelfConnection():
     except:
         return "Unauthorized user", 401
     result = getParamter("get_user_self_connection", localId, 1000)
+    try:
+        val = int(result)  # in case of None
+    except ValueError:
+        result = 0
     return json.dumps({"val": str(result)}), 200
 
 
@@ -124,7 +167,12 @@ def getUserCommitment_to_success():
             return "Unauthorized user", 401
     except:
         return "Unauthorized user", 401
+
     result = getParamter("get_user_self_commitment", localId, 1000)
+    try:
+        val = int(result)  # in case of None
+    except ValueError:
+        result = 0
     return json.dumps({"val": str(result)}), 200
 
 
@@ -137,6 +185,10 @@ def getUserSelfFulfillment():
     except:
         return "Unauthorized user", 401
     result = getParamter("get_user_self_fulfillment", localId, 1000)
+    try:
+        val = int(result)  # in case of None
+    except ValueError:
+        result = 0
     return json.dumps({"val": str(result)}), 200
 
 
@@ -258,6 +310,41 @@ def get_feadback():
     return getFeedbackText(SP_paremeters_as_dict["parameterName"], localId)
 
 
+@app.route("/update_chapter_read_status", methods=["POST"])
+def updateChapterReadStatus():
+    try:
+        user, localId = get_user_firebase(request.cookies.get("tokenId"))
+        if not user:
+            return "Unauthorized user", 401
+    except:
+        return "Unauthorized user", 401
+    # user = 'binyamin'
+    SP_paremeters_as_dict = request.get_json(force=True)
+    SP_paremeters_as_dict["is_readed"],
+    SP_paremeters_as_dict["chapterId"],
+    # conn._open_connection()
+    cursor = get_db_conn().cursor()
+
+    if SP_paremeters_as_dict["is_readed"]:
+        spName = "make_chapter_readed"
+    else:
+        spName = "make_chapter_unreaded"
+
+    try:
+        cursor.callproc(
+            spName, (localId, SP_paremeters_as_dict["chapterId"],),
+        )
+        get_db_conn().commit()
+        val = cursor.fetchone()
+    except Exception as e:
+        print(str(e))
+        return "error", 500
+    else:
+        return json.dumps({"rowCount": cursor.rowcount}), 200
+    # finally:
+    #     conn.close()
+
+
 @app.route("/update_user_cups", methods=["POST"])
 def updateUserCups():
     try:
@@ -290,3 +377,29 @@ def updateUserCups():
         return json.dumps({"rowCount": cursor.rowcount}), 200
     # finally:
     #     conn.close()
+
+
+@app.route("/reset_user_cups", methods=["POST"])
+def resetUserCups():
+    try:
+        user, localId = get_user_firebase(request.cookies.get("tokenId"))
+        if not user:
+            return "Unauthorized user", 401
+    except:
+        return "Unauthorized user", 401
+    SP_paremeters_as_dict = request.get_json(force=True)
+    cursor = get_db_conn().cursor()
+    try:
+        cursor.callproc(
+            "reset_user_cups", (localId,),
+        )
+        get_db_conn().commit()
+        val = cursor.fetchone()
+    except Exception as e:
+        print(str(e))
+        return "error", 500
+    else:
+        return json.dumps({"rowCount": cursor.rowcount}), 200
+    # finally:
+    #     conn.close()
+

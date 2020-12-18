@@ -11,6 +11,7 @@ import './Cup.css';
 
 
 const CupsCol = (props) => {
+    console.log(props.goalsSelected);
     const [cupIdMouseOver, setIdCupMouseOver] = useState(undefined);
 
     const dispatch = useDispatch();
@@ -28,18 +29,25 @@ const CupsCol = (props) => {
     const UpdateCups = async (chapterId, victory_cups_wined) => {
         UpdateCupsClient(chapterId, victory_cups_wined);
         const msg = await updateCupsServer(chapterId, victory_cups_wined);
-        getData();
+        // getData();
     }
 
-    const aa = (a) => {
-        // alert(a);
-        console.log(a);
-    }
+    const isCupClickable = () => {
+        console.log(props.goalsSelected);
+        const result = !props.chapter.automatic_win
+            && props.chapter.is_readed
+            && !props.goalsSelected;
+        return result;
+    };
 
 
-    const goalsOrHabitsChapterId = 11;
+
+
+
+
 
     const CreateCupsArray = chapter => {
+        console.log(chapter);
         let result = [<GrFormClose key={0} onClick={() => UpdateCups(chapter.id, 0)} />];
 
         // if (chapterId === goalsOrHabitsChapterId && this.state.goalsSelected)
@@ -50,15 +58,18 @@ const CupsCol = (props) => {
             let id = i // important!
             const cup = (
                 < span
+                    key={id}
                     onMouseOver={() => setIdCupMouseOver(id)}
                     onMouseLeave={() => setIdCupMouseOver(-1)}
-                    className={!chapter.automatic_win && chapter.is_readed ? 'CupUnAutoWin' : ''}
-                    onClick={() => chapter.is_readed ? UpdateCups(chapter.id, id) : ''}
+                    className={isCupClickable() ? 'CupUnAutoWin' : ''}
+                    // onClick={() => chapter.is_readed ? UpdateCups(chapter.id, id) : ''}
+                    onClick={() => isCupClickable() ? UpdateCups(chapter.id, id) : ''}
                 >
                     <Cup
                         key={id}
                         automatic_win={chapter.automatic_win}
-                        height={cupIdMouseOver === id && !chapter.automatic_win && chapter.is_readed ? 27 : 25}
+                        // height={cupIdMouseOver === id && !chapter.automatic_win && chapter.is_readed ? 27 : 25}
+                        height={cupIdMouseOver === id && isCupClickable() ? 27 : 25}
                         // setIdCupMouseOver={setIdCupMouseOver}
                         marginPx={3}
                         gold={i <= chapter.victory_cups_wined ? true : false}
@@ -70,7 +81,7 @@ const CupsCol = (props) => {
         return result;
     }
 
-
+    console.log('cupsRendered');
     const cupsArray = CreateCupsArray(props.chapter);
     return cupsArray;
 };

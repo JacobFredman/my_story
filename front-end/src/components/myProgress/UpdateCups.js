@@ -14,6 +14,41 @@ export const updateCupsServer = async (chapterId, winedCups) => {
     return msg;
 }
 
+
+export const updateChapterReadStatusServer = async (chapterId, is_readed) => {
+    const msg = await axios.post(
+        baseUrl + 'update_chapter_read_status',
+        { is_readed, chapterId },
+        { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
+    );
+    return msg;
+}
+
+export const is_user = async () => {
+    console.log(baseUrl);
+    let msg;
+    try {
+        msg = await axios.post(
+            baseUrl + 'is_authed_user',
+            { "a": "a" },
+            { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
+        );
+    }
+    catch {
+        return '401'
+    }
+    return msg;
+}
+
+export const resetUserCups = async () => {
+    const msg = await axios.post(
+        baseUrl + 'reset_user_cups',
+        { a: "a" },
+        { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
+    );
+    return msg;
+}
+
 // const GetchaptersAndCupsWithUpdatedCups = (chaptersAndCups, action) => {
 //     const changeValue = (chapter) => {
 //         return chapter.id === action.chapterId
@@ -42,4 +77,7 @@ export const getChaptersAndCups = async () => {
     console.log(response);
     return response;
 }
+
+
+
 

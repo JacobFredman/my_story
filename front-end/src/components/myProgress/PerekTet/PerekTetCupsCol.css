@@ -1,0 +1,68 @@
+.goalsOrHobitsBtn{
+    border-radius: 15px;
+    border: solid;
+    text-align: center;
+    width: 60px;
+    /* font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-bold) 37px/35px var(--unnamed-font-family-assistant); */
+    /* letter-spacing: var(--unnamed-character-spacing-0); */
+    letter-spacing: 0px;
+    /* font: normal normal 600 11px/12px Assistant; */
+    font: normal normal 600  Assistant;
+    /* padding: 5px; */
+}
+
+.activeBtn{
+    font-size: 10px ;
+    height: 25px;
+    line-height: 25px;
+    color: #FFFFFF;
+    background:#7EB8C4 0% 0% no-repeat padding-box;
+}
+
+.notActiveBtn{
+    font-size: 10px ;
+    height: 23px;
+    line-height: 23px;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    border: 1px solid #E1E5EE;
+}
+
+.activeBtn:hover{
+    cursor: pointer;
+    background:#71a8b3 0% 0% no-repeat padding-box;
+}
+
+.notActiveBtn:hover{
+    cursor: pointer;
+    background: #ecebeb 0% 0% no-repeat padding-box;
+}
+
+.goalsOrHobitsInput{
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+border: 1px solid #4B9791;
+border-radius: 20px;
+text-align: center;
+width: 70px;
+height: 25px;
+/* font: normal normal normal 11px/12px Assistant; */
+font-size: 11px;
+font-family: Assistant ;
+color: #8a8282;
+}
+
+.goalsOrHobitsBtnsContainer{
+    display: inline-flex;
+}
+
+.goalsOrHobitsInput::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+font: normal normal normal ;
+font-size: 8px;
+/* font-family: Assistant; */
+    color: #CBCBCB;
+    opacity: 1; /* Firefox */
+  }
+
+  textarea:focus, input:focus{
+    outline: none;
+}
+

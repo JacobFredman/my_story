@@ -1,0 +1,16 @@
+.containerText{
+    width: 70%;
+    font: normal normal normal 15px/20px Assistant;
+    /* font-size: 12px; */
+    color: black;
+    direction: rtl;
+    margin-top: 50px;
+}
+
+.Header{
+    font: normal normal bold 30px/30px Avigul FM;
+    font-family: Avigul;
+    letter-spacing: 0px;
+    /* color:  #0088CE; */
+    /* font-size: xx-large; */
+}

@@ -1,0 +1,27 @@
+{
+  "files": {
+    "main.css": "./static/css/main.6f93f3c1.chunk.css",
+    "main.js": "./static/js/main.093695e9.chunk.js",
+    "main.js.map": "./static/js/main.093695e9.chunk.js.map",
+    "runtime-main.js": "./static/js/runtime-main.2ef79076.js",
+    "runtime-main.js.map": "./static/js/runtime-main.2ef79076.js.map",
+    "static/css/2.43079d8c.chunk.css": "./static/css/2.43079d8c.chunk.css",
+    "static/js/2.bf14dc5b.chunk.js": "./static/js/2.bf14dc5b.chunk.js",
+    "static/js/2.bf14dc5b.chunk.js.map": "./static/js/2.bf14dc5b.chunk.js.map",
+    "index.html": "./index.html",
+    "precache-manifest.7bc5e5712af800f9f3fd2ceebc356e56.js": "./precache-manifest.7bc5e5712af800f9f3fd2ceebc356e56.js",
+    "service-worker.js": "./service-worker.js",
+    "static/css/2.43079d8c.chunk.css.map": "./static/css/2.43079d8c.chunk.css.map",
+    "static/css/main.6f93f3c1.chunk.css.map": "./static/css/main.6f93f3c1.chunk.css.map",
+    "static/js/2.bf14dc5b.chunk.js.LICENSE.txt": "./static/js/2.bf14dc5b.chunk.js.LICENSE.txt",
+    "static/media/ShowProgress.css": "./static/media/backGroundWhatsApp1.4f1634fd.svg",
+    "static/media/index.css": "./static/media/avigul-bold-fm.78ec4dc8.woff2"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.2ef79076.js",
+    "static/css/2.43079d8c.chunk.css",
+    "static/js/2.bf14dc5b.chunk.js",
+    "static/css/main.6f93f3c1.chunk.css",
+    "static/js/main.093695e9.chunk.js"
+  ]
+}

@@ -38,6 +38,11 @@ def getFeedbackText(parameterName, userName):
     # conn1 = mysql.connector.connect(**connDict)
     # conn1._open_connection()
     cursor = get_db_conn().cursor()
+    secondaryHeadersql = (
+        "select %s from feedbacktext where under_or_equal_seccess_percent = -2"
+        % (parameterName,)
+    )
+
     sql = ""
     if percentOfSeccess <= 49.99:
         sql = (
@@ -60,12 +65,17 @@ def getFeedbackText(parameterName, userName):
         #     'select your_control from feedbacktext where under_or_equal_seccess_percent = 40')
         cursor.execute(sql)
         textResult = cursor.fetchone()
+        cursor.execute(secondaryHeadersql)
+        secondaryHeaderResult = cursor.fetchone()
     except Exception as e:
         print(str(e))
         return "error", 500
     # finally:
     #     conn.close()
-    return json.dumps({"val": textResult}), 200
+    return (
+        json.dumps({"val": textResult, "secondaryHeader": secondaryHeaderResult}),
+        200,
+    )
 
 
 def get_which_chapter_user_holds():
@@ -107,12 +117,12 @@ def initial_user_cups(user):
     # conn._open_connection()
     cursor = get_db_conn().cursor()
     insertAutoWinStatment = """ INSERT INTO user_cups
-    SELECT %s , curdate(), chapter_id, max_victory_cups
+    SELECT %s , curdate(), chapter_id, max_victory_cups, 0
     FROM chapter
     WHERE automatic_win = 1;
     """
     insertZeroStatments = """INSERT INTO user_cups
-    SELECT %s , curdate(), chapter_id, 0
+    SELECT %s , curdate(), chapter_id, 0, 0
     FROM chapter
     WHERE automatic_win = 0;
     """

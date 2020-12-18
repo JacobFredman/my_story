@@ -59,7 +59,7 @@ class SignIn extends Component {
 
 
     // this.sendData();
-    event.preventDefault();
+    // event.preventDefault();
   }
 
 
@@ -71,6 +71,7 @@ class SignIn extends Component {
     );
     this.props.onGetAuth(respone.data);
     // a = { email: "jacov141@gmail.com", is_admin: 0 }
+    return respone;
   };
 
   googleSignIn = async () => {
@@ -100,7 +101,8 @@ class SignIn extends Component {
         // document.cookie = 'tokenId=' + tokenId + '; expires=' + new Date(new Date().setFullYear(new Date().getFullYear() + 1)) + '; path=/';
         document.cookie = 'tokenId=' + tokenId + '; expires=' + new Date(new Date().setHours(new Date().getHours() + 1)) + '; path=/';
         this.updateMyDb(tokenId)
-        this.props.history.push("/")
+          .then(resp => { this.props.history.push("/") })
+          .catch(error => { console.log(error); alert('error'); })
       })
       .catch(error => {
         this.setState({ showUnAuthMsg: true });

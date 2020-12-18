@@ -75,11 +75,21 @@ const reducer1 = (state = initState, action) => {
             };
             break;
         case 'ADDREFTOBEGINOFPART':
-            // state.refsToBeginOfParts.push(action.ref);
+            console.log(action);
+
             state = {
                 ...state,
                 chaptersAndCups: state.chaptersAndCups.map(ch => ch),
                 refsToBeginOfParts: [...state.refsToBeginOfParts, action.ref]
+            }
+            break;
+        case 'CLEANREFSTOBEGINOFPARTS':
+            if (!state.refsToBeginOfParts)
+                break;
+            state = {
+                ...state,
+                chaptersAndCups: undefined,
+                refsToBeginOfParts: []
             }
             break;
         case 'RefEndLastPart':

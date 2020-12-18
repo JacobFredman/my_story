@@ -1,6 +1,12 @@
 from initApp import app, get_db_conn
 from flask import request, json
-from user import get_auth, add_new_user_in_local_db, user_exists, isUserAdmin
+from user import (
+    get_auth,
+    add_new_user_in_local_db,
+    user_exists,
+    isUserAdmin,
+    get_user_firebase,
+)
 from cups_menage import initial_user_cups
 
 
@@ -59,3 +65,14 @@ def get_user_data():
     localId = user["localId"]
     isAdmin = isUserAdmin(localId)
     return json.dumps({"is_admin": isAdmin, "email": user["email"]}), 200
+
+
+@app.route("/is_authed_user", methods=["POST"])
+def is_authed_user():
+    try:
+        user, localId = get_user_firebase(request.cookies.get("tokenId"))
+        if not user:
+            return "Unauthorized user", 401
+    except:
+        return "Unauthorized user", 401
+    return "200", 200

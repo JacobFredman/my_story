@@ -20,7 +20,7 @@ const DivsForColoredPartsLocations = (props) => {
         // ref={ele => (refsToBeginOfParts[props.chapter.part_number] = ele)}
         ref={myRef}
         id={'chapter' + props.chapter.id}
-        style={{ height: '1px', width: '1px' }}
+        style={{ height: '1px', width: '1px', backgroundColor: 'red' }}
     />
 
     // console.log(state);

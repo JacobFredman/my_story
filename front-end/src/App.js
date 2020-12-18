@@ -17,7 +17,7 @@ import SignUp from './components/user/SignUp';
 import UpdateReduxe from './utils/UpdateRedux';
 import Part1 from './components/Progress2/Part1';
 import Progress from './components/helpComponents/Progress';
-import Example from './components/helpComponents/Example';
+import ProgressesBars from './components/helpComponents/ProgressesBars';
 
 // import ShowProgress from './components/myProgress/showProgress'
 import ShowProgress from './components/Progress2/ShowProgress';
@@ -25,6 +25,7 @@ import CupsAccumulation from './components/helpComponents/CupsAccumulation';
 import AllRotatedPartsNames from './components/helpComponents/AllRotatedPartsNames';
 import Example2 from './components/helpComponents/Example2';
 import ShowProgress2 from './components/myProgress/ShowProgress2';
+import PerekTetCupsCol from './components/myProgress/PerekTet/PerekTetCupsCol';
 
 // process.env.NODE_ENV = 'development';
 // "start": "react-scripts start",
@@ -44,23 +45,24 @@ function App() {
           <Row>
             <Col>
               <Switch>
-                <Route exact path="/" component={HomePage} />
+                <Route exact path="/" component={ShowProgress} />
                 <Route path="/user_statistics" component={UserStatistics} />
                 <Route path="/admin/cups_and_points" component={Cups_and_points} />
                 <Route path="/admin/feedback_text" component={FeedbackText} />
                 <Route path="/admin/users_statistics" component={AdminReport} />
                 <Route path="/sign_in" component={SignIn} />
                 <Route path="/sign_up" component={SignUp} />
-                <Route path="/connect_us" component={ConnectUs} />
+                {/* <Route path="/connect_us" component={ConnectUs} />
 
                 <Route path="/progress/part1" component={Part1} />
                 <Route path="/progress1" component={Progress} />
-                <Route path="/example" component={Example} />
+                <Route path="/ProgressesBars" component={ProgressesBars} />
                 <Route path="/show_progress" component={ShowProgress} />
                 <Route path="/Cups_accumulation" component={CupsAccumulation} />
                 <Route path="/Rotated_part_names" component={AllRotatedPartsNames} />
-                {/* <Route path="/Font_example" component={Example2} /> */}
+                <Route path="/Font_example" component={Example2} /> */}
                 <Route path="/Show_progress2" component={ShowProgress2} />
+                <Route path="/Perek_tet" component={PerekTetCupsCol} />
 
               </Switch>
               {/* <Col>1 of 3</Col>

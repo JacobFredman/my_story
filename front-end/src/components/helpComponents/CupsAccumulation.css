@@ -6,7 +6,7 @@
     overflow: hidden;
     line-height: 0;
     /* font-size: .75rem; */
-    border: solid 1px;
+    border: solid 2px;
     border-color: #F4CC6B ;
     background-color:#FFFFFF;
     border-radius: .70rem;
@@ -35,4 +35,21 @@
     /* bottom: 0; */
     z-index: 2;
     font-weight: bold;
+  }
+
+  .AccumulatedCupsFont{
+      /* font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-bold) 58px/76px var(--unnamed-font-family-assistant); */
+      font: normal normal bold 58px/76px Assistant;
+  }
+
+  .sumOfAllCupsFont{
+    font: normal normal normal 28px/37px Segoe UI;
+  }
+
+  .cupsText{
+    font: normal normal 600 38px/36px Assistant;
+    margin-Right: 70px;
+    font-size: 20px;
+    margin-top: 0px;
+    margin-bottom: 10px;
   }

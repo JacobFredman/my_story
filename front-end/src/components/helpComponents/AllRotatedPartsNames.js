@@ -27,12 +27,6 @@ const AllRotatedPartsNames = (props) => {
     console.log(positions);
 
     return (
-        // <div style={{ marginTop: '92px' }}>
-        //     <RotatedPartName height={positions[1] - positions[0]} background='transparent linear-gradient(15deg, #0088CE 0%, #AB3C96 100%) 0% 0% no-repeat padding-box' partNum='1' />
-        //     <RotatedPartName height={positions[2] - positions[1]} background='transparent linear-gradient(15deg, #0088CE 0%, #AB3C96 100%) 0% 0% no-repeat padding-box' partNum='2' />
-        //     <RotatedPartName height={positions[3] - positions[2]} background='transparent linear-gradient(15deg, #0088CE 0%, #AB3C96 100%) 0% 0% no-repeat padding-box' partNum='3' />
-        //     <RotatedPartName height={positions[4] - positions[3]} background='transparent linear-gradient(15deg, #0088CE 0%, #AB3C96 100%) 0% 0% no-repeat padding-box' partNum='4' />
-        // </div>
 
         <div style={{ marginTop: '92px' }}>
             <RotatedPartName height={positions[1] - positions[0]} background='transparent linear-gradient(15deg, #0088CE 0%, #AB3C96 100%) 0% 0% no-repeat padding-box' partNum='1' />
