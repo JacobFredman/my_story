@@ -375,8 +375,6 @@ def updateUserCups():
         return str(e), 500
     else:
         return json.dumps({"rowCount": cursor.rowcount}), 200
-    # finally:
-    #     conn.close()
 
 
 @app.route("/reset_user_cups", methods=["POST"])

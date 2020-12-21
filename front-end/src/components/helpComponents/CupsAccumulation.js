@@ -13,6 +13,7 @@ const CupsAccumulation = () => {
     const CountPossibleCups = () => {
         const count = chaptersAndCups.reduce((a, b) => +a + +b.max_victory_cups, 0);
         console.log(count);
+        console.log(chaptersAndCups);
         return count;
     }
 

@@ -89,7 +89,6 @@ def user_exists(user):
         cursor = get_db_conn().cursor()
         cursor.execute(sql, (user,))
         row = cursor.fetchone()
-        a = 444
     except Exception as e:
         print("error in checking user exsists" + str(e))
     return row[0]
@@ -101,7 +100,6 @@ def isUserAdmin(user):
         cursor = get_db_conn().cursor()
         cursor.execute(sql, (user,))
         row = cursor.fetchone()
-        a = 444
     except Exception as e:
         return "error"
     return row[0]

@@ -5,12 +5,15 @@
     color: black;
     direction: rtl;
     margin-top: 50px;
+    text-align: right;
 }
 
 .Header{
     font: normal normal bold 30px/30px Avigul FM;
     font-family: Avigul;
     letter-spacing: 0px;
+    text-align: right;
+
     /* color:  #0088CE; */
     /* font-size: xx-large; */
 }

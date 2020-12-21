@@ -37,7 +37,9 @@ const CupsTable = () => {
         <Table size="sm" dir='rtl' style={{ direction: 'rtl', textAlign: 'right', background: '#FFFFFF', boxShadow: '0px 0px 20px #00000029', marginTop: '30px' }} >
             <TableCupsHeader />
             {/* <tbody>{chaptersAndCups !== undefined ? <TableCupsRows /> : null}<TableCupsBottom /> */}
-            <tbody>{chaptersAndCups ? <TableCupsRows /> : null}<TableCupsBottom />
+            <tbody>
+                {chaptersAndCups ? <TableCupsRows /> : null}
+                <TableCupsBottom />
             </tbody>
         </Table>
     );

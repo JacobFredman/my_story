@@ -75,4 +75,4 @@ def is_authed_user():
             return "Unauthorized user", 401
     except:
         return "Unauthorized user", 401
-    return "200", 200
+    return localId, 200

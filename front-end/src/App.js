@@ -26,50 +26,36 @@ import AllRotatedPartsNames from './components/helpComponents/AllRotatedPartsNam
 import Example2 from './components/helpComponents/Example2';
 import ShowProgress2 from './components/myProgress/ShowProgress2';
 import PerekTetCupsCol from './components/myProgress/PerekTet/PerekTetCupsCol';
+import { HashRouter } from 'react-router-dom';
+
 
 // process.env.NODE_ENV = 'development';
 // "start": "react-scripts start",
 
 
+{/* <Row>
+  <Col><NavBarBootStrap ></NavBarBootStrap></Col>
+</Row> */}
 
 function App() {
   return (
     <React.Fragment>
       <UpdateReduxe></UpdateReduxe>
-      <Router>
+      <Router >
         <Container >
-          {/* <Row>
-            <Col><NavBarBootStrap ></NavBarBootStrap></Col>
-          </Row> */}
-          {/* <Route path="/show_progress" component={ShowProgress} /> */}
           <Row>
             <Col>
               <Switch>
-                <Route exact path="/" component={ShowProgress} />
                 <Route path="/user_statistics" component={UserStatistics} />
                 <Route path="/admin/cups_and_points" component={Cups_and_points} />
                 <Route path="/admin/feedback_text" component={FeedbackText} />
                 <Route path="/admin/users_statistics" component={AdminReport} />
                 <Route path="/sign_in" component={SignIn} />
                 <Route path="/sign_up" component={SignUp} />
-                {/* <Route path="/connect_us" component={ConnectUs} />
-
-                <Route path="/progress/part1" component={Part1} />
-                <Route path="/progress1" component={Progress} />
-                <Route path="/ProgressesBars" component={ProgressesBars} />
                 <Route path="/show_progress" component={ShowProgress} />
-                <Route path="/Cups_accumulation" component={CupsAccumulation} />
-                <Route path="/Rotated_part_names" component={AllRotatedPartsNames} />
-                <Route path="/Font_example" component={Example2} /> */}
-                <Route path="/Show_progress2" component={ShowProgress2} />
-                <Route path="/Perek_tet" component={PerekTetCupsCol} />
-
+                <Route path="/quick_fill_cups" component={ShowProgress2} />
+                <Route path="/" component={ShowProgress} />
               </Switch>
-              {/* <Col>1 of 3</Col>
-            <Col md="auto">Variable width content</Col>
-            <Col >
-              3 of 3
-    </Col> */}
             </Col>
           </Row>
         </Container>

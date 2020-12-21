@@ -64,14 +64,16 @@ class SignIn extends Component {
 
 
   updateMyDb = async (tokenId) => {
-    const respone = await axios.post(
+    const response = await axios.post(
       baseUrl + 'sign_in',
       { "tokenId": tokenId },
       { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
     );
-    this.props.onGetAuth(respone.data);
+    this.props.onGetAuth(response.data);
+
+    console.log(response);
     // a = { email: "jacov141@gmail.com", is_admin: 0 }
-    return respone;
+    return response;
   };
 
   googleSignIn = async () => {
@@ -95,11 +97,15 @@ class SignIn extends Component {
   }
 
   genericSignIn = result => {
+    // this.props.firebase.getCurrentUser()
+    //   .then(userId => { console.log(userId) });
     this.props.firebase.getTokenId()
       .then(tokenId => {
         // document.cookie = 'cookie2=' + tokenId + '; expires=Sun, 1 Jan 2023 00:00:00 UTC; path=/';
         // document.cookie = 'tokenId=' + tokenId + '; expires=' + new Date(new Date().setFullYear(new Date().getFullYear() + 1)) + '; path=/';
         document.cookie = 'tokenId=' + tokenId + '; expires=' + new Date(new Date().setHours(new Date().getHours() + 1)) + '; path=/';
+        // console.log(this.props.firebase.getCurrentUser().uid);
+        this.props.updateUserId(this.props.firebase.getCurrentUser().uid);
         this.updateMyDb(tokenId)
           .then(resp => { this.props.history.push("/") })
           .catch(error => { console.log(error); alert('error'); })
@@ -227,6 +233,7 @@ class SignIn extends Component {
 const mapDispatchToProps = dispatch => {
   return {
     onGetAuth: val => dispatch({ type: 'AUTH', val }),
+    updateUserId: val => dispatch({ type: 'UPDATEUSERID', val }),
   };
 };
 

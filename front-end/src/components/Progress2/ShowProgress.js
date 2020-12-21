@@ -22,12 +22,21 @@ import Acordion from '../../TextFeadbeack/Acordion';
 import FeadbackTextArea from '../../../src/TextFeadbeack/FeadbackTextArea';
 import Button from 'react-bootstrap/Button';
 import { is_user } from '../myProgress/UpdateCups';
+import QuickFillCupsBtn from '../someBtns/QuickFillCupsBtn';
+import ResetCups from '../myProgress/ResetCups';
+import App from '../../App';
+import { HashRouter } from 'react-router-dom';
+import Cookies from 'js-cookie';
+
+
 
 
 
 
 const ShowProgress = (props) => {
     const chaptersAndCups = useSelector(state => state.chaptersAndCups);
+    const userId = useSelector(state => state.tokenAndDetails.userId);
+    console.log(userId);
     const [showFeedback, setshowFeedback] = useState(false);
     const dispatch = useDispatch();
 
@@ -70,6 +79,17 @@ const ShowProgress = (props) => {
         // alert('not auth');
     }
 
+    const readCookie = (name) => {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+    }
+
 
     useEffect(() => {
         goToLogInIfNotUser();
@@ -106,16 +126,19 @@ const ShowProgress = (props) => {
 
         <React.Fragment>
             <Row>
-                <Col>
-                    <UpLine />
+                <Col >
+                    <Row>
+                        <Col style={{ padding: 0 }}><UpLine /></Col>
+                    </Row>
                     <NavBarDesigned></NavBarDesigned>
                     <Row  >
-                        {/* <Col xs="auto" md={7} style={{ backgroundColor: '#E4E2F230', paddingTop: '30px' }}> */}
                         <Col xs={12} md={7} style={{ backgroundColor: '#E4E2F230', paddingTop: '30px' }}>
+
+
                             <ProgressesBars />
 
                         </Col>
-                        <Col xs="auto" md={5} style={{ backgroundColor: '#E4E2F2C2', textAlign: 'center', paddingTop: '30px', paddingBottom: '10px' }}>
+                        <Col xs={12} md={5} style={{ backgroundColor: '#E4E2F2C2', textAlign: 'center', paddingTop: '30px', paddingBottom: '10px' }}>
                             <Row>
                                 <Col></Col>
                                 <Col xs="auto">
@@ -128,9 +151,9 @@ const ShowProgress = (props) => {
                                         </Col>
                                         <Col xs="auto">
                                             <IoIosPin size="5em" style={{ color: '#C68E30' }}></IoIosPin>
-                                            <h4 className="youInText" style={{ color: '#C68E30' }}>אתה נמצא</h4>
-                                            <h4 className="youInText" style={{ color: '#C68E30' }}>{chaptersAndCups ? getChapterLastReaded().part_number + ' בחלק' : ''}</h4>
-                                            <h4 className="youInText" style={{ color: '#C68E30' }}>
+                                            <h4 className="youInText" style={{ color: '#C68E30', textAlign: 'center' }}>אתה נמצא</h4>
+                                            <h4 className="youInText" style={{ color: '#C68E30', textAlign: 'center' }}>{chaptersAndCups ? getChapterLastReaded().part_number + ' בחלק' : ''}</h4>
+                                            <h4 className="youInText" style={{ color: '#C68E30', textAlign: 'center' }}>
                                                 {chaptersAndCups ? getFirstPartOfNameFromChapter(getChapterLastReaded()) : ''}
                                             </h4>
                                         </Col>
@@ -160,19 +183,26 @@ const ShowProgress = (props) => {
                             {showFeedback
                                 ?
                                 <>
-                                    <FeadbackTextArea parameterName="your_control" headerColor="#0088CE" />
-                                    <FeadbackTextArea parameterName="connection_to_yourself" headerColor="#48C2C5" />
-                                    <FeadbackTextArea parameterName="commitment_to_success" headerColor="#F27652" />
-                                    <FeadbackTextArea parameterName="self_fulfillment" headerColor="#AB3C96" />
+                                    <Row style={{ direction: 'rtl' }}><Col> <FeadbackTextArea parameterName="your_control" headerColor="#0088CE" /></Col></Row>
+                                    <Row ><Col><FeadbackTextArea parameterName="connection_to_yourself" headerColor="#48C2C5" /></Col></Row>
+                                    <Row style={{ direction: 'rtl' }}><Col><FeadbackTextArea parameterName="commitment_to_success" headerColor="#F27652" /></Col></Row>
+                                    <Row ><Col><FeadbackTextArea parameterName="self_fulfillment" headerColor="#AB3C96" /></Col></Row>
                                 </>
                                 : ''
                             }
                         </Col>
                     </Row>
+
                     <Row>
-                        <Col>
-                            <Button onClick={() => props.history.push("/show_progress2")}> למילוי מהיר של הגביעים לחץ כאן </Button>
-                        </Col>
+                        <Col xs='auto' style={{ marginRight: '20px' }}><ResetCups /></Col>
+                        <Col><QuickFillCupsBtn history={props.history} /></Col>
+                        {console.log(document.cookie)}
+                        {console.log(readCookie('tokenId'))}
+
+                        <Col xs='auto'><a href={"https://m.me/MyStory.Book.Bot?ref=" + Cookies.get('tokenId')}  >התחבר לבוט</a> </Col>
+                        <Col xs='auto'><a href={"https://m.me/MyStory.Book.Bot?ref=token--" + readCookie('tokenId')}  >2התחבר לבוט</a> </Col>
+                        <Col></Col>
+                        <Col></Col>
                     </Row>
                 </Col>
             </Row>

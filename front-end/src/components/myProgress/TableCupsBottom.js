@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { resetUserCups, getChaptersAndCups } from './UpdateCups';
 import { useHistory } from "react-router";
 import Button from 'react-bootstrap/Button';
+import ResetCups from './ResetCups';
 
 
 
@@ -49,7 +50,8 @@ const TableCupsBottom = (props) => {
                                 <ButtonFiddbackText onClick={() => this.props.history.push("/user_statistics")} />
                             </div>
                         </Col>
-                        <Col><p onClick={resetAll} style={{ font: 'normal normal 600 16px/13px Assistant', color: '#AB3C96', position: 'absolute', top: '20%', cursor: 'pointer' }}>אפס מסע</p></Col>
+                        {/* <Col><p onClick={resetAll} style={{ font: 'normal normal 600 16px/13px Assistant', color: '#AB3C96', position: 'absolute', top: '20%', cursor: 'pointer' }}>אפס מסע</p></Col> */}
+                        <Col><ResetCups /></Col>
                     </Row>
                     <Row>
                         <Col>

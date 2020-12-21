@@ -12,13 +12,16 @@ import Firebase, { FirebaseContext } from './components/Firebase';
 
 
 
+
 export const store = createStore(reducer1);
 
 // ReactDOM.render(<React.StrictMode><Provider store={store}><App /></Provider></React.StrictMode>,
 //   document.getElementById('root'));
 
 
-ReactDOM.render(<FirebaseContext.Provider value={new Firebase()}> <Provider store={store}><App /></Provider></FirebaseContext.Provider>,
+ReactDOM.render(<FirebaseContext.Provider value={new Firebase()}>
+    <Provider store={store}><App /></Provider>
+</FirebaseContext.Provider>,
     document.getElementById('root'));
 // registerServiceWorker();
 

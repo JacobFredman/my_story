@@ -10,7 +10,10 @@ def getParamter(SP_name, userName, chapterUserHolds):
         for result in cursor.stored_results():
             abc = result.fetchall()
             print(abc[0][0])
-            resultArray.append(float(str(abc[0][0])))
+            if abc[0][0] is None:
+                resultArray.append(0)
+            else:
+                resultArray.append(float(str(abc[0][0])))
     except Exception as e:
         return str(e)
     # finally:
@@ -32,11 +35,10 @@ def getFeedbackText(parameterName, userName):
         userName,
         1000,
     )
+    # if percentOfSeccess is None:
+    # percentOfSeccess = 0
     percentOfSeccess = percentOfSeccess * 100
-    # percentOfSeccess = 20
 
-    # conn1 = mysql.connector.connect(**connDict)
-    # conn1._open_connection()
     cursor = get_db_conn().cursor()
     secondaryHeadersql = (
         "select %s from feedbacktext where under_or_equal_seccess_percent = -2"
@@ -44,17 +46,17 @@ def getFeedbackText(parameterName, userName):
     )
 
     sql = ""
-    if percentOfSeccess <= 49.99:
+    if float(percentOfSeccess) <= 49.99:
         sql = (
             "select %s from feedbacktext where under_or_equal_seccess_percent = 49.99"
             % (parameterName,)
         )
-    elif percentOfSeccess <= 69.99:
+    elif float(percentOfSeccess) <= 69.99:
         sql = (
             "select %s from feedbacktext where under_or_equal_seccess_percent = 69.99"
             % (parameterName,)
         )
-    elif percentOfSeccess <= 100:
+    elif float(percentOfSeccess) <= 100:
         sql = (
             "select %s from feedbacktext where under_or_equal_seccess_percent = 100"
             % (parameterName,)

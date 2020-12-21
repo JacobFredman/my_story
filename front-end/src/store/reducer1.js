@@ -25,7 +25,8 @@
 const initState = {
     tokenAndDetails: {
         email: null,
-        is_admin: 0
+        is_admin: 0,
+        userId: undefined
     },
     loading: { val: false },
     chaptersAndCups: undefined,
@@ -47,10 +48,13 @@ const ChangeChapterReadStatus = (chapter, is_readed) => {
 const reducer1 = (state = initState, action) => {
     switch (action.type) {
         case 'AUTH':
-            state = { ...state, tokenAndDetails: action.val }
+            state = { ...state, tokenAndDetails: { ...state.tokenAndDetails, email: action.val.email, is_admin: action.val.is_admin } }
+            break;
+        case 'UPDATEUSERID':
+            state = { ...state, tokenAndDetails: { ...state.tokenAndDetails, userId: action.val } }
             break;
         case 'CHAPTERSANDCUPS':
-            state = { ...state, chaptersAndCups: action.val };
+            state = { ...state, chaptersAndCups: action.val }
             break;
         case 'UPDATEWINEDCUPSCHAPTER':
             state = {

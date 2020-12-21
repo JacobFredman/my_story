@@ -31,7 +31,7 @@ const FeadbackTextArea = (props) => {
 
     const cleanedFeedbackText = () => {
         return feadbackText.replaceAll("$", " ");
-        // return feadbackText.replaceAll("$", "</p><p>");
+        // return feadbackText.replaceAll("$", "<p></p>");
     }
 
     useEffect(() => {
