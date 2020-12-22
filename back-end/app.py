@@ -1,14 +1,10 @@
+import os
 from initApp import *
 
 from allViews import *
 
-# app = Flask(__name__,
-#             static_url_path='',
-#             static_folder='web/static',
-#             template_folder='web/templates')
 
-
-@app.route("/hhh")
+@app.route("/api/hhh")
 def hhh():
     return "hhh"
 
@@ -16,6 +12,19 @@ def hhh():
 @app.route("/jac")
 def jac():
     return "hhh"
+
+
+# Serve React App
+# @app.route("/", defaults={"path": ""})
+# @app.route("/<path:path>")
+# def serve(path):
+#     print("kkk")
+#     if path != "" and os.path.exists(app.static_folder + "/" + path):
+#         print("not index")
+#         return send_from_directory(app.static_folder, path)
+#     else:
+#         print("index")
+#         return send_from_directory(app.static_folder, "index.html")
 
 
 # @app.route("/js/<path:path>")

@@ -86,6 +86,7 @@ class SignIn extends Component {
       })
   }
 
+
   facebookSignIn = async () => {
     this.props.firebase.getSignInWithFacebook().then(result => {
       this.genericSignIn(result);
@@ -95,6 +96,7 @@ class SignIn extends Component {
         this.setState({ showUnAuthMsg: true });
       })
   }
+
 
   genericSignIn = result => {
     // this.props.firebase.getCurrentUser()

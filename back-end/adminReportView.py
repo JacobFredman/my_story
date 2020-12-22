@@ -9,7 +9,7 @@ from admin_report import (
 from user import is_user_admin
 
 
-@app.route("/admin/get_users_statistics", methods=["POST"])
+@app.route("/api/admin/get_users_statistics", methods=["POST"])
 def a():
     try:
         if not is_user_admin(request.cookies.get("tokenId")):
@@ -34,7 +34,7 @@ def a():
     )
 
 
-@app.route("/admin/user_statistics.csv", methods=["GET"])
+@app.route("/api/admin/user_statistics.csv", methods=["GET"])
 def user_statistics_Excel():
     try:
         if not is_user_admin(request.cookies.get("tokenId")):

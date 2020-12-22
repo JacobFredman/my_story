@@ -3,7 +3,7 @@ import sendEmail
 from initApp import app
 
 
-@app.route("/about_us", methods=["POST"])
+@app.route("/api/about_us", methods=["POST"])
 def send_q_email():
     SP_paremeters_as_dict = request.get_json(force=True)
     return sendEmail.sendEmail(

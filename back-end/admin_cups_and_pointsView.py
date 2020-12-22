@@ -7,7 +7,7 @@ from user import is_user_admin
 admin_cups_and_points = Blueprint("admin_cups_and_points", __name__)
 
 
-@app.route("/admin/cups_and_points", methods=["POST"])
+@app.route("/api/admin/cups_and_points", methods=["POST"])
 def getUserCupsForAllChapters():
     try:
         if not is_user_admin(request.cookies.get("tokenId")):
@@ -42,7 +42,7 @@ def getUserCupsForAllChapters():
     return json.dumps({"rows": data}), 200
 
 
-@app.route("/update_chapter_points_max", methods=["POST"])
+@app.route("/api/update_chapter_points_max", methods=["POST"])
 def update_chapter_points_max():
     try:
         if not is_user_admin(request.cookies.get("tokenId")):

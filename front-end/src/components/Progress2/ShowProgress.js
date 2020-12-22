@@ -199,8 +199,7 @@ const ShowProgress = (props) => {
                         {console.log(document.cookie)}
                         {console.log(readCookie('tokenId'))}
 
-                        <Col xs='auto'><a href={"https://m.me/MyStory.Book.Bot?ref=" + Cookies.get('tokenId')}  >התחבר לבוט</a> </Col>
-                        <Col xs='auto'><a href={"https://m.me/MyStory.Book.Bot?ref=token--" + readCookie('tokenId')}  >2התחבר לבוט</a> </Col>
+                        <Col xs='auto'><a href={"https://m.me/MyStory.Book.Bot?ref=token--" + readCookie('tokenId')} target="_blank" >התחבר לבוט</a> </Col>
                         <Col></Col>
                         <Col></Col>
                     </Row>

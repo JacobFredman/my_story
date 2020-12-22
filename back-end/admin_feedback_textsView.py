@@ -5,7 +5,7 @@ from initApp import app, get_db_conn
 from user import is_user_admin
 
 
-@app.route("/admin/feedback_texts", methods=["POST"])
+@app.route("/api/admin/feedback_texts", methods=["POST"])
 def get_feedback_texts():
     try:
         if not is_user_admin(request.cookies.get("tokenId")):
@@ -39,7 +39,7 @@ def get_feedback_texts():
     return json.dumps({"rows": data}), 200
 
 
-@app.route("/update_feedback_texts", methods=["POST"])
+@app.route("/api/update_feedback_texts", methods=["POST"])
 def update_feedback_texts():
     try:
         if not is_user_admin(request.cookies.get("tokenId")):

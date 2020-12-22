@@ -51,9 +51,12 @@ function App() {
                 <Route path="/admin/feedback_text" component={FeedbackText} />
                 <Route path="/admin/users_statistics" component={AdminReport} />
                 <Route path="/sign_in" component={SignIn} />
+                <Route path="/client/sign_in" component={SignIn} />
                 <Route path="/sign_up" component={SignUp} />
+                <Route path="/client/sign_up" component={SignUp} />
                 <Route path="/show_progress" component={ShowProgress} />
                 <Route path="/quick_fill_cups" component={ShowProgress2} />
+                <Route path="/client/quick_fill_cups" component={ShowProgress2} />
                 <Route path="/" component={ShowProgress} />
               </Switch>
             </Col>

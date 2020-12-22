@@ -18,47 +18,6 @@ goals_or_hablits_chapter = 11
 # conn = mysql.connector.connect(**connDict)
 
 
-# @cups_menage.route('/initioal_user_golas_or_habits', methods=['POST'])
-
-
-# @app.route("/get_user_cups", methods=["POST"])
-# def getUserCupsForAllChapters1():
-#     try:
-#         user, localId = get_user_firebase(request.cookies.get("tokenId"))
-#         if not user:
-#             return "Unauthorized user", 401
-#     except:
-#         return "Unauthorized user", 401
-
-#     sql = """
-#     SELECT chapter.chapter_id, chapter_name, victory_cups_wined, max_victory_cups, automatic_win, is_readed, part_number
-#     FROM chapter natural join user_cups
-#     WHERE user_cups.user_name = %s;
-#     """
-#     cursor = get_db_conn().cursor()
-#     try:
-#         cursor.execute(sql, (localId,))
-#         rows = cursor.fetchall()
-#         data = []
-#         for row in rows:
-#             data.append(
-#                 {
-#                     "id": row[0],
-#                     "chapter_name": row[1],
-#                     "victory_cups_wined": row[2],
-#                     "max_victory_cups": row[3],
-#                     "automatic_win": row[4],
-#                     "is_readed": row[5],
-#                     "part_number": row[6],
-#                 }
-#             )
-#     except Exception as e:
-#         print(str(e))
-#         return "error", 500
-#     response = jsonify({"rows": data})
-#     return response
-
-
 @app.route("/get_user_cups", methods=["POST"])
 def getUserCupsForAllChapters1():
     try:
