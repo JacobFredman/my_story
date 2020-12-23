@@ -87,6 +87,8 @@ class SignIn extends Component {
   }
 
 
+
+
   facebookSignIn = async () => {
     this.props.firebase.getSignInWithFacebook().then(result => {
       this.genericSignIn(result);

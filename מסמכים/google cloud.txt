@@ -1,0 +1,3 @@
+# for logs on the fly 
+gcloud app logs tail -s default
+	

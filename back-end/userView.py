@@ -10,7 +10,7 @@ from user import (
 from cups_menage import initial_user_cups
 
 
-@app.route("/sign_up", methods=["POST"])
+@app.route("/api/sign_up", methods=["POST"])
 def signUp():
     request_paremeters_as_dict = request.get_json(force=True)
     email = request_paremeters_as_dict["email"]
@@ -34,7 +34,7 @@ def signUp():
     return "user created seccessfuly", 200
 
 
-@app.route("/sign_in", methods=["POST"])
+@app.route("/api/sign_in", methods=["POST"])
 def signIn():
     # request_paremeters_as_dict = request.get_json(force=True)
     # email = request_paremeters_as_dict['email']
@@ -58,7 +58,7 @@ def signIn():
     return json.dumps({"is_admin": isAdmin, "email": user["email"]}), 200
 
 
-@app.route("/get_user_data", methods=["POST"])
+@app.route("/api/get_user_data", methods=["POST"])
 def get_user_data():
     tokenId = request.get_json(force=True)["tokenId"]
     user = get_auth().get_account_info(tokenId)["users"][0]
@@ -67,7 +67,7 @@ def get_user_data():
     return json.dumps({"is_admin": isAdmin, "email": user["email"]}), 200
 
 
-@app.route("/is_authed_user", methods=["POST"])
+@app.route("/api/is_authed_user", methods=["POST"])
 def is_authed_user():
     try:
         user, localId = get_user_firebase(request.cookies.get("tokenId"))

@@ -18,7 +18,7 @@ goals_or_hablits_chapter = 11
 # conn = mysql.connector.connect(**connDict)
 
 
-@app.route("/get_user_cups", methods=["POST"])
+@app.route("/api/get_user_cups", methods=["POST"])
 def getUserCupsForAllChapters1():
     try:
         user, localId = get_user_firebase(request.cookies.get("tokenId"))
@@ -52,7 +52,7 @@ def getUserCupsForAllChapters1():
     return response
 
 
-@app.route("/get_goals_or_habits", methods=["POST"])
+@app.route("/api/get_goals_or_habits", methods=["POST"])
 def get_goals_or_habits():
     try:
         user, localId = get_user_firebase(request.cookies.get("tokenId"))
@@ -86,7 +86,7 @@ def get_goals_or_habits():
     return json.dumps({"val": data}), 200
 
 
-@app.route("/get_user_control", methods=["POST"])
+@app.route("/api/get_user_control", methods=["POST"])
 def getUserControl():
     try:
         user, localId = get_user_firebase(request.cookies.get("tokenId"))
@@ -102,7 +102,7 @@ def getUserControl():
     return json.dumps({"val": str(result)}), 200
 
 
-@app.route("/get_user_connection_to_yourself", methods=["POST"])
+@app.route("/api/get_user_connection_to_yourself", methods=["POST"])
 def getUserSelfConnection():
     try:
         user, localId = get_user_firebase(request.cookies.get("tokenId"))
@@ -118,7 +118,7 @@ def getUserSelfConnection():
     return json.dumps({"val": str(result)}), 200
 
 
-@app.route("/get_user_commitment_to_success", methods=["POST"])
+@app.route("/api/get_user_commitment_to_success", methods=["POST"])
 def getUserCommitment_to_success():
     try:
         user, localId = get_user_firebase(request.cookies.get("tokenId"))
@@ -135,7 +135,7 @@ def getUserCommitment_to_success():
     return json.dumps({"val": str(result)}), 200
 
 
-@app.route("/get_user_self_fulfillment", methods=["POST"])
+@app.route("/api/get_user_self_fulfillment", methods=["POST"])
 def getUserSelfFulfillment():
     try:
         user, localId = get_user_firebase(request.cookies.get("tokenId"))
@@ -154,7 +154,7 @@ def getUserSelfFulfillment():
 ############## get parameter until chapter user holds ##################
 
 
-@app.route("/get_user_control_for_now", methods=["POST"])
+@app.route("/api/get_user_control_for_now", methods=["POST"])
 def getUserControlForNow():
     try:
         user, localId = get_user_firebase(request.cookies.get("tokenId"))
@@ -168,7 +168,7 @@ def getUserControlForNow():
     return json.dumps({"val": str(result)}), 200
 
 
-@app.route("/get_user_connection_to_yourself_for_now", methods=["POST"])
+@app.route("/api/get_user_connection_to_yourself_for_now", methods=["POST"])
 def getUserSelfConnectionForNow():
     try:
         user, localId = get_user_firebase(request.cookies.get("tokenId"))
@@ -182,7 +182,7 @@ def getUserSelfConnectionForNow():
     return json.dumps({"val": str(result)}), 200
 
 
-@app.route("/get_user_commitment_to_success_for_now", methods=["POST"])
+@app.route("/api/get_user_commitment_to_success_for_now", methods=["POST"])
 def getUserCommitment_to_successForNow():
     try:
         user, localId = get_user_firebase(request.cookies.get("tokenId"))
@@ -196,7 +196,7 @@ def getUserCommitment_to_successForNow():
     return json.dumps({"val": str(result)}), 200
 
 
-@app.route("/get_user_self_fulfillment_for_now", methods=["POST"])
+@app.route("/api/get_user_self_fulfillment_for_now", methods=["POST"])
 def getUserSelfFulfillmentForNow():
     try:
         user, localId = get_user_firebase(request.cookies.get("tokenId"))
@@ -210,7 +210,7 @@ def getUserSelfFulfillmentForNow():
     return json.dumps({"val": str(result)}), 200
 
 
-@app.route("/update_user_goals", methods=["POST"])
+@app.route("/api/update_user_goals", methods=["POST"])
 def update_user_goals():
     try:
         user, localId = get_user_firebase(request.cookies.get("tokenId"))
@@ -257,7 +257,7 @@ def update_user_goals():
     #     conn.close()
 
 
-@app.route("/get_feadback", methods=["POST"])
+@app.route("/api/get_feadback", methods=["POST"])
 def get_feadback():
     try:
         user, localId = get_user_firebase(request.cookies.get("tokenId"))
@@ -269,7 +269,7 @@ def get_feadback():
     return getFeedbackText(SP_paremeters_as_dict["parameterName"], localId)
 
 
-@app.route("/update_chapter_read_status", methods=["POST"])
+@app.route("/api/update_chapter_read_status", methods=["POST"])
 def updateChapterReadStatus():
     try:
         user, localId = get_user_firebase(request.cookies.get("tokenId"))
@@ -304,7 +304,7 @@ def updateChapterReadStatus():
     #     conn.close()
 
 
-@app.route("/update_user_cups", methods=["POST"])
+@app.route("/api/update_user_cups", methods=["POST"])
 def updateUserCups():
     try:
         user, localId = get_user_firebase(request.cookies.get("tokenId"))
@@ -336,7 +336,7 @@ def updateUserCups():
         return json.dumps({"rowCount": cursor.rowcount}), 200
 
 
-@app.route("/reset_user_cups", methods=["POST"])
+@app.route("/api/reset_user_cups", methods=["POST"])
 def resetUserCups():
     try:
         user, localId = get_user_firebase(request.cookies.get("tokenId"))

@@ -71,7 +71,7 @@ const ShowProgress = (props) => {
         const msg = await is_user();
         console.log(msg);
         if (msg === '401' || msg.data === 401) {
-            props.history.push("/sign_in/");
+            props.history.push("/sign_in");
             console.log('401');
         }
         if (msg.data === 200)

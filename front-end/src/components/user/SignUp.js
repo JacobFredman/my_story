@@ -49,7 +49,7 @@ class SignUp extends Component {
             { headers: { 'Content-Type': 'application/json' } }
         )
 
-        this.props.history.push("/sign_in/")
+        this.props.history.push("/sign_in")
     }
 
 
@@ -129,7 +129,7 @@ class SignUp extends Component {
                                 <Col >
                                     <div className="goToSignUpContainer">
                                         <div style={{ color: '#FFFFFF', textAlign: 'left', flex: '0 0 60%' }}>כבר יש לך חשבון?</div>
-                                        <div onClick={() => this.props.history.push("/sign_in/")} style={{ color: '#61147B', flex: '2', textAlign: 'right', cursor: 'pointer' }}>הכנס/י</div>
+                                        <div onClick={() => this.props.history.push("/sign_in")} style={{ color: '#61147B', flex: '2', textAlign: 'right', cursor: 'pointer' }}>הכנס/י</div>
                                     </div>
                                 </Col>
                             </Row>
