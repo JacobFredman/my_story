@@ -1,27 +1,27 @@
 {
   "files": {
-    "main.css": "./static/css/main.10bc000e.chunk.css",
-    "main.js": "./static/js/main.1b3e86fc.chunk.js",
-    "main.js.map": "./static/js/main.1b3e86fc.chunk.js.map",
-    "runtime-main.js": "./static/js/runtime-main.2ef79076.js",
-    "runtime-main.js.map": "./static/js/runtime-main.2ef79076.js.map",
-    "static/css/2.43079d8c.chunk.css": "./static/css/2.43079d8c.chunk.css",
-    "static/js/2.d5edb5d7.chunk.js": "./static/js/2.d5edb5d7.chunk.js",
-    "static/js/2.d5edb5d7.chunk.js.map": "./static/js/2.d5edb5d7.chunk.js.map",
-    "index.html": "./index.html",
-    "precache-manifest.dec16414ddc7c1206db36019bc18454c.js": "./precache-manifest.dec16414ddc7c1206db36019bc18454c.js",
-    "service-worker.js": "./service-worker.js",
-    "static/css/2.43079d8c.chunk.css.map": "./static/css/2.43079d8c.chunk.css.map",
-    "static/css/main.10bc000e.chunk.css.map": "./static/css/main.10bc000e.chunk.css.map",
-    "static/js/2.d5edb5d7.chunk.js.LICENSE.txt": "./static/js/2.d5edb5d7.chunk.js.LICENSE.txt",
-    "static/media/ShowProgress.css": "./static/media/backGroundWhatsApp1.4f1634fd.svg",
-    "static/media/index.css": "./static/media/avigul-bold-fm.78ec4dc8.woff2"
+    "main.css": "http://localhost:5000/static/css/main.e43befa5.chunk.css",
+    "main.js": "http://localhost:5000/static/js/main.14c709ac.chunk.js",
+    "main.js.map": "http://localhost:5000/static/js/main.14c709ac.chunk.js.map",
+    "runtime-main.js": "http://localhost:5000/static/js/runtime-main.4a4300cf.js",
+    "runtime-main.js.map": "http://localhost:5000/static/js/runtime-main.4a4300cf.js.map",
+    "static/css/2.43079d8c.chunk.css": "http://localhost:5000/static/css/2.43079d8c.chunk.css",
+    "static/js/2.d5edb5d7.chunk.js": "http://localhost:5000/static/js/2.d5edb5d7.chunk.js",
+    "static/js/2.d5edb5d7.chunk.js.map": "http://localhost:5000/static/js/2.d5edb5d7.chunk.js.map",
+    "index.html": "http://localhost:5000/index.html",
+    "precache-manifest.ab25e130cca18a419996fa4119b3af10.js": "http://localhost:5000/precache-manifest.ab25e130cca18a419996fa4119b3af10.js",
+    "service-worker.js": "http://localhost:5000/service-worker.js",
+    "static/css/2.43079d8c.chunk.css.map": "http://localhost:5000/static/css/2.43079d8c.chunk.css.map",
+    "static/css/main.e43befa5.chunk.css.map": "http://localhost:5000/static/css/main.e43befa5.chunk.css.map",
+    "static/js/2.d5edb5d7.chunk.js.LICENSE.txt": "http://localhost:5000/static/js/2.d5edb5d7.chunk.js.LICENSE.txt",
+    "static/media/ShowProgress.css": "http://localhost:5000/static/media/backGroundWhatsApp1.4f1634fd.svg",
+    "static/media/index.css": "http://localhost:5000/static/media/avigul-bold-fm.78ec4dc8.woff2"
   },
   "entrypoints": [
-    "static/js/runtime-main.2ef79076.js",
+    "static/js/runtime-main.4a4300cf.js",
     "static/css/2.43079d8c.chunk.css",
     "static/js/2.d5edb5d7.chunk.js",
-    "static/css/main.10bc000e.chunk.css",
-    "static/js/main.1b3e86fc.chunk.js"
+    "static/css/main.e43befa5.chunk.css",
+    "static/js/main.14c709ac.chunk.js"
   ]
 }
