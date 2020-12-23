@@ -1,7 +1,11 @@
 import os
+
 from initApp import *
 
 from allViews import *
+
+
+app = app
 
 
 @app.route("/api/hhh")
