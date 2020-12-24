@@ -4,6 +4,8 @@
 
 
 export const baseUrl = "https://achraiut-test.et.r.appspot.com/api/";
+// export const baseUrl = "http://localhost:5000/api/";
+
 
 // export const baseUrl111 = "https://story.mmb.org.il/server1/";
 // export const baseUrl111 = "https://story.mmb.org.il/server1/api/";
