@@ -10,7 +10,7 @@ import axios from 'axios';
 import Container from 'react-bootstrap/Container';
 import Helmet from 'react-helmet';
 import '../user/SignUp.css';
-
+import ShowPrivatePolicy from './ShowPrivatePolicy';
 
 
 
@@ -22,7 +22,8 @@ const INITIAL_STATE = {
     passwordOne: '',
     passwordTwo: '',
     error: null,
-    showUnAuthMsg: false
+    showUnAuthMsg: false,
+    showPrivatePolicy: false
 };
 
 class SignUp extends Component {
@@ -73,16 +74,12 @@ class SignUp extends Component {
                             show={this.state.showUnAuthMsg}
                             onClickOk={() => this.setState({ showUnAuthMsg: false })}
                             title='לא נרשם'
-                            // bodyMsg='שם משתמש או סיסמה שגוי, נא נסה שנית'
                             bodyMsg={this.state.error}
                         >
                         </WarnningWithOk>
                     </Col>
                 </Row>
 
-                {/* <Row> */}
-                {/* <Col> */}
-                {/* <div style={{ height: "100px" }} className="align-items-center"> */}
                 <Container className="d-flex align-items-center" style={{ textAlign: 'center', maxWidth: '600px', height: '100vh' }} >
                     <Row style={{ margin: 'auto' }}>
                         <Col>
@@ -118,6 +115,25 @@ class SignUp extends Component {
                                             <Col></Col>
                                         </Form.Row>
                                         <Form.Row>
+                                            <span style={{ marginRight: '5px' }}>
+                                                <input
+                                                    style={{ marginRight: '20px' }}
+                                                    style={{ marginLeft: '5px' }}
+                                                    name="isGoing"
+                                                    type="checkbox"
+                                                    defaultChecked={false}
+                                                    // checked={this.state.isGoing}
+                                                    onChange={this.handleInputChange} />
+                                                <p style={{ display: 'inline-block', marginLeft: '7px', color: 'white' }}>קראתי את</p>
+                                                <span style={{ display: 'inline-block', cursor: 'pointer', textDecoration: 'underline' }} onClick={() => this.setState({ showPrivatePolicy: true })}>הסכם הפרטיות</span>
+                                            </span>
+                                            <ShowPrivatePolicy open={this.state.showPrivatePolicy} onAceptPrivacyPolicy={() => this.setState({ showPrivatePolicy: false })} />
+                                            {/* <Col>
+                                                <p>קראתי את</p>
+                                                <a>הסכם הפרטיות</a>
+                                            </Col> */}
+                                        </Form.Row>
+                                        <Form.Row>
                                             <Form.Group as={Col} controlId="formGridButton">
                                                 <div className="goOnBtn" onClick={() => this.handleSubmit()}>המשך</div>
                                             </Form.Group>
@@ -129,52 +145,13 @@ class SignUp extends Component {
                                 <Col >
                                     <div className="goToSignUpContainer">
                                         <div style={{ color: '#FFFFFF', textAlign: 'left', flex: '0 0 60%' }}>כבר יש לך חשבון?</div>
-                                        <div onClick={() => this.props.history.push("/sign_in")} style={{ color: '#61147B', flex: '2', textAlign: 'right', cursor: 'pointer' }}>הכנס/י</div>
+                                        <div onClick={() => this.props.history.push("/sign_in")} style={{ color: '#61147B', flex: '2', textAlign: 'right', cursor: 'pointer' }}>הכנס</div>
                                     </div>
                                 </Col>
                             </Row>
                         </Col>
                     </Row>
                 </Container>
-                {/* </Col> */}
-                {/* </Row> */}
-                {/* <Row>
-                    <Col>
-                        <Form dir='rtl' onSubmit={this.handleSubmit} >
-                            <Form.Row>
-                                <Form.Group as={Col} controlId="formGridEmail">
-                                    <Form.Label>שם פרטי</Form.Label>
-                                    <Form.Control name='user_first_name' value={this.state.user_first_name} type="text" placeholder="שם פרטי" onChange={this.handleChange} />
-                                </Form.Group>
-                            </Form.Row>
-                            <Form.Row>
-                                <Form.Group as={Col} controlId="formGridEmail">
-                                    <Form.Label>שם משפחה</Form.Label>
-                                    <Form.Control name='user_last_name' value={this.state.user_last_name} type="text" placeholder="שם משפחה" onChange={this.handleChange} />
-                                </Form.Group>
-                            </Form.Row>
-                            <Form.Row>
-                                <Form.Group as={Col} controlId="formGridPassword">
-                                    <Form.Label>קוד</Form.Label>
-                                    <Form.Control name='passwordOne' value={this.state.password} type="password" placeholder="הקש סיסמה" onChange={this.handleChange} />
-                                </Form.Group>
-                                <Form.Group as={Col} controlId="formGridPassword">
-                                    <Form.Label>אמת קוד</Form.Label>
-                                    <Form.Control name='passwordTwo' value={this.state.password} type="password" placeholder="הקש סיסמה" onChange={this.handleChange} />
-                                </Form.Group>
-                            </Form.Row>
-                            <Form.Row>
-                                <Form.Group as={Col} controlId="formGridPassword">
-                                    <Form.Label>אימייל</Form.Label>
-                                    <Form.Control name='email' value={this.state.password} type="email" placeholder="הזן אימייל" onChange={this.handleChange} />
-                                </Form.Group>
-                            </Form.Row>
-                            <Form.Row>
-                                <Button disabled={this.isInvalid()} onClick={() => this.handleSubmit()} variant="primary">הרשם</Button>
-                            </Form.Row>
-                        </Form>
-                    </Col>
-                </Row> */}
             </React.Fragment >
         );
     }

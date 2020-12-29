@@ -103,3 +103,12 @@ def isUserAdmin(user):
     except Exception as e:
         return "error"
     return row[0]
+
+
+def delete_user(user):
+    cursor = get_db_conn().cursor()
+    try:
+        cursor.callproc("delete_user_data", (user_name,))
+    except Exception as e:
+        return 0
+    return 1

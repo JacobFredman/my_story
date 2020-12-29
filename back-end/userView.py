@@ -6,6 +6,7 @@ from user import (
     user_exists,
     isUserAdmin,
     get_user_firebase,
+    delete_user
 )
 from cups_menage import initial_user_cups
 
@@ -55,7 +56,8 @@ def signIn():
         return "error", 500
     # finally:
     #     conn.close()
-    return json.dumps({"is_admin": isAdmin, "email": user["email"]}), 200
+    # return json.dumps({"is_admin": isAdmin, "email": user["email"]}), 200
+    return json.dumps({"is_admin": isAdmin, "email": 'notExist'}), 200
 
 
 @app.route("/api/get_user_data", methods=["POST"])
@@ -76,3 +78,18 @@ def is_authed_user():
     except:
         return "Unauthorized user", 401
     return localId, 200
+
+
+@app.route("/api/delete_user_from_local_db", methods=["POST"])
+def delete_user_view():
+    try:
+        user, localId = get_user_firebase(request.cookies.get("tokenId"))
+        if not user:
+            return "Unauthorized user", 401
+    except:
+        return "Unauthorized user", 401
+    try:
+        delete_user(localId)
+    except:
+        return 'user not deleted seccefuly', 500
+    return 'user deleted', 200

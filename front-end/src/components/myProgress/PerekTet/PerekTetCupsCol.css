@@ -10,8 +10,8 @@
     font: normal normal 600  Assistant;
     /* padding: 5px; */
 }
-
-.activeBtn{
+/* 
+.activeBtnGoalsOrHabits{
     font-size: 10px ;
     height: 25px;
     line-height: 25px;
@@ -19,7 +19,7 @@
     background:#7EB8C4 0% 0% no-repeat padding-box;
 }
 
-.notActiveBtn{
+.notActiveBtnGoalsOrHabits{
     font-size: 10px ;
     height: 23px;
     line-height: 23px;
@@ -35,34 +35,39 @@
 .notActiveBtn:hover{
     cursor: pointer;
     background: #ecebeb 0% 0% no-repeat padding-box;
-}
+} */
 
 .goalsOrHobitsInput{
     background: #FFFFFF 0% 0% no-repeat padding-box;
-border: 1px solid #4B9791;
-border-radius: 20px;
-text-align: center;
-width: 70px;
-height: 25px;
-/* font: normal normal normal 11px/12px Assistant; */
-font-size: 11px;
-font-family: Assistant ;
-color: #8a8282;
+    border-radius: 20px;
+    text-align: center;
+    width: 120px;
+    height: 25px;
+    font-size: 11px;
+    font-family: Assistant ;
+}
+
+.goalsOrHobitsInputOkStatus{
+    border: 1px solid #4B9791;
+    color: #9b8f8f;
+}
+
+.goalsOrHobitsInputWarningStatus{
+    border: 2px solid #da3d21;
+    color: #a54d4d;
 }
 
 .goalsOrHobitsBtnsContainer{
     display: inline-flex;
 }
 
-.goalsOrHobitsInput::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+.goalsOrHobitsInput::placeholder { 
 font: normal normal normal ;
-font-size: 8px;
-/* font-family: Assistant; */
-    color: #CBCBCB;
-    opacity: 1; /* Firefox */
+font-size: 10px;
+    color: #b9b6b6;
   }
 
   textarea:focus, input:focus{
     outline: none;
 }
-
+ 

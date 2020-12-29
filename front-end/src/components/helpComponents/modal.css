@@ -1,0 +1,37 @@
+/* examples/custom-styling.css */
+.customOverlay {
+    background: #38355E8C;
+  }
+  .customModal {
+    background:  #ffffff;
+    max-width: 500px;
+    width: 100%;
+    border-radius: 43px;
+    box-shadow: 0px 7px 6px #00000029;
+    text-align: center;
+  }
+
+  .modalHeader{
+    letter-spacing: var(--unnamed-character-spacing-0);
+    letter-spacing: 0px;
+    color: #0088CE; 
+    font-size: 30px;
+    font-weight: bold;
+    font-family: Avigul FM;
+    margin-bottom: 0.1rem;
+  }
+
+/* 
+  .Modal {
+    font-family: Raleway;
+    background-color: #242222;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 90vh;
+    width: 50vw;
+    margin-right: -50%;
+    color: white;
+    border-radius: 400px;
+  } */

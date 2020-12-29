@@ -1,0 +1,81 @@
+/* examples/custom-styling.css */
+.loadingPageOverlay {
+    background: #ffffff;
+    background-image:  url('../Photos/backGroundWhatsApp1.svg') ;
+    background-position: left top;
+    background-repeat: repeat;
+    opacity:1;
+    /* background:'red'; */
+  }
+
+  .loadingPageModal {
+    /* background:  #ffffff; */
+    max-width: 500px;
+    width: 100%;
+    border-radius: 43px;
+    box-shadow: none;
+    background:  none;
+    /* background: #38355E8C; */
+    text-align: center;
+    box-shadow: none;
+    margin: auto;
+  }
+
+  .closeBtn{
+    display: none;
+  }
+
+  .textloading{
+    font-family: Assistant;
+    font-size: 20px;
+     font-weight: 600;
+    color: #F15F33
+  }
+
+  .backStyle{
+    background-image:  url('../Photos/backGroundWhatsApp1.svg') ;
+    /* background-image: url('../../Photos/BackGroundLeftRoad.svg') ; */
+    /* background-image: url('../../Photos//backGroundWhatsApp1.svg'), ; */
+    /* background-position: right bottom, left top; */
+    background-position: left top;
+    background-repeat: repeat;
+    /* background-size:500px 1000px, contain ; */
+}
+
+
+  /* .react-responsive-modal-modal {
+    max-width: 800px;
+    position: relative;
+    padding: 1.2rem;
+    background: #ffffff;
+    background-clip: padding-box;
+    box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.25);
+    margin: 0 auto;
+} */
+
+ 
+/* 
+  .modalHeader{
+    letter-spacing: var(--unnamed-character-spacing-0);
+    letter-spacing: 0px;
+    color: #0088CE; 
+    font-size: 30px;
+    font-weight: bold;
+    font-family: Avigul FM;
+    margin-bottom: 0.1rem;
+  } */
+
+/* 
+  .Modal {
+    font-family: Raleway;
+    background-color: #242222;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 90vh;
+    width: 50vw;
+    margin-right: -50%;
+    color: white;
+    border-radius: 400px;
+  } */

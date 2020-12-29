@@ -90,9 +90,10 @@ class SignIn extends Component {
 
 
   facebookSignIn = async () => {
-    this.props.firebase.getSignInWithFacebook().then(result => {
-      this.genericSignIn(result);
-    })
+    this.props.firebase.getSignInWithFacebook()
+      .then(result => {
+        this.genericSignIn(result);
+      })
       .catch(error => {
         console.log(error);
         this.setState({ showUnAuthMsg: true });
@@ -107,7 +108,8 @@ class SignIn extends Component {
       .then(tokenId => {
         // document.cookie = 'cookie2=' + tokenId + '; expires=Sun, 1 Jan 2023 00:00:00 UTC; path=/';
         // document.cookie = 'tokenId=' + tokenId + '; expires=' + new Date(new Date().setFullYear(new Date().getFullYear() + 1)) + '; path=/';
-        document.cookie = 'tokenId=' + tokenId + '; expires=' + new Date(new Date().setHours(new Date().getHours() + 1)) + '; path=/';
+        // document.cookie = 'tokenId=' + tokenId + '; expires=' + new Date(new Date().setHours(new Date().getHours() + 1)) + '; path=/';
+        document.cookie = 'tokenId=' + tokenId + '; expires=' + new Date(new Date().setMonth(new Date().getMonth() + 3)) + '; path=/';
         // console.log(this.props.firebase.getCurrentUser().uid);
         this.props.updateUserId(this.props.firebase.getCurrentUser().uid);
         this.updateMyDb(tokenId)
@@ -208,7 +210,7 @@ class SignIn extends Component {
                       <Col>
                         <div className="goToSignUpContainer">
                           <div style={{ color: '#FFFFFF', textAlign: 'left', flex: '0 0 70%' }}>אין לך עדיין חשבון?</div>
-                          <div onClick={() => this.props.history.push("/sign_up/")} style={{ color: '#61147B', flex: '2', textAlign: 'right', cursor: 'pointer' }}>הרשמ/י</div>
+                          <div onClick={() => this.props.history.push("/sign_up/")} style={{ color: '#61147B', flex: '2', textAlign: 'right', cursor: 'pointer' }}>הרשם</div>
                         </div>
                         <Row>
                           <Col>

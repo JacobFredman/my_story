@@ -27,6 +27,8 @@ import Example2 from './components/helpComponents/Example2';
 import ShowProgress2 from './components/myProgress/ShowProgress2';
 import PerekTetCupsCol from './components/myProgress/PerekTet/PerekTetCupsCol';
 import { HashRouter } from 'react-router-dom';
+import PrivatePolicy from '../src/components/user/PrivatePolicy';
+import LoadingPage from '../src/components/LoadingPage';
 
 
 // process.env.NODE_ENV = 'development';
@@ -57,7 +59,10 @@ function App() {
                 <Route path="/show_progress" component={ShowProgress} />
                 <Route path="/quick_fill_cups" component={ShowProgress2} />
                 <Route path="/client/quick_fill_cups" component={ShowProgress2} />
+                <Route path="/loading_page" component={LoadingPage} />
                 <Route path="/" component={ShowProgress} />
+                <Route path="/exapmle_modal" component={Example2} />
+                <Route path="/private_policy" component={PrivatePolicy} />
               </Switch>
             </Col>
           </Row>

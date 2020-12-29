@@ -62,6 +62,9 @@ const TableCupsRows = () => {
                     <td>
                         <ChapterNameCol key={chapter.id} chapter={chapter} isNewPart={isNewPart} />
                     </td>
+                    <td>
+                        {ReadedCol(chapter)}
+                    </td>
                     <td style={tdTagStyle}>
                         {chapter.id === 11
                             ?
@@ -69,9 +72,6 @@ const TableCupsRows = () => {
                             :
                             <CupsCol key={chapter.id} goalsSelected={false} chapter={chapter} />
                         }
-                    </td>
-                    <td>
-                        {ReadedCol(chapter)}
                     </td>
                     <td>
                         {CupsInNumbers(chapter)}

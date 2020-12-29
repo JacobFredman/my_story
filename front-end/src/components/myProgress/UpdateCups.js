@@ -5,10 +5,22 @@ import { useSelector, useDispatch } from 'react-redux';
 
 
 
+
 export const updateCupsServer = async (chapterId, winedCups) => {
     const msg = await axios.post(
         baseUrl + 'update_user_cups',
         { "newCups": winedCups, "chapterId": chapterId },
+        { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
+    );
+    return msg;
+}
+
+
+
+export const updateGoalsOrHobitsServer = async (goals_selected, max_goals, numOfGoalsAchived) => {
+    const msg = await axios.post(
+        baseUrl + 'update_user_goals',
+        { goals_selected, max_goals, numOfGoalsAchived },
         { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
     );
     return msg;
@@ -69,6 +81,19 @@ export const getChaptersAndCups = async () => {
     let response;
     await axios.post(
         baseUrl + 'get_user_cups',
+        { "a": "a" },
+        { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
+    )
+        .then(res => response = res)
+    // dispatch({ type: 'CHAPTERSANDCUPS', val: response.data.rows });
+    console.log(response);
+    return response;
+}
+
+export const getGoalsOrhabits = async () => {
+    let response;
+    await axios.post(
+        baseUrl + 'get_goals_or_habits',
         { "a": "a" },
         { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
     )

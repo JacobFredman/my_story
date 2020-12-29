@@ -16,7 +16,8 @@ const NavBarDesigned = () => {
             }}>
                 <Col>
                     <div style={{ marginTop: '25px', marginBottom: '25px', marginLeft: '25px' }} >
-                        <ProgressGradient color='linear-gradient(77deg, #F15F33 0%, #BF1A84 100%)' backGroundImage="linear-gradient(77deg, #F15F33 0%, #BF1A84 100%)" percent='32' ></ProgressGradient>
+                        {/* <ProgressGradient color='linear-gradient(77deg, #F15F33 0%, #BF1A84 100%)' backGroundImage="linear-gradient(77deg, #F15F33 0%, #BF1A84 100%)" percent='32' ></ProgressGradient> */}
+                        <ProgressGradient color='linear-gradient(77deg, #F15F33 0%, #BF1A84 100%)' loadingPage={false} ></ProgressGradient>
                         {/* <Progress backGroundImage="linear-gradient(77deg, #F15F33 0%, #BF1A84 100%)" color='#873FFF' percent='70' ></Progress> */}
                     </div>
                 </Col>

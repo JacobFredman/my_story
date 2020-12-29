@@ -27,6 +27,8 @@ import ResetCups from '../myProgress/ResetCups';
 import App from '../../App';
 import { HashRouter } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import Spinner from 'react-bootstrap/Spinner';
+import Example2 from '../helpComponents/Example2';
 
 
 
@@ -38,6 +40,8 @@ const ShowProgress = (props) => {
     const userId = useSelector(state => state.tokenAndDetails.userId);
     console.log(userId);
     const [showFeedback, setshowFeedback] = useState(false);
+    const [showNotFinishedTheJurnyMsg, setShowNotFinishedTheJurnyMsg] = useState(false);
+    const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
 
     const getChapterLastReaded = () => {
@@ -117,6 +121,14 @@ const ShowProgress = (props) => {
     }
 
 
+    const onPersonalDevelopmentTextbunClick = () => {
+        console.log(getChapterLastReaded());
+        if (getChapterLastReaded().id !== 28)
+            setShowNotFinishedTheJurnyMsg(true);
+        else
+            setshowFeedback(true);
+    }
+
 
     // <CupsAccumulation></CupsAccumulation> immedietly after h4's
 
@@ -145,14 +157,14 @@ const ShowProgress = (props) => {
                                     <Row>
                                         <Col>
                                             <div style={{ height: '200px', width: '200px', marginTop: '20px' }}>
-                                                {chaptersAndCups ? <PictureOfPart width={200} /> : ''}
+                                                {chaptersAndCups ? <PictureOfPart width={200} /> : <Spinner animation="grow" />}
 
                                             </div>
                                         </Col>
                                         <Col xs="auto">
                                             <IoIosPin size="5em" style={{ color: '#C68E30' }}></IoIosPin>
                                             <h4 className="youInText" style={{ color: '#C68E30', textAlign: 'center' }}>אתה נמצא</h4>
-                                            <h4 className="youInText" style={{ color: '#C68E30', textAlign: 'center' }}>{chaptersAndCups ? getChapterLastReaded().part_number + ' בחלק' : ''}</h4>
+                                            <h4 className="youInText" style={{ color: '#C68E30', textAlign: 'center' }}>{chaptersAndCups ? getChapterLastReaded().part_number + ' בחלק' : <Spinner animation="border" />}</h4>
                                             <h4 className="youInText" style={{ color: '#C68E30', textAlign: 'center' }}>
                                                 {chaptersAndCups ? getFirstPartOfNameFromChapter(getChapterLastReaded()) : ''}
                                             </h4>
@@ -174,7 +186,11 @@ const ShowProgress = (props) => {
                     <Row>
                         <Col></Col>
                         <Col xs={8} md={4} >
-                            <div onClick={() => setshowFeedback(!showFeedback)} className="btnFiddback" style={{ marginTop: '50px', marginBottom: '50px' }} > !ניתוח ההתפתחות האישי שלי </div>
+                            <Example2 text="עליך לסיים את המסע לפני שתוכל לראות את הפידבק" header="טרם סיימת את המסע" open={showNotFinishedTheJurnyMsg} setOpen={setShowNotFinishedTheJurnyMsg} onAccept={() => { return; }} cencelBtn={false} okBtnText='אישור' />
+                            {chaptersAndCups ?
+                                <div onClick={() => onPersonalDevelopmentTextbunClick()} name='personalDevelopmentTextbun' className="btnFiddback" style={{ marginTop: '50px', marginBottom: '50px', border: 'none' }} > ניתוח ההתפתחות האישי שלי </div>
+                                : ''
+                            }
                         </Col>
                         <Col></Col>
                     </Row>
@@ -193,15 +209,15 @@ const ShowProgress = (props) => {
                         </Col>
                     </Row>
 
-                    <Row>
+                    <Row className='justify-content-center'>
                         <Col xs='auto' style={{ marginRight: '20px' }}><ResetCups /></Col>
-                        <Col><QuickFillCupsBtn history={props.history} /></Col>
+                        <Col xs='auto'><QuickFillCupsBtn history={props.history} /></Col>
                         {console.log(document.cookie)}
                         {console.log(readCookie('tokenId'))}
 
                         <Col xs='auto'><a href={"https://m.me/MyStory.Book.Bot?ref=token--" + readCookie('tokenId')} target="_blank" >התחבר לבוט</a> </Col>
-                        <Col></Col>
-                        <Col></Col>
+                        {/* <Col></Col> */}
+                        {/* <Col></Col> */}
                     </Row>
                 </Col>
             </Row>

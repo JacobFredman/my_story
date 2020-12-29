@@ -40,6 +40,12 @@ def getFeedbackText(parameterName, userName):
     percentOfSeccess = percentOfSeccess * 100
 
     cursor = get_db_conn().cursor()
+
+    mainHeadersql = (
+                "select %s from feedbacktext where under_or_equal_seccess_percent = -1"
+        % (parameterName,)
+    )
+
     secondaryHeadersql = (
         "select %s from feedbacktext where under_or_equal_seccess_percent = -2"
         % (parameterName,)
@@ -69,13 +75,16 @@ def getFeedbackText(parameterName, userName):
         textResult = cursor.fetchone()
         cursor.execute(secondaryHeadersql)
         secondaryHeaderResult = cursor.fetchone()
+        cursor.execute(mainHeadersql)
+        mainHeaderResult = cursor.fetchone()
+
     except Exception as e:
         print(str(e))
         return "error", 500
     # finally:
     #     conn.close()
     return (
-        json.dumps({"val": textResult, "secondaryHeader": secondaryHeaderResult}),
+        json.dumps({"val": textResult, "secondaryHeader": secondaryHeaderResult, "mainHeader": mainHeaderResult }),
         200,
     )
 

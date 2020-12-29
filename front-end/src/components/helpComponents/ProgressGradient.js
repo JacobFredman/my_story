@@ -18,6 +18,15 @@ const ProgressGradient = (props) => {
         // return chaptersAndCups.filter(chapter => chapter.is_readed).length / chaptersAndCups.length;
     }
 
+    const getInnerLineStyle = () => {
+        let style = { background: `${props.color}` };
+        if (props.loadingPage)
+            style = { ...style, width: props.percent + '%' };
+        else
+            style = { ...style, width: percentOfReaded() + '%' };
+        return style;
+    }
+
     return (
         <React.Fragment>
             {/* <Row>
@@ -33,9 +42,11 @@ const ProgressGradient = (props) => {
 
             <Row>
                 <Col >
-                    <div className="circle circle2" style={{ background: `${props.color}` }}>{percentOfReaded() + '%'}</div>
+                    <div className="circle circle2" style={{ background: `${props.color}` }}>
+                        {props.loadingPage ? props.percent + '%' : percentOfReaded() + '%'}
+                    </div>
                     <div className="progress progress2">
-                        <div className="progress-bar progress-bar2" style={{ width: percentOfReaded() + '%', background: `${props.color}` }}>
+                        <div className="progress-bar progress-bar2" style={getInnerLineStyle()}>
                         </div>
                     </div>
                 </Col>

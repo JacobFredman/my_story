@@ -25,15 +25,31 @@ import AllRotatedPartsNames from '../helpComponents/AllRotatedPartsNames';
 // import BackGroundLeftRoad from '../../Photos/BackGroundLeftRoad.svg';
 import CupsTable from './CupsTable';
 import { useSelector, useDispatch } from 'react-redux';
+import { is_user } from '../myProgress/UpdateCups';
 
 
-const ShowProgress2 = () => {
+
+const ShowProgress2 = (props) => {
     const refsToBeginOfParts = useSelector(state => state.refsToBeginOfParts);
     const dispatch = useDispatch();
     // const chaptersAndCups = useSelector(state => state.chaptersAndCups);
 
+
+    const goToLogInIfNotUser = async () => {
+        const msg = await is_user();
+        console.log(msg);
+        if (msg === '401' || msg.data === 401) {
+            props.history.push("/sign_in");
+            console.log('401');
+        }
+        if (msg.data === 200)
+            console.log('ok');
+        // alert('not auth');
+    }
+
     useEffect(() => {
         cleanDivsPointers();
+        goToLogInIfNotUser();
     }, []);
 
     const cleanDivsPointers = () => {
@@ -68,43 +84,10 @@ const ShowProgress2 = () => {
                 </Col>
             </Row>
         </>
-    )
-
-
-    const aaa = (
-        // <React.Fragment>
-        <div>
-            {/* <Row className="backStyle">
-                <Col> */}
-            <UpLine />
-            <NavBarDesigned></NavBarDesigned>
-
-            <Row className="justify-content-md-center">
-                <Col xs={12} md={7} style={{ paddingRight: '0', paddingLeft: '0' }}>
-                    <div >
-                        <Container>
-                            <Row className="justify-content-md-center">
-                                <Col style={{ paddingRight: '0', paddingLeft: '0' }}>
-
-                                    <CupsTable />
-                                </Col>
-                                <Col xs={1} style={{ padding: '0', marging: '0' }}>
-
-                                    {refsToBeginOfParts && refsToBeginOfParts[1] !== undefined ? <AllRotatedPartsNames /> : ''}
-                                </Col>
-                            </Row>
-                        </Container>
-
-                    </div>
-                </Col>
-            </Row>
-            <div>hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh</div>
-            {/* <UpLine /> */}
-            {/* <div /> */}
-            {/* </Col>
-            </Row> */}
-        </div>
     );
+
+
+
 };
 
 export default ShowProgress2;

@@ -6,7 +6,7 @@
 
 
 
-export const baseUrl = "https://achraiut-test.et.r.appspot.com/api/";
+export const baseUrl = "http://localhost:5000/api/";
 
 
 

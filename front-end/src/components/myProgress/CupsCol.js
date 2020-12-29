@@ -11,7 +11,6 @@ import './Cup.css';
 
 
 const CupsCol = (props) => {
-    console.log(props.goalsSelected);
     const [cupIdMouseOver, setIdCupMouseOver] = useState(undefined);
 
     const dispatch = useDispatch();
@@ -33,7 +32,6 @@ const CupsCol = (props) => {
     }
 
     const isCupClickable = () => {
-        console.log(props.goalsSelected);
         const result = !props.chapter.automatic_win
             && props.chapter.is_readed
             && !props.goalsSelected;
@@ -47,7 +45,6 @@ const CupsCol = (props) => {
 
 
     const CreateCupsArray = chapter => {
-        console.log(chapter);
         let result = [<GrFormClose key={0} onClick={() => UpdateCups(chapter.id, 0)} />];
 
         // if (chapterId === goalsOrHabitsChapterId && this.state.goalsSelected)

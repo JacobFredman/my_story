@@ -15,16 +15,16 @@ def hhh():
 
 
 # Serve React App
-@app.route("/", defaults={"path": ""})
-@app.route("/<path:path>/")
-def serve(path):
-    print("path : " + path)
-    if path != "" and os.path.exists(app.static_folder + "/" + path):
-        print("not index")
-        return send_from_directory(app.static_folder, path)
-    else:
-        print("index")
-        return send_from_directory(app.static_folder, "index.html")
+# @app.route("/", defaults={"path": ""})
+# @app.route("/<path:path>/")
+# def serve(path):
+#     print("path : " + path)
+#     if path != "" and os.path.exists(app.static_folder + "/" + path):
+#         print("not index")
+#         return send_from_directory(app.static_folder, path)
+#     else:
+#         print("index")
+#         return send_from_directory(app.static_folder, "index.html")
 
 # Serve React App
 # @app.route("/", defaults={"path": ""})

@@ -3,6 +3,7 @@ import '../helpComponents/CupsAccumulation.css';
 import '../../Photos/cup.png';
 import Cup from '../helpComponents/Cup';
 import { useSelector, useDispatch } from 'react-redux';
+import Spinner from 'react-bootstrap/Spinner';
 
 
 
@@ -35,7 +36,7 @@ const CupsAccumulation = () => {
                 <div className="cupAccumBorder">
                     <p className="cupsText" style={{ marginRight: "70px", fontSize: '20px' }}>הגביעים שצברת:</p>
 
-                    <h6 style={{ color: '#707070', marginTop: '5px', marginRight: '15px', }}>{chaptersAndCups ? CountPossibleCups() + '/' : ''}</h6>
+                    <h6 style={{ color: '#707070', marginTop: '5px', marginRight: '15px', }}>{chaptersAndCups ? CountPossibleCups() + '/' : <Spinner animation="border" size="sm" />}</h6>
                     <h4 style={{ color: '#C68E30', marginRight: '3px' }}>{chaptersAndCups ? CountUserCups() : ''}</h4>
 
                 </div>

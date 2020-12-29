@@ -8,12 +8,29 @@
     text-align: right;
 }
 
-.Header{
-    font: normal normal bold 30px/30px Avigul FM;
-    font-family: Avigul;
+.textFeadback{
+    font-family: Assistant;
+    font-size: 11px;
+    color: black;
+}
+
+.HeaderFeadback{
+    font-size: 40px;
+    font-weight: bold;
+    font-family: Avigul FM;
     letter-spacing: 0px;
     text-align: right;
+    line-height: 35px;
 
     /* color:  #0088CE; */
     /* font-size: xx-large; */
+}
+
+.secondryHeaderFeadback{
+    font: normal normal bold 10px/10px;
+    font-size: 20px;
+    font-weight: 600;
+    font-family: Assistant;
+    letter-spacing: 0px;
+    text-align: right;
 }
