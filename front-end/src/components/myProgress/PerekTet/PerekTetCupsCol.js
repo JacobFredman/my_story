@@ -12,6 +12,8 @@ import ReactTooltip from 'react-tooltip';
 // import "../myProgress/tooltip.css";
 import "../../myProgress/tooltip.css";
 import { updateGoalsOrHobitsServer, getGoalsOrhabits } from '../UpdateCups';
+import { Alert } from 'antd';
+
 
 
 
@@ -39,6 +41,7 @@ const PerekTetCupsCol = (props) => {
 
     const updategoalsOrHobits = isGoalsSelected => {
         setgoalsSelected(isGoalsSelected);
+        // dispatch({ type: 'GoalsOrHabitChangedInfromColoredDivs' });
         updateGoalsOrHobitsServer(isGoalsSelected, goalesNum, achivedgoals);
     }
 
@@ -147,6 +150,11 @@ const PerekTetCupsCol = (props) => {
             <Col className="goalsOrHobitsBtnsContainer">
                 <div onClick={() => updategoalsOrHobits(true)} className={goalsSelected ? "goalsOrHobitsBtn activeBtn" : "notActiveBtn goalsOrHobitsBtn"}>שלבים</div>
                 <div onClick={() => updategoalsOrHobits(false)} className={goalsSelected ? "notActiveBtn goalsOrHobitsBtn" : "goalsOrHobitsBtn activeBtn"}>הרגלים</div>
+                {tooManyAchivedGoals ?
+                    <Alert style={{ fontSize: '7px' }} message="מספר השלבים שהשגת לא יכול להיות גדול ממספר השלבים שהגדרת" type="error" />
+                    : ''
+                }
+
             </Col>
         </Row>
     }
@@ -169,14 +177,16 @@ const PerekTetCupsCol = (props) => {
             <input key="goalesNumInput" type="number" value={goalesNum} onChange={e => { ongoalesNumInputChange(e) }}// onChange={e => { setgoalesNum(e.target.value); autoFocusOn = "goalesNumInput" }}
                 autoFocus={autoFocusOn === "goalesNumInput"}
                 className="goalsOrHobitsInput goalsOrHobitsInputOkStatus"
-                placeholder="הקלד שלבים שהגדרת"></input>
+                data-tip='הקלד שלבים שהגדרת'
+                placeholder="הקלד"></input>
             {/* className="goalsOrHobitsInput" placeholder="הקלד שלבים שהגדרת"></input> */}
 
             {/* <input autoFocus={autoFocusOn === "achivedgoalsInput"} key="achivedgoalsInput" value={achivedgoals} onChange={e => onAchivedgoalsInputChange(e)} onChange={e => Updateachivedgoals(e.target.value)} */}
-            <input type="number" key="achivedgoalsInput" value={achivedgoals} onChange={e => onAchivedgoalsInputChange(e)} data-tip='הקלד פחות מהמקסימום' //onChange={e => { setAchivedgoals(e.target.value); autoFocusOn = "achivedgoalsInput" }} value={achivedgoals}
+            <input type="number" key="achivedgoalsInput" value={achivedgoals} onChange={e => onAchivedgoalsInputChange(e)} data-tip='הקלד שלבים שהשגת' //onChange={e => { setAchivedgoals(e.target.value); autoFocusOn = "achivedgoalsInput" }} value={achivedgoals}
                 autoFocus={autoFocusOn === "achivedgoalsInput"}
                 className={tooManyAchivedGoals ? "goalsOrHobitsInput goalsOrHobitsInputWarningStatus" : "goalsOrHobitsInput goalsOrHobitsInputOkStatus"}
-                placeholder="הקלד שלבים שהשגת"></input>
+                placeholder="הקלד"
+            ></input>
         </div>
     }
 

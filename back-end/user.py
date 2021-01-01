@@ -69,18 +69,28 @@ def add_new_user_in_local_db(user_name, user_first_name, user_last_name, conn):
     return 1
 
 
-def initial_user_golas_or_habits():
+
+
+def initial_user_golas_or_habits(userLocalId):
+   
+    update_goals_sql = """
+    INSERT INTO goals_or_habits(user_name, goals_selected, max_goals)
+    values(%s, 0, 0 )
+    ON DUPLICATE KEY UPDATE  goals_selected=0, max_goals=0
+    """
+
     # conn._open_connection()
     cursor = get_db_conn().cursor()
-    initUserStatment = """ Insert into goals_or_habits(user_name, goals_selected, max_goals, goals_wined) values("binyamin", 0, 0, 0) ;"""
     try:
-        cursor.execute(initUserStatment)
+        cursor.execute(
+            update_goals_sql,(userLocalId,),)
+       
         get_db_conn().commit()
     except Exception as e:
-        return "error", 500
-    # finally:
-    #     conn.close()
-    return "ok", 200
+        print(e)
+        return 'error in init goals or hobits', 500
+    else:
+        return json.dumps({"rowCount": cursor.rowcount}), 200
 
 
 def user_exists(user):

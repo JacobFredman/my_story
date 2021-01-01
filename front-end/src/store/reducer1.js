@@ -31,7 +31,8 @@ const initState = {
     loading: { val: false },
     chaptersAndCups: undefined,
     refsToBeginOfParts: [],
-    refEndLastPart: undefined
+    refEndLastPart: undefined,
+    updateGoalsOrHabitChanged: true,
 };
 
 const ChangeChapterReadStatus = (chapter, is_readed) => {
@@ -98,6 +99,10 @@ const reducer1 = (state = initState, action) => {
             break;
         case 'RefEndLastPart':
             state = { ...state, refEndLastPart: action.myRef };
+            break;
+        case 'GoalsOrHabitChangedInfromColoredDivs':
+            // state = { ...state, updateGoalsOrHabitChanged: !state.updateGoalsOrHabitChanged }
+            state = { ...state }
             break;
         default:
             return state;

@@ -54,6 +54,10 @@ class Firebase {
         return this.auth.signInWithPopup(provider);
     }
 
+    UpdateAccessTokenByRefreshToken = () => {
+
+    }
+
     // sendPasswordResetEmail = (emailAddress) => {
     //     this.auth.sendPasswordResetEmail(emailAddress);
     // }

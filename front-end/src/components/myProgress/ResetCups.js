@@ -30,7 +30,13 @@ const ResetCups = () => {
         <div>
 
 
-            <Example2 text="המסע ימחק ולא יהיה ניתן לשחזר אותו" header="?האם לאפס את המסע שלך" open={showResetMsg} setOpen={setShowResetMsg} onAccept={() => { resetAll(); }} cencelBtn={true} okBtnText='המסע ימחק ולא ניתן יהיה לשחזר אותו' />
+            <Example2
+                text="המסע ימחק ולא יהיה ניתן לשחזר אותו"
+                header="?האם לאפס את המסע שלך"
+                open={showResetMsg}
+                setOpen={setShowResetMsg}
+                onAccept={() => { resetAll(); }}
+                cencelBtn={true} okBtnText='אני רוצה לאפס את המסע' />
             <p onClick={() => setShowResetMsg(true)} style={{ font: 'normal normal 600 16px/13px Assistant', color: '#AB3C96', position: 'absolute', top: '20%', cursor: 'pointer' }}>אפס מסע</p>
             {showLoadingPage ? <LoadingPage /> : ''}
         </div>

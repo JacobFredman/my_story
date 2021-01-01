@@ -225,8 +225,6 @@ def update_user_goals():
     values(%s, %s, %s )
     ON DUPLICATE KEY UPDATE  goals_selected=%s, max_goals=%s
     """
-
-    # conn._open_connection()
     cursor = get_db_conn().cursor()
     try:
         cursor.execute(
@@ -253,8 +251,6 @@ def update_user_goals():
         return str(e), 500
     else:
         return json.dumps({"rowCount": cursor.rowcount}), 200
-    # finally:
-    #     conn.close()
 
 
 @app.route("/api/get_feadback", methods=["POST"])

@@ -5,6 +5,8 @@ import { updateCupsServer, updateCupsArray } from './UpdateCups';
 import { useSelector, useDispatch } from 'react-redux';
 import { getChaptersAndCups } from './UpdateCups';
 import './Cup.css';
+import { message } from 'antd';
+
 
 
 
@@ -60,8 +62,9 @@ const CupsCol = (props) => {
                     onMouseLeave={() => setIdCupMouseOver(-1)}
                     className={isCupClickable() ? 'CupUnAutoWin' : ''}
                     // onClick={() => chapter.is_readed ? UpdateCups(chapter.id, id) : ''}
-                    onClick={() => isCupClickable() ? UpdateCups(chapter.id, id) : ''}
-                >
+                    onClick={() => isCupClickable()
+                        ? UpdateCups(chapter.id, id)
+                        : message.warning('בחרת במצב "שלבים". במצב זה אין אפשרות לבחור גביעים ישירות')}>
                     <Cup
                         key={id}
                         automatic_win={chapter.automatic_win}
@@ -71,7 +74,7 @@ const CupsCol = (props) => {
                         marginPx={3}
                         gold={i <= chapter.victory_cups_wined ? true : false}
                     />
-                </span>
+                </span >
             )
             result.push(cup)
         }

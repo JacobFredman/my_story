@@ -11,6 +11,7 @@ const ShowPrivatePolicy = (props) => {
 
             <Modal
                 open={props.open}
+                onClose={() => console.log('object')}
                 // onClose={() => props.setModalOpen(false)}
                 center
                 classNames={{

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import './App.css';
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
@@ -29,6 +29,10 @@ import PerekTetCupsCol from './components/myProgress/PerekTet/PerekTetCupsCol';
 import { HashRouter } from 'react-router-dom';
 import PrivatePolicy from '../src/components/user/PrivatePolicy';
 import LoadingPage from '../src/components/LoadingPage';
+import NavBarDesigned2 from './components/NavBarDesigned2';
+import FirebaseContext from './components/Firebase/context';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import NavBarAntd from './components/NavBarAntd';
 
 
 // process.env.NODE_ENV = 'development';
@@ -39,8 +43,31 @@ import LoadingPage from '../src/components/LoadingPage';
   <Col><NavBarBootStrap ></NavBarBootStrap></Col>
 </Row> */}
 
-function App() {
-  return (
+function App(props) {
+  const [isTokenRefreshed, setIsTokenRefreshed] = useState(false);
+  const firebase = useContext(FirebaseContext);
+
+  firebase.auth.onAuthStateChanged(
+    (user) => {
+      // if (firebase.auth.currentUser) {
+      if (user) {
+        // console.log(firebase.auth.currentUser);
+        firebase.getTokenId()
+          .then(tokenId => {
+            document.cookie = 'tokenId=' + tokenId + '; expires=' + new Date(new Date().setHours(new Date().getHours() + 1)) + '; path=/';
+            setIsTokenRefreshed(true);
+          }
+          )
+          .catch(() => { setIsTokenRefreshed(true); alert('tokenid problem') })
+      }
+      else
+        setIsTokenRefreshed(true);
+      // console.log("onAuthStateChanged: " + !!user);
+    }
+  );
+
+
+  const appComponents = (
     <React.Fragment>
       <UpdateReduxe></UpdateReduxe>
       <Router >
@@ -60,6 +87,8 @@ function App() {
                 <Route path="/quick_fill_cups" component={ShowProgress2} />
                 <Route path="/client/quick_fill_cups" component={ShowProgress2} />
                 <Route path="/loading_page" component={LoadingPage} />
+                <Route path="/navBar_example" component={NavBarDesigned2} />
+                <Route path="/navBar_antd" component={NavBarAntd} />
                 <Route path="/" component={ShowProgress} />
                 <Route path="/exapmle_modal" component={Example2} />
                 <Route path="/private_policy" component={PrivatePolicy} />
@@ -70,6 +99,8 @@ function App() {
       </Router>
     </React.Fragment>
   );
+
+  return isTokenRefreshed ? appComponents : <LoadingPage />
 }
 
 export default App;

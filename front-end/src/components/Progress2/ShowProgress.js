@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import NavBarDesigned from '../NavBarDesigned';
@@ -29,13 +29,14 @@ import { HashRouter } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import Spinner from 'react-bootstrap/Spinner';
 import Example2 from '../helpComponents/Example2';
-
+import FirebaseContext from '../Firebase/context';
 
 
 
 
 
 const ShowProgress = (props) => {
+    const firebase = useContext(FirebaseContext);
     const chaptersAndCups = useSelector(state => state.chaptersAndCups);
     const userId = useSelector(state => state.tokenAndDetails.userId);
     console.log(userId);
@@ -84,6 +85,7 @@ const ShowProgress = (props) => {
     }
 
     const readCookie = (name) => {
+
         var nameEQ = name + "=";
         var ca = document.cookie.split(';');
         for (var i = 0; i < ca.length; i++) {
@@ -92,6 +94,13 @@ const ShowProgress = (props) => {
             if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
         }
         return null;
+    }
+
+
+    const onClick = () => {
+        firebase.getTokenId().
+            then(res => console.log(res))
+            ;
     }
 
 
@@ -141,6 +150,7 @@ const ShowProgress = (props) => {
                 <Col >
                     <Row>
                         <Col style={{ padding: 0 }}><UpLine /></Col>
+                        {console.log(firebase)}
                     </Row>
                     <NavBarDesigned></NavBarDesigned>
                     <Row  >
@@ -199,10 +209,12 @@ const ShowProgress = (props) => {
                             {showFeedback
                                 ?
                                 <>
-                                    <Row style={{ direction: 'rtl' }}><Col> <FeadbackTextArea parameterName="your_control" headerColor="#0088CE" /></Col></Row>
-                                    <Row ><Col><FeadbackTextArea parameterName="connection_to_yourself" headerColor="#48C2C5" /></Col></Row>
-                                    <Row style={{ direction: 'rtl' }}><Col><FeadbackTextArea parameterName="commitment_to_success" headerColor="#F27652" /></Col></Row>
-                                    <Row ><Col><FeadbackTextArea parameterName="self_fulfillment" headerColor="#AB3C96" /></Col></Row>
+                                    <div style={{ direction: 'rtl' }}>
+                                        <Row ><Col> <FeadbackTextArea parameterName="your_control" headerColor="#0088CE" /></Col></Row>
+                                        <Row ><Col><FeadbackTextArea parameterName="connection_to_yourself" headerColor="#48C2C5" /></Col></Row>
+                                        <Row ><Col><FeadbackTextArea parameterName="commitment_to_success" headerColor="#F27652" /></Col></Row>
+                                        <Row ><Col><FeadbackTextArea parameterName="self_fulfillment" headerColor="#AB3C96" /></Col></Row>
+                                    </div>
                                 </>
                                 : ''
                             }
@@ -215,7 +227,8 @@ const ShowProgress = (props) => {
                         {console.log(document.cookie)}
                         {console.log(readCookie('tokenId'))}
 
-                        <Col xs='auto'><a href={"https://m.me/MyStory.Book.Bot?ref=token--" + readCookie('tokenId')} target="_blank" >התחבר לבוט</a> </Col>
+                        {/* <Col xs='auto'><a href={"https://m.me/MyStory.Book.Bot?ref=token--" + readCookie('tokenId')} target="_blank" >התחבר לבוט</a> </Col> */}
+                        <Col xs='auto'><a href={"https://m.me/MyStory.Book.Bot?ref=refreshToken--" + readCookie('refreshToken')} target="_blank" >התחבר לבוט</a> </Col>
                         {/* <Col></Col> */}
                         {/* <Col></Col> */}
                     </Row>

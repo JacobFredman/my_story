@@ -12,6 +12,9 @@ import { withFirebase } from '../Firebase';
 import Container from 'react-bootstrap/Container';
 import Helmet from 'react-helmet';
 import '../user/SignUp.css';
+import LoadingPage from '../../components/LoadingPage';
+import { message } from 'antd';
+
 
 
 
@@ -29,20 +32,45 @@ class SignIn extends Component {
       password: '',
       showUnAuthMsg: false,
       authMsg: '',
+      loading: false
     };
-    // this.sendData();
   }
 
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value });
   }
 
-  // handleSubmit = event => {
-  //   this.sendData();
-  //   event.preventDefault();
-  // }
+
+  isEmailValid = () => {
+    const re = /\S+@\S+\.\S+/;
+    if (!re.test(this.state.email)) {
+      message.warning('אימייל חייב להיות מהצורה a@b.c');
+      return false;
+    }
+    return true;
+  }
+
+  isPasswordOk = () => {
+    if (!this.state.password || this.state.password.length < 6) {
+      message.warning('אורך הסיסמה חייב להיות לפחות 6 ספרות');
+      return false;
+    }
+    return true;
+  }
+
+  isValid = () => {
+    return this.isPasswordOk() && this.isEmailValid();
+  }
+
+
+  beforeHandleSubmit = () => {
+    if (this.isValid())
+      this.handleSubmit();
+  }
+
 
   handleSubmit = event => {
+    this.setState({ loading: true });
     const { email, password } = this.state;
 
     this.props.firebase
@@ -53,13 +81,12 @@ class SignIn extends Component {
         // this.setState({ ...INITIAL_STATE });
       })
       .catch(error => {
-        this.setState({ showUnAuthMsg: true, authMsg: 'לא מזוהה' });
+        console.log(error);
+        this.setState({ showUnAuthMsg: true, authMsg: 'לא מזוהה', loading: false });
+        message.error('שם משתמש או סיסמה שגויים');
         // this.setState({ error, showUnAuthMsg: true });
       });
-
-
     // this.sendData();
-    // event.preventDefault();
   }
 
 
@@ -72,7 +99,6 @@ class SignIn extends Component {
     this.props.onGetAuth(response.data);
 
     console.log(response);
-    // a = { email: "jacov141@gmail.com", is_admin: 0 }
     return response;
   };
 
@@ -81,7 +107,9 @@ class SignIn extends Component {
       this.genericSignIn(result);
     })
       .catch(error => {
+        this.setState({ loading: false });
         console.log(error);
+        message.error('אירעה תקלה בכניסה עם גוגל, נא נסה שנית');
         this.setState({ showUnAuthMsg: true });
       })
   }
@@ -95,6 +123,7 @@ class SignIn extends Component {
         this.genericSignIn(result);
       })
       .catch(error => {
+        this.setState({ loading: false });
         console.log(error);
         this.setState({ showUnAuthMsg: true });
       })
@@ -102,34 +131,31 @@ class SignIn extends Component {
 
 
   genericSignIn = result => {
-    // this.props.firebase.getCurrentUser()
-    //   .then(userId => { console.log(userId) });
-    this.props.firebase.getTokenId()
-      .then(tokenId => {
-        // document.cookie = 'cookie2=' + tokenId + '; expires=Sun, 1 Jan 2023 00:00:00 UTC; path=/';
-        // document.cookie = 'tokenId=' + tokenId + '; expires=' + new Date(new Date().setFullYear(new Date().getFullYear() + 1)) + '; path=/';
-        // document.cookie = 'tokenId=' + tokenId + '; expires=' + new Date(new Date().setHours(new Date().getHours() + 1)) + '; path=/';
-        document.cookie = 'tokenId=' + tokenId + '; expires=' + new Date(new Date().setMonth(new Date().getMonth() + 3)) + '; path=/';
-        // console.log(this.props.firebase.getCurrentUser().uid);
-        this.props.updateUserId(this.props.firebase.getCurrentUser().uid);
+    this.setState({ loading: true });
+    console.log(result);
+
+    document.cookie = 'refreshToken=' + result.user.refreshToken + '; expires=' + new Date(new Date().setFullYear(new Date().getFullYear() + 1)) + '; path=/';
+    console.log(result);
+    this.props.firebase.getTokenId().
+      then(tokenId => {
+        console.log(tokenId);
+        document.cookie = 'tokenId=' + tokenId + '; expires=' + new Date(new Date().setHours(new Date().getHours() + 1)) + '; path=/';
+
         this.updateMyDb(tokenId)
-          .then(resp => { this.props.history.push("/") })
-          .catch(error => { console.log(error); alert('error'); })
-      })
-      .catch(error => {
-        this.setState({ showUnAuthMsg: true });
+          .then(resp => {
+            this.props.history.push("/");
+            this.setState({ loading: false });
+          })
+          .catch(error => {
+            console.log(error);
+            message.error('אירעה תקלה בכניסה, נא נסה שנית');
+            this.setState({ loading: false });
+          });
+      }).catch(error => {
+        console.log(error);
+        message.error('אירעה תקלה, נא נסה שנית');
       });
 
-
-  }
-
-
-  isInvalid = () => {
-    const { email, password } = this.state;
-    return (
-      password.length < 6 ||
-      password === '' ||
-      email === '')
   }
 
 
@@ -140,32 +166,29 @@ class SignIn extends Component {
   }
 
 
-  render() {
+  render_component = () => {
     return (
       <React.Fragment>
+        {/* {this.state.loading ? <LoadingPage /> : ''} */}
         <Helmet bodyAttributes={{ style: 'background: transparent linear-gradient(45deg, #8BBF3F 0%, #43C2CF 100%) 0% 0% no-repeat padding-box' }} />
 
         <Row>
           <Col>
-            <WarnningWithOk
+            {/* <WarnningWithOk
               show={this.state.showUnAuthMsg}
               onClickOk={() => this.setState({ showUnAuthMsg: false })}
               title=''
               bodyMsg={this.state.authMsg}
             >
-            </WarnningWithOk>
+            </WarnningWithOk> */}
           </Col>
         </Row>
-        {/* <Row>
-          <Col> */}
-        {/* <Container style={{ maxWidth: '380px' }} fluid="sm" > */}
         <Container className="d-flex align-items-center" style={{ textAlign: 'center', maxWidth: '380px', height: '100vh' }} >
-          {/* <h1>hhhhhh</h1> */}
           <Row style={{ margin: 'auto' }}>
             <Col>
               <Row>
                 <Col>
-                  <h2 style={{ textAlign: 'center', color: '#FFFFFF' }}>התחברות</h2>
+                  <h2 style={{ textAlign: 'center', color: '#FFFFFF', fontFamily: 'Avigul', fontWeight: 'bold', fontSize: '43px' }}>התחברות</h2>
                 </Col>
               </Row>
               <Row>
@@ -191,47 +214,53 @@ class SignIn extends Component {
                   <Form dir='rtl' style={{ textAlign: 'right', direction: 'rtl' }} onSubmit={this.handleSubmit} >
                     <Form.Row>
                       <Form.Group as={Col} controlId="formGridEmail">
-                        <Form.Control style={{ textAlign: 'center' }} name='email' value={this.state.userName} type="email" placeholder="שם משתמש/מייל" onChange={this.handleChange} />
+                        <Form.Control className="inputSignIn" style={{ textAlign: 'center', fontFamily: 'Asistant' }} name='email' value={this.state.userName} type="email" placeholder="שם משתמש/מייל" onChange={this.handleChange} />
                       </Form.Group>
                     </Form.Row>
 
                     <Form.Row>
                       <Form.Group as={Col} controlId="formGridPassword">
-                        <Form.Control style={{ textAlign: 'center' }} name='password' value={this.state.password} type="password" placeholder="סיסמה" onChange={this.handleChange} />
+                        <Form.Control style={{ textAlign: 'center', fontFamily: 'Asistant' }} name='password' value={this.state.password} type="password" placeholder="סיסמה" onChange={this.handleChange} />
                       </Form.Group>
                     </Form.Row>
                     <Row>
                       <Col>
-                        {/* <Button onClick={this.sendPaawordReset} size='sm' variant='outline-info'>שכחתי סיסמה</Button> */}
-                        <div className="goOnBtn" onClick={() => this.handleSubmit()}>כניסה</div>
+                        <div className="goOnBtn" onClick={() => this.beforeHandleSubmit()}>כניסה</div>
                       </Col>
                     </Row>
                     <Row>
                       <Col>
                         <div className="goToSignUpContainer">
-                          <div style={{ color: '#FFFFFF', textAlign: 'left', flex: '0 0 70%' }}>אין לך עדיין חשבון?</div>
-                          <div onClick={() => this.props.history.push("/sign_up/")} style={{ color: '#61147B', flex: '2', textAlign: 'right', cursor: 'pointer' }}>הרשם</div>
+                          <div className="downTextSignIn" style={{ color: '#FFFFFF', fontFamily: 'Asistant', textAlign: 'left', flex: '0 0 70%', fontSize: '18px' }}>אין לך עדיין חשבון?</div>
+                          <div onClick={() => this.props.history.push("/sign_up/")} style={{ color: '#61147B', flex: '2', textAlign: 'right', cursor: 'pointer', fontFamily: 'Asistant', fontSize: '18px', color: '#F4CC6B' }}>הרשם </div>
                         </div>
                         <Row>
                           <Col>
                             <div className="goToSignUpContainer">
-                              <div onClick={this.sendPaawordReset} style={{ color: '#61147B', flex: '2', textAlign: 'center', cursor: 'pointer' }}>שכחתי סיסמה</div>
+                              <div onClick={this.sendPaawordReset} style={{ color: '#61147B', flex: '2', textAlign: 'center', cursor: 'pointer', fontFamily: 'Asistant', fontSize: '18px', color: '#F4CC6B' }}>שכחתי סיסמה</div>
                             </div>
                           </Col>
                         </Row>
                       </Col>
                     </Row>
-                    {/* <Button variant="primary" onClick={this.googleSignIn} >בדיקה</Button> */}
                   </Form>
                 </Col>
               </Row>
             </Col>
           </Row>
         </Container>
-        {/* </Col>
-        </Row > */}
       </React.Fragment >
     );
+  }
+
+
+  render() {
+    let returnValue;
+    if (this.state.loading)
+      returnValue = <LoadingPage />;
+    else
+      returnValue = this.render_component();
+    return returnValue;
   }
 }
 
@@ -239,7 +268,7 @@ class SignIn extends Component {
 const mapDispatchToProps = dispatch => {
   return {
     onGetAuth: val => dispatch({ type: 'AUTH', val }),
-    updateUserId: val => dispatch({ type: 'UPDATEUSERID', val }),
+    // updateUserId: val => dispatch({ type: 'UPDATEUSERID', val }),
   };
 };
 

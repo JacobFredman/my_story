@@ -31,6 +31,8 @@ import { is_user } from '../myProgress/UpdateCups';
 
 const ShowProgress2 = (props) => {
     const refsToBeginOfParts = useSelector(state => state.refsToBeginOfParts);
+    const reRenderComponent = useSelector(state => state.updateGoalsOrHabitChanged);
+
     const dispatch = useDispatch();
     // const chaptersAndCups = useSelector(state => state.chaptersAndCups);
 
@@ -50,7 +52,7 @@ const ShowProgress2 = (props) => {
     useEffect(() => {
         cleanDivsPointers();
         goToLogInIfNotUser();
-    }, []);
+    }, [reRenderComponent]);
 
     const cleanDivsPointers = () => {
         dispatch({ type: 'CLEANREFSTOBEGINOFPARTS' })
@@ -63,12 +65,12 @@ const ShowProgress2 = (props) => {
                     <UpLine />
                     <NavBarDesigned></NavBarDesigned>
 
+
                     <Row className="justify-content-md-center">
                         <Col xs={12} md={7} style={{ paddingRight: '0', paddingLeft: '0' }}>
                             <Container>
                                 <Row className="justify-content-md-center">
                                     <Col style={{ paddingRight: '0', paddingLeft: '0' }}>
-
                                         <CupsTable />
                                     </Col>
                                     <Col xs={1} style={{ padding: '0', marging: '0' }}>

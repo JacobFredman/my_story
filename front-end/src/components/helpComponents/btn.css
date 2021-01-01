@@ -29,6 +29,7 @@ line-height: 25px; */
     /* line-height: 23px; */
     background: #FFFFFF 0% 0% no-repeat padding-box;
     border: 1px solid #0088CE;
+    color: #0088CE;
 }
 
 .activeBtn:hover{

@@ -7,13 +7,10 @@ import ProgressGradient from './helpComponents/ProgressGradient';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-// setInterval(increase, 300);
 
 const LoadingPage = (props) => {
     const [percent, setPercent] = useState(0);
-    ////////////////////////////////////////////
 
-    // const [counter, setCounter] = useState(0);
 
     useEffect(() => {
         const timeout = setTimeout(() => {
@@ -26,26 +23,15 @@ const LoadingPage = (props) => {
         };
     }, [percent]);
 
-    ///////////////////////////////////////////////////
 
     const increase = () => {
         setPercent(percent + 1);
     }
 
 
-    // // Similar to componentDidMount and componentDidUpdate:
-    // useEffect(() => {
-    //     // Update the document title using the browser API
-    //     // document.title = `You clicked ${count} times`;
-    // }, []);
-    // return (counter);
-
     return (
-        // <div className="react-responsive-modal-overlay">
-        // <div style={{ backgroundColor: 'red', width: '100%', height: '100%' }}>
         <div>
             <Modal
-                // open={props.open}
                 open={true}
                 onClose={() => props.setOpen(false)}
                 center
@@ -57,7 +43,6 @@ const LoadingPage = (props) => {
             >
                 <Row>
                     <Col>
-                        {/* <p style={{ fontFamily: 'Assistant', fontSize: '20px', fontWeight: '600', color: '#C21E7F' }}> מבצע טעינה</p> */}
                         <p className='textloading' > מבצע טעינה</p>
                     </Col>
                 </Row>
@@ -66,13 +51,9 @@ const LoadingPage = (props) => {
                         <ProgressGradient color='linear-gradient(77deg, #F15F33 0%, #BF1A84 100%)' loadingPage={true} percent={percent} ></ProgressGradient>
                     </Col>
                 </Row>
-                {/* <div style={{ width: '50%' }}> */}
-
-                {/* </div> */}
 
 
-                {/* <ProgressGradient /> */}
-                {/* <p> ddddddddddddddddddddddddddddddddddddddddddd</p> */}
+
             </Modal>
         </div>
     );

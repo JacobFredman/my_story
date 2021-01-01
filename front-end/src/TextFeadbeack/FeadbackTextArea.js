@@ -69,7 +69,7 @@ const FeadbackTextArea = (props) => {
                         <p className="HeaderFeadback"> {mainHeader} </p>
                         <p className="secondryHeaderFeadback"> {secondaryHeader} </p>
                     </Col>
-                    <Col>
+                    <Col xs='auto'>
                         <GetIcon />
                     </Col>
                     <Col>

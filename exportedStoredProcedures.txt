@@ -1,0 +1,227 @@
+DELIMITER $$
+CREATE DEFINER=`azimcoil`@`localhost` PROCEDURE `delete_user_data`(IN `userName` VARCHAR(100))
+    NO SQL
+BEGIN
+#SET SQL_SAFE_UPDATES=0;
+	
+        DELETE FROM user WHERE user_name = userName;
+        DELETE FROM user_cups WHERE user_name = userName;
+        DELETE FROM goals_or_habits WHERE user_name = userName;
+
+ #   SET SQL_SAFE_UPDATES=1;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`azimcoil`@`localhost` PROCEDURE `get_text_for_self_control`(in userName varchar(100), out aab decimal, out resultText varchar(100))
+BEGIN
+	call get_user_control_percent(userName, aab);
+  if(  aab >0 && aab  <= 40) then 
+  select  your_control into resultText from feedbacktext where under_or_equal_seccess_percent = 40 ;
+  end if;
+  if( aab >40 && aab  <= 60) then 
+  select your_control into resultText from feedbacktext where under_or_equal_seccess_percent = 60 ;
+  end if;
+  if( aab >60 && aab  <= 80) then
+  select your_control into resultText from feedbacktext where under_or_equal_seccess_percent = 80 ;
+  end if;
+  if( aab >80 && aab  <= 100) then
+  select your_control into resultText from feedbacktext where under_or_equal_seccess_percent = 80 ;
+  end if;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`azimcoil`@`localhost` PROCEDURE `get_user_self_connection`(IN `userName` VARCHAR(100), IN `chapterUserHolds` INT)
+BEGIN
+/* gets the percent of seccess relative to max points */
+    SELECT userPoints/maxPoints as self_connection_result
+    FROM 
+     /*  (SELECT (0.9) * points_max.connection_to_yourself as userPoints*/
+    (SELECT sum((victory_cups_wined/max_victory_cups) * points_max.connection_to_yourself) as userPoints
+      FROM chapter natural join user_cups natural join points_max
+      WHERE user_cups.user_name = userName and chapter.chapter_id <= chapterUserHolds and user_cups.is_readed = 1) AS userPointsT,
+    (SELECT sum(points_max.connection_to_yourself) as maxPoints FROM points_max  ) AS maxPointsT ;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`azimcoil`@`localhost` PROCEDURE `get_user_cups`(IN `userName` VARCHAR(100))
+    NO SQL
+BEGIN
+SELECT chapter.chapter_id, chapter_name, victory_cups_wined, max_victory_cups, automatic_win, is_readed, part_number, user_name
+    FROM chapter NATURAL JOIN user_cups 
+    WHERE user_cups.user_name = userName;
+    END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`azimcoil`@`localhost` PROCEDURE `get_user_self_control`(IN `userName` VARCHAR(100), IN `chapterUserHolds` INT)
+BEGIN
+/* gets the percent of seccess relative to max points */
+   SELECT userPoints/maxPoints as self_control_result 
+    FROM 
+    (SELECT sum((victory_cups_wined/max_victory_cups) * points_max.your_control) as userPoints
+      FROM chapter natural join user_cups natural join points_max
+      WHERE user_cups.user_name = userName and chapter.chapter_id <= chapterUserHolds and user_cups.is_readed = 1) AS userPointsT,
+    (SELECT sum(points_max.your_control) as maxPoints FROM points_max  ) AS maxPointsT ;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`azimcoil`@`localhost` PROCEDURE `get_user_self_fulfillment`(IN `userName` VARCHAR(100), IN `chapterUserHolds` INT)
+BEGIN
+/* gets the percent of seccess relative to max points */
+    SELECT userPoints/maxPoints as self_fulfillment_result
+    FROM 
+    (SELECT sum((victory_cups_wined/max_victory_cups) * points_max.self_fulfillment) as userPoints
+      FROM chapter natural join user_cups natural join points_max
+      WHERE user_cups.user_name = userName and chapter.chapter_id <= chapterUserHolds and user_cups.is_readed = 1) AS userPointsT,
+    (SELECT sum(points_max.self_fulfillment) as maxPoints FROM points_max  ) AS maxPointsT ;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`azimcoil`@`localhost` PROCEDURE `make_chapter_unreaded`(IN `userName` VARCHAR(70), IN `chapterId` INT)
+    NO SQL
+BEGIN
+#SET SQL_SAFE_UPDATES=0;
+ UPDATE user_cups natural join chapter
+    SET date_update = CURDATE(), is_readed = 0, victory_cups_wined = max_victory_cups
+    WHERE user_name = userName and chapter_id = chapterId and automatic_win = 1;
+
+UPDATE user_cups natural join chapter
+    SET date_update = CURDATE(), is_readed = 0, victory_cups_wined = 0
+ 
+    #(select max_victory_cups  from chapter where chapter_id = chapterId)
+    WHERE user_name = userName and chapter_id = chapterId and 	           
+    	automatic_win=0;
+		
+			
+ #   SET SQL_SAFE_UPDATES=1;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`azimcoil`@`localhost` PROCEDURE `get_relative_self_control`(
+IN userName varchar(100),
+out result decimal
+)
+BEGIN
+
+/* this query returns the max sum of points one may get for your_control until last chapter that user filed  */
+SELECT @maxCupsTillLastChapterFilled := sum(your_control) 
+FROM distribution_of_points_for_max_victory_cups 
+WHERE chapter_id <= 
+(SELECT max(chapter_id)
+FROM user_cups_by_chapters left join chapter on id = chapter_id
+WHERE victory_cups_wined > 0 and automatic_win = 0);
+ 
+/* gets the sumOfUser/ @maxCupsTillLastChapterFilled  */
+SELECT sumOfUser/@maxCupsTillLastChapterFilled
+INTO @result
+FROM
+(SELECT  sum((victory_cups_wined/max_victory_cups)*distribution_of_points_for_max_victory_cups.your_control) as sumOfUser
+FROM chapter 
+	left join user_cups_by_chapters on chapter.id = user_cups_by_chapters.chapter_id 
+	left join distribution_of_points_for_max_victory_cups on chapter.id = distribution_of_points_for_max_victory_cups.chapter_id
+WHERE user_cups_by_chapters.user_name = userName) as baseTable;
+select @result;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`azimcoil`@`localhost` PROCEDURE `get_user_self_commitment`(IN `userName` VARCHAR(100), IN `chapterUserHolds` INT)
+BEGIN
+/* gets the percent of seccess relative to max points */
+    SELECT userPoints/maxPoints as self_commitment_result
+    FROM 
+    (SELECT sum((victory_cups_wined/max_victory_cups) * points_max.commitment_to_success) as userPoints
+      FROM chapter natural join user_cups natural join points_max
+      WHERE user_cups.user_name = userName and chapter.chapter_id <= chapterUserHolds and user_cups.is_readed = 1) AS userPointsT,
+    (SELECT sum(points_max.commitment_to_success) as maxPoints FROM points_max  ) AS maxPointsT ;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`azimcoil`@`localhost` PROCEDURE `update_user_cups`(IN `userName` VARCHAR(45), IN `newCups` INT, IN `chapterId` INT, IN `chapterOfGoalsOrHabits` INT)
+BEGIN
+SET SQL_SAFE_UPDATES=0;
+ UPDATE user_cups
+    SET date_update = CURDATE(), victory_cups_wined = newCups
+    WHERE user_name = userName and chapter_id = chapterId
+		and exists (select * from chapter where chapter_id = chapterId and max_victory_cups >= newCups and automatic_win = 0 );
+		/*and (
+			chapter_id <> chapterOfGoalsOrHabits 
+			OR not exists (select * from goals_or_habits where user_name = userName and goals_selected = 1)
+			);*/
+    SET SQL_SAFE_UPDATES=1;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`azimcoil`@`localhost` PROCEDURE `update_points_max_and_chapter`(IN `chapterId` INT, IN `yourControl` INT, IN `connectionToYourself` INT, IN `commitmentToSuccess` INT, IN `selfFulfillment` INT, IN `chapterName` VARCHAR(100) CHARSET utf8, IN `maxVictoryCups` INT, IN `automaticWin` BOOLEAN)
+BEGIN
+ #SET SQL_SAFE_UPDATES=0;
+ UPDATE points_max
+    SET
+    your_control = yourControl,
+    connection_to_yourself = connectionToYourself,
+    commitment_to_success = commitmentToSuccess,
+    self_fulfillment = selfFulfillment
+    WHERE chapter_id = chapterId;
+    
+    
+     UPDATE chapter
+	SET
+	`chapter_name` = chapterName,
+	`max_victory_cups` = maxVictoryCups,
+	`automatic_win` = automaticWin
+	WHERE chapter_id = chapterId;
+    
+  #   SET SQL_SAFE_UPDATES=1;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`azimcoil`@`localhost` PROCEDURE `reset_user_cups`(IN `userName` VARCHAR(70))
+    NO SQL
+BEGIN
+#SET SQL_SAFE_UPDATES=0;
+ UPDATE user_cups natural join chapter
+    SET date_update = CURDATE(), is_readed = 0, victory_cups_wined = max_victory_cups
+    WHERE user_name = userName and automatic_win = 1;
+
+UPDATE user_cups natural join chapter
+    SET date_update = CURDATE(), is_readed = 0, victory_cups_wined = 0 
+    WHERE user_name = userName and automatic_win=0;
+		
+ #   SET SQL_SAFE_UPDATES=1;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`azimcoil`@`localhost` PROCEDURE `make_chapter_readed`(IN `userName` VARCHAR(70), IN `chapterId` INT)
+    NO SQL
+BEGIN
+#SET SQL_SAFE_UPDATES=0;
+ UPDATE user_cups
+    SET date_update = CURDATE(), is_readed = 1
+    WHERE user_name = userName and chapter_id = chapterId;
+		
+			
+ #   SET SQL_SAFE_UPDATES=1;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`azimcoil`@`localhost` PROCEDURE `update_user_cups_sql`(IN `userName` VARCHAR(100), IN `maxGoals` INT, IN `achivedGoals` INT)
+BEGIN
+set @maxCups = (select max_victory_cups from chapter where chapter_id = 11);
+set @newCups = (achivedGoals/maxGoals)* @maxCups;
+
+	INSERT INTO user_cups(user_name, date_update, chapter_id, victory_cups_wined)
+    values(userName, CURDATE(), 11, @newCups )
+    ON DUPLICATE KEY UPDATE date_update=CURDATE(), chapter_id=11, victory_cups_wined=@newCups ;
+END$$
+DELIMITER ;

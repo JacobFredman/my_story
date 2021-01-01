@@ -6,7 +6,8 @@ from user import (
     user_exists,
     isUserAdmin,
     get_user_firebase,
-    delete_user
+    delete_user,
+    initial_user_golas_or_habits
 )
 from cups_menage import initial_user_cups
 
@@ -27,6 +28,7 @@ def signUp():
             newUser["localId"], user_first_name, user_last_name, get_db_conn()
         )
         initial_user_cups(newUser["localId"])
+        initial_user_golas_or_habits(newUser["localId"])
     except Exception as e:
         print(e)
         return "user not created seccessfuly", 500
@@ -46,6 +48,10 @@ def signIn():
     tokenId = request.get_json(force=True)["tokenId"]
     try:
         user = get_auth().get_account_info(tokenId)["users"][0]
+    except Exception as e:
+        print(e)
+        return "error", 400
+    try:
         localId = user["localId"]
         if not user_exists(localId):
             add_new_user_in_local_db(localId, None, None, get_db_conn())
