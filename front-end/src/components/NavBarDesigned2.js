@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
@@ -9,10 +9,35 @@ import Button from 'react-bootstrap/Button';
 import { useWindowSize, layout } from 'use-window-size-hook';
 import ProgressBarMobile from './mobile/ProgressBarMobile';
 import Form from 'react-bootstrap/Form';
+import { LinkContainer } from 'react-router-bootstrap';
+import { useSelector, useDispatch } from 'react-redux';
+import FirebaseContext from '../components/Firebase/context';
 
 
-const NavBarDesigned2 = () => {
+
+
+
+
+const NavBarDesigned2 = (props) => {
     const { width, height, screenLayout } = useWindowSize();
+    const dispatch = useDispatch();
+    const firebase = useContext(FirebaseContext);
+
+
+    const logOff = () => {
+        firebase.doSignOut();
+        document.cookie = 'tokenId=signedOut; path=/;';
+        document.cookie = 'refreshToken=signedOut; path=/;';
+        // window.UserUtils.disconnect();
+        dispatch({
+            type: 'onGetAuth',
+            email: null,
+            is_admin: 0
+        });
+        props.history.push('/sign_in');
+        // this.redirectNotConnectedUser();
+    }
+
 
 
     const ProgressComponents = () => {
@@ -38,6 +63,18 @@ const NavBarDesigned2 = () => {
 
     return (
         <div>
+            <style type="text/css">
+                {`
+    .bg-light {
+        background-color: #FFFFFF !important;
+    }
+
+    .btn-xxl {
+      padding: 1rem 1.5rem;
+      font-size: 1.5rem;
+    }
+    `}
+            </style>
             <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
                 {/* <Navbar.Brand href="#home"> */}
                 <ProgressComponents />
@@ -50,12 +87,20 @@ const NavBarDesigned2 = () => {
                     </Nav>
                     <Nav >
                         <NavDropdown title="עוד" id="collasible-nav-dropdown">
-                            <NavDropdown.Item href="#action/3.1">ראשי</NavDropdown.Item>
+                            {/* <NavDropdown.Item href="http://mystory.mmb.org.il/" target="blank">לדף הראשי</NavDropdown.Item> */}
+                            <LinkContainer exact to="/">
+                                <NavDropdown.Item >ההתקדמות שלי</NavDropdown.Item>
+                            </LinkContainer>
+                            <LinkContainer to="/quick_fill_cups">
+                                <NavDropdown.Item >מילוי מהיר</NavDropdown.Item>
+                            </LinkContainer>
                             <NavDropdown.Divider />
-                            <NavDropdown.Item href="#action/3.4">התנתק</NavDropdown.Item>
+                            <div onClick={logOff}>
+                                <NavDropdown.Item >התנתק</NavDropdown.Item>
+                            </div>
                         </NavDropdown>
                         <Nav.Link eventKey={2} href="#memes">
-                            :(היי אריאל
+                            :(היי חבר
       </Nav.Link>
                         {/* <Nav.Link href="#deets">
                             <BoyImage />

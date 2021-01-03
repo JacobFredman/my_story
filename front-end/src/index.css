@@ -22,7 +22,7 @@ body {
   height: 100%;
   /* font-family: sans-serif; */
   /* font-family: 'Avigul',cursive ; */
-  /* font-family: 'Assistant', sans-serif; */
+  font-family: 'Assistant' !important;
   /* background-color: azure; */
   /* background-image: linear-gradient(to bottom right,rgb(202, 164, 240), rgb(251, 249, 253)); */
   background-color: white;

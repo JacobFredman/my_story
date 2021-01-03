@@ -9,6 +9,7 @@ import { resetUserCups, getChaptersAndCups } from './UpdateCups';
 import { useHistory } from "react-router";
 import Button from 'react-bootstrap/Button';
 import ResetCups from './ResetCups';
+import GoToShowProggressBtn from '../someBtns/GoToShowProggressBtn';
 
 
 
@@ -39,25 +40,32 @@ const TableCupsBottom = (props) => {
 
     return (
         <tr >
-            <td colSpan="3">
+            <td colSpan="4">
                 <Container>
-                    <Row style={{ direction: 'rtl' }}>
-                        <Col>
-                            <div ref={myRef} id={'end'} style={{ height: '1px', width: '10px', backgroundColor: 'blue' }} />
-                        </Col>
-                        <Col xs={8}>
+                    <Row style={{ direction: 'rtl' }} className="justify-content-center" >
+                        <div ref={myRef} id={'end'} style={{ height: '1px', width: '1px', backgroundColor: 'blue' }} />
+                        <Col xs={10}>
                             <div style={{ marginBottom: '20px', marginTop: '20px' }}>
                                 <ButtonFiddbackText onClick={() => this.props.history.push("/user_statistics")} />
                             </div>
                         </Col>
                         {/* <Col><p onClick={resetAll} style={{ font: 'normal normal 600 16px/13px Assistant', color: '#AB3C96', position: 'absolute', top: '20%', cursor: 'pointer' }}>אפס מסע</p></Col> */}
-                        <Col><ResetCups /></Col>
                     </Row>
-                    <Row>
-                        <Col>
+                    {/* <Row className="justify-content-md-center"> */}
+                    <Row className="justify-content-md-center">
+                        <Col></Col>
+                        <Col xs={8}>
                             {/* <div onClick={() => history.push("/")}>לדף הראשי</div> */}
-                            <Button onClick={() => history.push("/")}>לדף הראשי</Button>
+                            {/* <Button onClick={() => history.push("/")}>לדף הראשי</Button> */}
+                            <GoToShowProggressBtn history={props.history} />
                         </Col>
+                        <Col></Col>
+                    </Row>
+                    <Row className="justify-content-md-center">
+                        <Col></Col>
+                        <Col xs='auto' style={{ marginTop: "20px" }}><ResetCups /></Col>
+                        {/* <Col>kkkkkkkkkkkkkkkkkkkkk</Col> */}
+                        <Col></Col>
                     </Row>
                 </Container>
             </td>

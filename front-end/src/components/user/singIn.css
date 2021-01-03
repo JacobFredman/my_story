@@ -57,10 +57,6 @@
 }
 
 .inputSignIn ::placeholder{
-  font-size: '33px';
+  /* font-size: '33px'; */
   /* font-family:'Asistant' ; */
-}
-
-.inputSignIn{
-  font-size: 40px;
 }

@@ -16,7 +16,7 @@ import { message } from 'antd';
 
 
 
-const CupsTable = () => {
+const CupsTable = (props) => {
     const chaptersAndCups = useSelector(state => state.chaptersAndCups);
     const dispatch = useDispatch();
 
@@ -29,20 +29,22 @@ const CupsTable = () => {
 
     useEffect(() => {
         getData();
+        console.log(props.history)
     }, []);
 
 
 
 
     return (
-        <Table size="sm" dir='rtl' style={{ direction: 'rtl', textAlign: 'right', background: '#FFFFFF', boxShadow: '0px 0px 20px #00000029', marginTop: '30px' }} >
+        < Table size="sm" dir='rtl' style={{ direction: 'rtl', textAlign: 'right', background: '#FFFFFF', boxShadow: '0px 0px 20px #00000029', marginTop: '30px' }
+        } >
             <TableCupsHeader />
             {/* <tbody>{chaptersAndCups !== undefined ? <TableCupsRows /> : null}<TableCupsBottom /> */}
             <tbody>
                 {chaptersAndCups ? <TableCupsRows /> : <LoadingPage />}
-                <TableCupsBottom />
+                <TableCupsBottom history={props.history} />
             </tbody>
-        </Table>
+        </Table >
     );
 };
 

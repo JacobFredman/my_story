@@ -31,6 +31,7 @@ import Spinner from 'react-bootstrap/Spinner';
 import Example2 from '../helpComponents/Example2';
 import FirebaseContext from '../Firebase/context';
 import NavBarDesigned2 from '../../components/NavBarDesigned2';
+import queryString from 'query-string'
 
 
 
@@ -42,6 +43,7 @@ const ShowProgress = (props) => {
     const userId = useSelector(state => state.tokenAndDetails.userId);
     console.log(userId);
     const [showFeedback, setshowFeedback] = useState(false);
+    const [shoeNewUserMsg, setShoeNewUserMsg] = useState(false);
     const [showNotFinishedTheJurnyMsg, setShowNotFinishedTheJurnyMsg] = useState(false);
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
@@ -95,10 +97,18 @@ const ShowProgress = (props) => {
         return null;
     }
 
+    const showHelloMsg = () => {
+        const value = queryString.parse(props.location.search);
+        const isNewUser = value.isNewUser;
+        console.log('isNewUser', isNewUser);//123
+        setShoeNewUserMsg(isNewUser);
+    }
+
 
 
     useEffect(() => {
         goToLogInIfNotUser();
+        showHelloMsg();
         getData();
     }, []);
 
@@ -131,6 +141,20 @@ const ShowProgress = (props) => {
             setshowFeedback(true);
     }
 
+    const NewUserMsg = () => {
+        if (shoeNewUserMsg)
+            return (
+                <Example2
+                    text="אני הבוט שלך ואשמח לעזור לך במילוי הגביעים -גם אם תסרב תוכל למלאות גביעים באמצעות כלי המילוי מהיר שלנו"
+                    header="!ברוך הבא חבר"
+                    open={shoeNewUserMsg}
+                    setOpen={setShoeNewUserMsg}
+                    onAccept={() => { window.open("https://m.me/MyStory.Book.Bot?ref=refreshToken--" + readCookie('refreshToken'), "_blank"); setShoeNewUserMsg(false); }}
+                    cencelBtn={true}
+                    okBtnText='אשמח שתעזור לי' />)
+        return '';
+    }
+
 
     // <CupsAccumulation></CupsAccumulation> immedietly after h4's
 
@@ -141,13 +165,14 @@ const ShowProgress = (props) => {
         <React.Fragment>
             <Row>
                 <Col >
+                    <NewUserMsg />
                     <Row>
                         <Col style={{ padding: 0 }}><UpLine /></Col>
                         {console.log(firebase)}
                     </Row>
                     {/* <NavBarDesigned></NavBarDesigned> */}
                     <Row>
-                        <Col style={{ padding: '0' }}><NavBarDesigned2 /></Col>
+                        <Col style={{ padding: '0' }}><NavBarDesigned2 history={props.history} /></Col>
                     </Row>
 
                     <Row  >
@@ -167,9 +192,9 @@ const ShowProgress = (props) => {
                                         </Col>
                                         <Col xs="auto">
                                             <IoIosPin size="5em" style={{ color: '#C68E30' }}></IoIosPin>
-                                            <h4 className="youInText" style={{ color: '#C68E30', textAlign: 'center' }}>אתה נמצא</h4>
-                                            <h4 className="youInText" style={{ color: '#C68E30', textAlign: 'center' }}>{chaptersAndCups ? getChapterLastReaded().part_number + ' בחלק' : <Spinner animation="border" />}</h4>
-                                            <h4 className="youInText" style={{ color: '#C68E30', textAlign: 'center' }}>
+                                            <h4 className="youInText" style={{ color: '#C68E30', textAlign: 'center', fontFamily: 'Avigul' }}>אתה נמצא</h4>
+                                            <h4 className="youInText" style={{ color: '#C68E30', textAlign: 'center', fontFamily: 'Avigul' }}>{chaptersAndCups ? getChapterLastReaded().part_number + ' בחלק' : <Spinner animation="border" />}</h4>
+                                            <h4 className="youInText" style={{ color: '#C68E30', textAlign: 'center', fontFamily: 'Avigul' }}>
                                                 {chaptersAndCups ? getFirstPartOfNameFromChapter(getChapterLastReaded()) : ''}
                                             </h4>
                                         </Col>
@@ -189,7 +214,7 @@ const ShowProgress = (props) => {
 
                     <Row>
                         <Col></Col>
-                        <Col xs={8} md={4} >
+                        <Col xs={10} md={4} >
                             <Example2 text="עליך לסיים את המסע לפני שתוכל לראות את הפידבק" header="טרם סיימת את המסע" open={showNotFinishedTheJurnyMsg} setOpen={setShowNotFinishedTheJurnyMsg} onAccept={() => { return; }} cencelBtn={false} okBtnText='אישור' />
                             {chaptersAndCups ?
                                 <div onClick={() => onPersonalDevelopmentTextbunClick()} name='personalDevelopmentTextbun' className="btnFiddback" style={{ marginTop: '50px', marginBottom: '50px', border: 'none' }} > ניתוח ההתפתחות האישי שלי </div>
@@ -216,13 +241,13 @@ const ShowProgress = (props) => {
                     </Row>
 
                     <Row className='justify-content-center'>
-                        <Col xs='auto' style={{ marginRight: '20px' }}><ResetCups /></Col>
-                        <Col xs='auto'><QuickFillCupsBtn history={props.history} /></Col>
+                        <Col xs='auto' style={{ marginBottom: '20px' }}><a href={"https://m.me/MyStory.Book.Bot?ref=refreshToken--" + readCookie('refreshToken')} target="_blank" >התחבר לבוט</a> </Col>
+                        <Col xs='auto' style={{ marginBottom: '20px' }}><QuickFillCupsBtn history={props.history} /></Col>
                         {console.log(document.cookie)}
                         {console.log(readCookie('tokenId'))}
 
+                        <Col xs='auto' style={{ marginRight: '20px', marginBottom: '20px' }}><ResetCups /></Col>
                         {/* <Col xs='auto'><a href={"https://m.me/MyStory.Book.Bot?ref=token--" + readCookie('tokenId')} target="_blank" >התחבר לבוט</a> </Col> */}
-                        <Col xs='auto'><a href={"https://m.me/MyStory.Book.Bot?ref=refreshToken--" + readCookie('refreshToken')} target="_blank" >התחבר לבוט</a> </Col>
                         {/* <Col></Col> */}
                         {/* <Col></Col> */}
                     </Row>

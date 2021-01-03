@@ -14,6 +14,7 @@ import UserStatistics from './components/myProgress/userStatistics';
 import Cups_and_points from './components/admin/CupsAndPoints';
 import FeedbackText from './components/admin/FeedbackText';
 import AdminReport from './components/admin/AdminReport';
+import "antd/dist/antd.css";
 import SignUp from './components/user/SignUp';
 import Part1 from './components/Progress2/Part1';
 import Progress from './components/helpComponents/Progress';

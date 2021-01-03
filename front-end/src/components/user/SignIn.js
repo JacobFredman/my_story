@@ -90,6 +90,7 @@ class SignIn extends Component {
   }
 
 
+
   updateMyDb = async (tokenId) => {
     const response = await axios.post(
       baseUrl + 'sign_in',
@@ -143,7 +144,7 @@ class SignIn extends Component {
 
         this.updateMyDb(tokenId)
           .then(resp => {
-            this.props.history.push("/");
+            this.props.history.push("/?isNewUser=true");
             this.setState({ loading: false });
           })
           .catch(error => {

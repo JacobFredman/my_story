@@ -8,7 +8,6 @@ import { createStore } from 'redux';
 import reducer1 from './store/reducer1';
 import { Provider } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import "antd/dist/antd.css";
 import Firebase, { FirebaseContext } from './components/Firebase';
 
 // less.modifyVars({

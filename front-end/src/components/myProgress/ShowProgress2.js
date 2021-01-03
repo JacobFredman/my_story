@@ -27,6 +27,8 @@ import CupsTable from './CupsTable';
 import { useSelector, useDispatch } from 'react-redux';
 import { is_user } from '../myProgress/UpdateCups';
 import { message } from 'antd';
+import NavBarDesigned2 from '../NavBarDesigned2';
+import GoToShowProggressBtn from '../someBtns/GoToShowProggressBtn';
 
 
 const ShowProgress2 = (props) => {
@@ -69,15 +71,15 @@ const ShowProgress2 = (props) => {
             <Row className="backStyle">
                 <Col>
                     <UpLine />
-                    <NavBarDesigned></NavBarDesigned>
-
+                    {/* <NavBarDesigned></NavBarDesigned> */}
+                    <NavBarDesigned2 history={props.history} />
 
                     <Row className="justify-content-md-center">
                         <Col xs={12} md={7} style={{ paddingRight: '0', paddingLeft: '0' }}>
                             <Container>
                                 <Row className="justify-content-md-center">
                                     <Col style={{ paddingRight: '0', paddingLeft: '0' }}>
-                                        <CupsTable />
+                                        <CupsTable history={props.history} />
                                     </Col>
                                     <Col xs={1} style={{ padding: '0', marging: '0' }}>
                                         {refsToBeginOfParts && refsToBeginOfParts[1] !== undefined ? <AllRotatedPartsNames /> : ''}
