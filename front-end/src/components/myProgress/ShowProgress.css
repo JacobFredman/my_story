@@ -10,10 +10,13 @@
 
 
 .chapterName{
-    font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-bold) 14px/16px var(--unnamed-font-family-assistant);
+    /* font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-bold) 14px/16px var(--unnamed-font-family-assistant); */
 letter-spacing: var(--unnamed-character-spacing-0);
 text-align: right;
-font: normal normal bold 14px/16px Assistant;
+/* font: normal normal bold 14px/16px; */
+font-weight: bold;
+font-size: 12px;
+/* font-family: 'Asistant'; */
 letter-spacing: 0px;
 color: #000000;
 /* font-family: 'Assistant', sans-serif; */
@@ -21,10 +24,12 @@ margin-bottom: 0px;
 }
 
 .chapterNameSecondery{
-    font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-normal) 14px/16px var(--unnamed-font-family-assistant);
+    /* font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-normal) 14px/16px var(--unnamed-font-family-assistant); */
     letter-spacing: var(--unnamed-character-spacing-0);
     text-align: right;
-    font: normal normal normal 14px/16px Assistant;
+    /* font: normal normal normal 14px/16px Asistant; */
+    font-size: 12px;
+    /* font-family: 'Asistant'; */
     letter-spacing: 0px;
     color: #000000;
 }

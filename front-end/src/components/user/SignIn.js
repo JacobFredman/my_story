@@ -169,6 +169,7 @@ class SignIn extends Component {
   render_component = () => {
     return (
       <React.Fragment>
+        {/* {console.log(less)} */}
         {/* {this.state.loading ? <LoadingPage /> : ''} */}
         <Helmet bodyAttributes={{ style: 'background: transparent linear-gradient(45deg, #8BBF3F 0%, #43C2CF 100%) 0% 0% no-repeat padding-box' }} />
 
@@ -214,13 +215,13 @@ class SignIn extends Component {
                   <Form dir='rtl' style={{ textAlign: 'right', direction: 'rtl' }} onSubmit={this.handleSubmit} >
                     <Form.Row>
                       <Form.Group as={Col} controlId="formGridEmail">
-                        <Form.Control className="inputSignIn" style={{ textAlign: 'center', fontFamily: 'Asistant' }} name='email' value={this.state.userName} type="email" placeholder="שם משתמש/מייל" onChange={this.handleChange} />
+                        <Form.Control className="inputSignIn" style={{ textAlign: 'center' }} name='email' value={this.state.userName} type="email" placeholder="שם משתמש/מייל" onChange={this.handleChange} />
                       </Form.Group>
                     </Form.Row>
 
                     <Form.Row>
                       <Form.Group as={Col} controlId="formGridPassword">
-                        <Form.Control style={{ textAlign: 'center', fontFamily: 'Asistant' }} name='password' value={this.state.password} type="password" placeholder="סיסמה" onChange={this.handleChange} />
+                        <Form.Control className="inputSignIn" style={{ textAlign: 'center' }} name='password' value={this.state.password} type="password" placeholder="סיסמה" onChange={this.handleChange} />
                       </Form.Group>
                     </Form.Row>
                     <Row>
@@ -231,13 +232,13 @@ class SignIn extends Component {
                     <Row>
                       <Col>
                         <div className="goToSignUpContainer">
-                          <div className="downTextSignIn" style={{ color: '#FFFFFF', fontFamily: 'Asistant', textAlign: 'left', flex: '0 0 70%', fontSize: '18px' }}>אין לך עדיין חשבון?</div>
-                          <div onClick={() => this.props.history.push("/sign_up/")} style={{ color: '#61147B', flex: '2', textAlign: 'right', cursor: 'pointer', fontFamily: 'Asistant', fontSize: '18px', color: '#F4CC6B' }}>הרשם </div>
+                          <div className="downTextSignIn" style={{ color: '#FFFFFF', textAlign: 'left', flex: '0 0 70%', fontSize: '18px' }}>אין לך עדיין חשבון?</div>
+                          <div onClick={() => this.props.history.push("/sign_up/")} style={{ color: '#61147B', flex: '2', textAlign: 'right', cursor: 'pointer', fontSize: '18px', color: '#F4CC6B' }}>הרשם </div>
                         </div>
                         <Row>
                           <Col>
                             <div className="goToSignUpContainer">
-                              <div onClick={this.sendPaawordReset} style={{ color: '#61147B', flex: '2', textAlign: 'center', cursor: 'pointer', fontFamily: 'Asistant', fontSize: '18px', color: '#F4CC6B' }}>שכחתי סיסמה</div>
+                              <div onClick={this.sendPaawordReset} style={{ color: '#61147B', flex: '2', textAlign: 'center', cursor: 'pointer', fontSize: '18px', color: '#F4CC6B' }}>שכחתי סיסמה</div>
                             </div>
                           </Col>
                         </Row>

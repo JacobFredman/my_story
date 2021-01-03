@@ -11,6 +11,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "antd/dist/antd.css";
 import Firebase, { FirebaseContext } from './components/Firebase';
 
+// less.modifyVars({
+//     '@buttonFace': '#5B83AD',
+//     '@buttonText': '#D9EEF2'
+// });
 
 
 

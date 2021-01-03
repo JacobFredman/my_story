@@ -11,6 +11,7 @@ const NavBarAntd = () => {
     return (
         <div style={{ width: 400, margin: '100px auto' }}>
             <DatePicker onChange={handleChange} />
+            <p>זה הלילה הראשון</p>
             <div style={{ marginTop: 16 }}>
                 Selected Date: {date ? date.format('YYYY-MM-DD') : 'None'}
             </div>

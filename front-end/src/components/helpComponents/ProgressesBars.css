@@ -1,7 +1,7 @@
 .textProsess{
 letter-spacing: var(--unnamed-character-spacing-0);
 /* font: normal normal bold 26px/28px Assistant; */
-font: normal normal 600 24px/26px Assistant;
+font: normal normal 600 24px/26px;
 letter-spacing: 0px;
 color: #000000;
 /* font-family: 'Assistant', sans-serif; */

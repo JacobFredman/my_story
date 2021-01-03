@@ -26,7 +26,7 @@ import AllRotatedPartsNames from '../helpComponents/AllRotatedPartsNames';
 import CupsTable from './CupsTable';
 import { useSelector, useDispatch } from 'react-redux';
 import { is_user } from '../myProgress/UpdateCups';
-
+import { message } from 'antd';
 
 
 const ShowProgress2 = (props) => {
@@ -53,6 +53,12 @@ const ShowProgress2 = (props) => {
         cleanDivsPointers();
         goToLogInIfNotUser();
     }, [reRenderComponent]);
+
+    useEffect(() => {
+        message.info('אם קראת פרק- פשוט הקלק עליו', 10);
+    }, [])
+
+
 
     const cleanDivsPointers = () => {
         dispatch({ type: 'CLEANREFSTOBEGINOFPARTS' })

@@ -28,8 +28,13 @@ const CupsCol = (props) => {
     }
 
     const UpdateCups = async (chapterId, victory_cups_wined) => {
-        UpdateCupsClient(chapterId, victory_cups_wined);
-        const msg = await updateCupsServer(chapterId, victory_cups_wined);
+        if (isCupClickable()) {
+            UpdateCupsClient(chapterId, victory_cups_wined);
+            const msg = await updateCupsServer(chapterId, victory_cups_wined);
+        }
+        else if (props.goalsSelected)
+            message.warning('בחרת במצב "שלבים". במצב זה אין אפשרות לבחור גביעים ישירות', 7);
+
         // getData();
     }
 
@@ -48,6 +53,11 @@ const CupsCol = (props) => {
 
     const CreateCupsArray = chapter => {
         let result = [<GrFormClose key={0} onClick={() => UpdateCups(chapter.id, 0)} />];
+        // let result = [
+        //     <GrFormClose key={0} onClick={() => isCupClickable()
+        //         ? UpdateCups(chapter.id, 0)
+        //         : message.warning('בחרת במצב "שלבים". במצב זה אין אפשרות לבחור גביעים ישירות', 7)} />
+        // ];
 
         // if (chapterId === goalsOrHabitsChapterId && this.state.goalsSelected)
         //     tdTagStyle = { backgroundColor: '#bfbfbf' };
@@ -62,9 +72,7 @@ const CupsCol = (props) => {
                     onMouseLeave={() => setIdCupMouseOver(-1)}
                     className={isCupClickable() ? 'CupUnAutoWin' : ''}
                     // onClick={() => chapter.is_readed ? UpdateCups(chapter.id, id) : ''}
-                    onClick={() => isCupClickable()
-                        ? UpdateCups(chapter.id, id)
-                        : message.warning('בחרת במצב "שלבים". במצב זה אין אפשרות לבחור גביעים ישירות')}>
+                    onClick={() => UpdateCups(chapter.id, id)}>
                     <Cup
                         key={id}
                         automatic_win={chapter.automatic_win}

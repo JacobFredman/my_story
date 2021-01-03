@@ -8,6 +8,7 @@ import { baseUrl } from '../../utils/StaticData';
 import axios from 'axios';
 import { getChaptersAndCups } from './UpdateCups';
 import LoadingPage from '../LoadingPage';
+import { message } from 'antd';
 
 
 
@@ -29,6 +30,8 @@ const CupsTable = () => {
     useEffect(() => {
         getData();
     }, []);
+
+
 
 
     return (

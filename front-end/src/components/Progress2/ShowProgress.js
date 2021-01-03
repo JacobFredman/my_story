@@ -30,6 +30,7 @@ import Cookies from 'js-cookie';
 import Spinner from 'react-bootstrap/Spinner';
 import Example2 from '../helpComponents/Example2';
 import FirebaseContext from '../Firebase/context';
+import NavBarDesigned2 from '../../components/NavBarDesigned2';
 
 
 
@@ -46,7 +47,6 @@ const ShowProgress = (props) => {
     const dispatch = useDispatch();
 
     const getChapterLastReaded = () => {
-
         let max_of_array = Math.max.apply(Math, chaptersAndCups.map(chapter => chapter.is_readed ? chapter.id : 0));
         if (max_of_array <= 0)
             max_of_array = 1;
@@ -85,7 +85,6 @@ const ShowProgress = (props) => {
     }
 
     const readCookie = (name) => {
-
         var nameEQ = name + "=";
         var ca = document.cookie.split(';');
         for (var i = 0; i < ca.length; i++) {
@@ -96,12 +95,6 @@ const ShowProgress = (props) => {
         return null;
     }
 
-
-    const onClick = () => {
-        firebase.getTokenId().
-            then(res => console.log(res))
-            ;
-    }
 
 
     useEffect(() => {
@@ -152,13 +145,14 @@ const ShowProgress = (props) => {
                         <Col style={{ padding: 0 }}><UpLine /></Col>
                         {console.log(firebase)}
                     </Row>
-                    <NavBarDesigned></NavBarDesigned>
+                    {/* <NavBarDesigned></NavBarDesigned> */}
+                    <Row>
+                        <Col style={{ padding: '0' }}><NavBarDesigned2 /></Col>
+                    </Row>
+
                     <Row  >
                         <Col xs={12} md={7} style={{ backgroundColor: '#E4E2F230', paddingTop: '30px' }}>
-
-
                             <ProgressesBars />
-
                         </Col>
                         <Col xs={12} md={5} style={{ backgroundColor: '#E4E2F2C2', textAlign: 'center', paddingTop: '30px', paddingBottom: '10px' }}>
                             <Row>

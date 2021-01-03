@@ -8,12 +8,31 @@ import { updateChapterReadStatusServer } from './UpdateCups';
 import ReadedSign from '../helpComponents/ReadedSign';
 import UnreadedSign from '../helpComponents/UnreadedSign';
 import PerekTetCupsCol from './PerekTet/PerekTetCupsCol';
+import { message } from 'antd';
+import Cup from '../helpComponents/Cup';
+
 
 const TableCupsRows = () => {
     const chaptersAndCups = useSelector(state => state.chaptersAndCups);
     const dispatch = useDispatch();
 
+    const shwoReadFeedbackMsg = (chapter) => {
+        message.success({
+            content: '!אלוף',
+            style: { color: '#C68E30', fontFamily: 'Avigul', fontSize: '30px' },
+            icon: <span></span>
+        });
+        if (!chapter.automatic_win) {
+            message.success({
+                content: 'עכשיו הקלק על גביע לפי מספר הגביעים שגרפת',
+                style: { color: '#C68E30' },
+                icon: <Cup height={25} marginPx={3} gold={true} />
+            });
+        }
+    }
+
     const MakeChapterReaded = async (chapter) => {
+        shwoReadFeedbackMsg(chapter);
         dispatch({ type: 'CHANGECHAPTERREADSTATUS', chapterId: chapter.id, is_readed: true });
         const msg = await updateChapterReadStatusServer(chapter.id, true);
     }

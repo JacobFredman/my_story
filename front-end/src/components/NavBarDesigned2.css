@@ -1,9 +1,36 @@
-
+/* 
 .bg-light{
     background-color: #FFFFFF !important;
 }
+*/
 
 .navbar{
-    /* border: solid; */
     box-shadow: 20px 20px 24px #0000001A;
 }
+
+
+/* .nav-link {
+    color: purple !important;
+    font-size: 18px;
+} */
+
+
+
+
+.navbar-nav{
+    text-align: right;
+} 
+
+.dropdown-item{
+    text-align: right !important;
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: #9947B5 !important;
+    /* font-family: 'Assistant'; */
+    font-size: 17px;
+}
+
+.dropdown-item{
+    /* font-family: 'Avigul' !important; */
+} 

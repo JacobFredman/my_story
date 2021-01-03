@@ -314,7 +314,7 @@ class showProgress extends Component {
                                                                 <ButtonFiddbackText onClick={() => this.props.history.push("/user_statistics")} />
                                                             </div>
                                                         </Col>
-                                                        <Col><p style={{ font: 'normal normal 600 16px/13px Assistant', color: '#AB3C96', position: 'absolute', top: '20%' }}>אפס מסע</p></Col>
+                                                        <Col><p style={{ font: 'normal normal 600 16px/13px', color: '#AB3C96', position: 'absolute', top: '20%' }}>אפס מסע</p></Col>
                                                     </Row>
                                                 </Container>
                                                 {/* <Button onClick={() => this.props.history.push("/user_statistics")}>אני רוצה לראות את המצב שלי</Button> */}

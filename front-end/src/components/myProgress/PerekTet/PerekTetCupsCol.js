@@ -148,8 +148,8 @@ const PerekTetCupsCol = (props) => {
     const GoalsOrgoalsBtns = () => {
         return <Row>
             <Col className="goalsOrHobitsBtnsContainer">
-                <div onClick={() => updategoalsOrHobits(true)} className={goalsSelected ? "goalsOrHobitsBtn activeBtn" : "notActiveBtn goalsOrHobitsBtn"}>שלבים</div>
-                <div onClick={() => updategoalsOrHobits(false)} className={goalsSelected ? "notActiveBtn goalsOrHobitsBtn" : "goalsOrHobitsBtn activeBtn"}>הרגלים</div>
+                <div onClick={() => updategoalsOrHobits(true)} style={{ borderWidth: '1px' }} className={goalsSelected ? "goalsOrHobitsBtn activeBtn" : "notActiveBtn goalsOrHobitsBtn"}>שלבים</div>
+                <div onClick={() => updategoalsOrHobits(false)} style={{ borderWidth: '1px' }} className={goalsSelected ? "notActiveBtn goalsOrHobitsBtn" : "goalsOrHobitsBtn activeBtn"}>הרגלים</div>
                 {tooManyAchivedGoals ?
                     <Alert style={{ fontSize: '7px' }} message="מספר השלבים שהשגת לא יכול להיות גדול ממספר השלבים שהגדרת" type="error" />
                     : ''
@@ -176,6 +176,7 @@ const PerekTetCupsCol = (props) => {
             <ReactTooltip />
             <input key="goalesNumInput" type="number" value={goalesNum} onChange={e => { ongoalesNumInputChange(e) }}// onChange={e => { setgoalesNum(e.target.value); autoFocusOn = "goalesNumInput" }}
                 autoFocus={autoFocusOn === "goalesNumInput"}
+                onBlur={() => autoFocusOn = undefined}
                 className="goalsOrHobitsInput goalsOrHobitsInputOkStatus"
                 data-tip='הקלד שלבים שהגדרת'
                 placeholder="הקלד"></input>
@@ -184,6 +185,7 @@ const PerekTetCupsCol = (props) => {
             {/* <input autoFocus={autoFocusOn === "achivedgoalsInput"} key="achivedgoalsInput" value={achivedgoals} onChange={e => onAchivedgoalsInputChange(e)} onChange={e => Updateachivedgoals(e.target.value)} */}
             <input type="number" key="achivedgoalsInput" value={achivedgoals} onChange={e => onAchivedgoalsInputChange(e)} data-tip='הקלד שלבים שהשגת' //onChange={e => { setAchivedgoals(e.target.value); autoFocusOn = "achivedgoalsInput" }} value={achivedgoals}
                 autoFocus={autoFocusOn === "achivedgoalsInput"}
+                onBlur={() => autoFocusOn = undefined}
                 className={tooManyAchivedGoals ? "goalsOrHobitsInput goalsOrHobitsInputWarningStatus" : "goalsOrHobitsInput goalsOrHobitsInputOkStatus"}
                 placeholder="הקלד"
             ></input>

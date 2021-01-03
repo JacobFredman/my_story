@@ -28,7 +28,8 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
     "react-tooltip": "^4.2.11",
-    "redux": "^4.0.5"
+    "redux": "^4.0.5",
+    "use-window-size-hook": "^1.1.22"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -67,6 +67,7 @@ class SignUp extends Component {
         )
             .catch(error => {
                 console.log(error);
+                message.error('משהו השתבש, האם אתה בטוח שכתובת המייל תקינה?  ');
                 this.setState({ loading: false });
             })
 

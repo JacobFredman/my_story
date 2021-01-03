@@ -9,7 +9,7 @@
 }
 
 .textFeadback{
-    font-family: Assistant;
+    /* font-family: Assistant; */
     font-size: 11px;
     color: black;
 }
@@ -30,7 +30,7 @@
     font: normal normal bold 10px/10px;
     font-size: 20px;
     font-weight: 600;
-    font-family: Assistant;
+    /* font-family: Assistant; */
     letter-spacing: 0px;
     text-align: right;
 }

@@ -12,7 +12,7 @@
     line-height: 20px;
     text-decoration: none;
     cursor: pointer;
-    font-family: Assistant;
+    /* font-family: Assistant; */
 }
 
 .facebookBtn {
@@ -36,7 +36,7 @@
         flex-direction: row;
         color: white;
         font-size: 23px;
-        font-family: Assistant;
+        /* font-family: Assistant; */
       }
       .midLine:before, .midLine:after{
         content: "";
@@ -53,9 +53,14 @@
 
 
 .downTextSignIn{
-  font-family: Asistant;
+  /* font-family: Asistant; */
 }
 
 .inputSignIn ::placeholder{
-  color: red
+  font-size: '33px';
+  /* font-family:'Asistant' ; */
+}
+
+.inputSignIn{
+  font-size: 40px;
 }

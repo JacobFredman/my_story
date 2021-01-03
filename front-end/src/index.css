@@ -1,18 +1,9 @@
-/* body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-} */
 
 @import url('https://fonts.googleapis.com/css2?family=Assistant:wght@200;300;400;500;600;700;800&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Assistant'); */
+
+
 
 
 @font-face{
@@ -30,7 +21,7 @@ html,
 body {
   height: 100%;
   /* font-family: sans-serif; */
-  font-family: Assistant;
+  /* font-family: 'Avigul',cursive ; */
   /* font-family: 'Assistant', sans-serif; */
   /* background-color: azure; */
   /* background-image: linear-gradient(to bottom right,rgb(202, 164, 240), rgb(251, 249, 253)); */

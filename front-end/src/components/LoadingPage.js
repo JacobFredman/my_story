@@ -33,7 +33,6 @@ const LoadingPage = (props) => {
         <div>
             <Modal
                 open={true}
-                onClose={() => props.setOpen(false)}
                 center
                 classNames={{
                     closeButton: 'closeBtn',
