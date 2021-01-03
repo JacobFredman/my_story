@@ -17,4 +17,5 @@ export const baseUrl = "https://achraiut-test3.el.r.appspot.com/api/";
 
 export const expTokenInterval = 1000 * 60 * 20; // one hour
 
+
 export const msgExpTokenInterval = 1000 * 60 * 18;
