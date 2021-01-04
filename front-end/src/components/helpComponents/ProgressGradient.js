@@ -29,16 +29,6 @@ const ProgressGradient = (props) => {
 
     return (
         <React.Fragment>
-            {/* <Row>
-                <Col>
-                    <div className="circle circle2" style={{ background: `${props.color}` }}>{percentOfReaded() + '%'}</div>
-                    <div className="progress progress2">
-                        <div className="progress-bar progress-bar2" style={{ width: percentOfReaded() + '%', background: `${props.color}` }}>
-                        </div>
-                    </div>
-                </Col>
-            </Row> */}
-
 
             <Row>
                 <Col >
@@ -51,10 +41,6 @@ const ProgressGradient = (props) => {
                     </div>
                 </Col>
             </Row>
-
-            {/* <div className="circle1">50%</div> */}
-
-
 
         </React.Fragment>
     );

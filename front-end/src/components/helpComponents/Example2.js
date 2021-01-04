@@ -25,7 +25,7 @@ const Example2 = (props) => {
                 <p className="modalHeader">
                     {props.header}
                 </p>
-
+                <img src={props.icon} />
                 <p style={{ fontFamily: 'Assistant' }}>
                     {props.text}
                 </p>

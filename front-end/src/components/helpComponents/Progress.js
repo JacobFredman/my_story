@@ -8,18 +8,14 @@ import Spinner from 'react-bootstrap/Spinner';
 
 
 const Proggress = (props) => {
-    const spinnerOrPercent = () => {
-        if (props.percent)
-            return parseInt(props.percent * 100) + '%';
-        return <Spinner />
-    }
+
     return (
 
         <React.Fragment>
             <Row>
                 <Col >
-                    <div className="circle circle1" style={{ backgroundColor: `${props.color}` }}>
-                        {props.percent ? parseInt(props.percent * 100) + '%' : <Spinner animation="border" size="sm" />}
+                    <div className="circle circle1" style={{ backgroundColor: `${props.color}`, fontFamily: 'Avigul' }}>
+                        {props.percent === undefined ? <Spinner animation="border" size="sm" /> : parseInt(props.percent * 100) + '%'}
                     </div>
                     <div className="progress progress1">
                         <div className="progress-bar progress-bar1" style={{ width: parseInt(props.percent * 100) + '%', backgroundColor: `${props.color}` }}>

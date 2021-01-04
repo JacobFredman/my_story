@@ -12,6 +12,7 @@ import Form from 'react-bootstrap/Form';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import FirebaseContext from '../components/Firebase/context';
+import { baseUrl } from '../utils/StaticData';
 
 
 
@@ -21,6 +22,7 @@ import FirebaseContext from '../components/Firebase/context';
 const NavBarDesigned2 = (props) => {
     const { width, height, screenLayout } = useWindowSize();
     const dispatch = useDispatch();
+    const tokenAndDetails = useSelector(state => state.tokenAndDetails);
     const firebase = useContext(FirebaseContext);
 
 
@@ -36,6 +38,19 @@ const NavBarDesigned2 = (props) => {
         });
         props.history.push('/sign_in');
         // this.redirectNotConnectedUser();
+    }
+
+    const Admin = () => {
+        if (tokenAndDetails.is_admin)
+            return <> <NavDropdown.Divider />
+                <LinkContainer to="/admin/users_statistics">
+                    <NavDropdown.Item >מנהל</NavDropdown.Item>
+                </LinkContainer>
+                <div onClick={() => window.open(baseUrl + "admin/user_statistics.csv", "_blank")}>
+                    <NavDropdown.Item >נתוני משתמשים באקסל</NavDropdown.Item>
+                </div>
+            </>;
+        return '';
     }
 
 
@@ -56,7 +71,6 @@ const NavBarDesigned2 = (props) => {
         else
             result = <Navbar.Brand >
                 < ProgressBarMobile />
-                {/* <p>kkkkkkkkkkkkkkkk</p> */}
             </Navbar.Brand>
         return result;
     }
@@ -95,13 +109,16 @@ const NavBarDesigned2 = (props) => {
                                 <NavDropdown.Item >מילוי מהיר</NavDropdown.Item>
                             </LinkContainer>
                             <NavDropdown.Divider />
+                            <NavDropdown.Item href="http://mystory.mmb.org.il" target="blank">ראשי</NavDropdown.Item>
+                            <NavDropdown.Divider />
                             <div onClick={logOff}>
                                 <NavDropdown.Item >התנתק</NavDropdown.Item>
                             </div>
+                            <Admin />
                         </NavDropdown>
-                        <Nav.Link eventKey={2} href="#memes">
+                        <Nav.Link eventKey={2} >
                             :(היי חבר
-      </Nav.Link>
+                        </Nav.Link>
                         {/* <Nav.Link href="#deets">
                             <BoyImage />
                         </Nav.Link> */}

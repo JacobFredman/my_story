@@ -45,8 +45,8 @@ const TableCupsBottom = (props) => {
                     <Row style={{ direction: 'rtl' }} className="justify-content-center" >
                         <div ref={myRef} id={'end'} style={{ height: '1px', width: '1px', backgroundColor: 'blue' }} />
                         <Col xs={10}>
-                            <div style={{ marginBottom: '20px', marginTop: '20px' }}>
-                                <ButtonFiddbackText onClick={() => this.props.history.push("/user_statistics")} />
+                            <div onClick={() => props.history.push("/?showFiddbackText=true")} style={{ marginBottom: '20px', marginTop: '20px' }}>
+                                <ButtonFiddbackText onClick={() => props.history.push("/?showFiddbackText=true")} />
                             </div>
                         </Col>
                         {/* <Col><p onClick={resetAll} style={{ font: 'normal normal 600 16px/13px Assistant', color: '#AB3C96', position: 'absolute', top: '20%', cursor: 'pointer' }}>אפס מסע</p></Col> */}
@@ -64,7 +64,6 @@ const TableCupsBottom = (props) => {
                     <Row className="justify-content-md-center">
                         <Col></Col>
                         <Col xs='auto' style={{ marginTop: "20px" }}><ResetCups /></Col>
-                        {/* <Col>kkkkkkkkkkkkkkkkkkkkk</Col> */}
                         <Col></Col>
                     </Row>
                 </Container>

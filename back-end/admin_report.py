@@ -34,7 +34,11 @@ def calcAverages(users_details):
             if i["self_fulfillment"] is not None
         ]
     )
-    users_age_ave = mean([i["age"] for i in users_details if i["age"] is not None])
+
+    if(not all(i["age"] is None for i in users_details)):
+        users_age_ave = mean([i["age"] for i in users_details if i["age"] is not None])
+    else:
+        users_age_ave = 0
 
     allUsersCupsLists = [i["cups"] for i in users_details]
     allUsersCupsListsZiped = zip(*allUsersCupsLists)

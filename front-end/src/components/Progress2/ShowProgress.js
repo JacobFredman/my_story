@@ -31,7 +31,10 @@ import Spinner from 'react-bootstrap/Spinner';
 import Example2 from '../helpComponents/Example2';
 import FirebaseContext from '../Firebase/context';
 import NavBarDesigned2 from '../../components/NavBarDesigned2';
-import queryString from 'query-string'
+import queryString from 'query-string';
+import botImg from '../../Photos/bot.jpg'; // with import
+
+
 
 
 
@@ -97,18 +100,25 @@ const ShowProgress = (props) => {
         return null;
     }
 
-    const showHelloMsg = () => {
+    const actBasedOnUrlParams = () => {
         const value = queryString.parse(props.location.search);
+
+        if (value.showFiddbackText && chaptersAndCups) {
+            onPersonalDevelopmentTextbunClick();
+        }
+
         const isNewUser = value.isNewUser;
-        console.log('isNewUser', isNewUser);//123
-        setShoeNewUserMsg(isNewUser);
+        if (isNewUser) {
+            setShoeNewUserMsg(true);
+            props.history.push("/");
+        }
     }
 
 
 
     useEffect(() => {
         goToLogInIfNotUser();
-        showHelloMsg();
+        actBasedOnUrlParams();
         getData();
     }, []);
 
@@ -145,8 +155,12 @@ const ShowProgress = (props) => {
         if (shoeNewUserMsg)
             return (
                 <Example2
-                    text="אני הבוט שלך ואשמח לעזור לך במילוי הגביעים -גם אם תסרב תוכל למלאות גביעים באמצעות כלי המילוי מהיר שלנו"
+                    text="היי חבר! אני הבוט של 'הסטורי שלי'
+                    התפקיד שלי הוא ללוות אותך במסע ולעזור לך במילוי הגביעים.
+                    יחד נגיע לפסגות חדשות ונגשים ים של חלומות!
+                    גם אם לא תרצה להשתמש בי- תוכל למלא גביעים באמצעות כלי המילוי מהיר שלנו."
                     header="!ברוך הבא חבר"
+                    icon={botImg}
                     open={shoeNewUserMsg}
                     setOpen={setShoeNewUserMsg}
                     onAccept={() => { window.open("https://m.me/MyStory.Book.Bot?ref=refreshToken--" + readCookie('refreshToken'), "_blank"); setShoeNewUserMsg(false); }}
@@ -215,7 +229,15 @@ const ShowProgress = (props) => {
                     <Row>
                         <Col></Col>
                         <Col xs={10} md={4} >
-                            <Example2 text="עליך לסיים את המסע לפני שתוכל לראות את הפידבק" header="טרם סיימת את המסע" open={showNotFinishedTheJurnyMsg} setOpen={setShowNotFinishedTheJurnyMsg} onAccept={() => { return; }} cencelBtn={false} okBtnText='אישור' />
+                            <Example2
+                                text="עליך לסיים את המסע לפני שתוכל לראות את הפידבק"
+                                header="טרם סיימת את המסע"
+                                open={showNotFinishedTheJurnyMsg}
+                                setOpen={setShowNotFinishedTheJurnyMsg}
+                                onAccept={() => { return; }}
+                                cencelBtn={false}
+                                okBtnText='אישור'
+                            />
                             {chaptersAndCups ?
                                 <div onClick={() => onPersonalDevelopmentTextbunClick()} name='personalDevelopmentTextbun' className="btnFiddback" style={{ marginTop: '50px', marginBottom: '50px', border: 'none' }} > ניתוח ההתפתחות האישי שלי </div>
                                 : ''

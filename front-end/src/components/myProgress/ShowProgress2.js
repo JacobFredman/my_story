@@ -71,7 +71,6 @@ const ShowProgress2 = (props) => {
             <Row className="backStyle">
                 <Col>
                     <UpLine />
-                    {/* <NavBarDesigned></NavBarDesigned> */}
                     <NavBarDesigned2 history={props.history} />
 
                     <Row className="justify-content-md-center">
@@ -83,7 +82,6 @@ const ShowProgress2 = (props) => {
                                     </Col>
                                     <Col xs={1} style={{ padding: '0', marging: '0' }}>
                                         {refsToBeginOfParts && refsToBeginOfParts[1] !== undefined ? <AllRotatedPartsNames /> : ''}
-
                                     </Col>
                                 </Row>
                             </Container>
