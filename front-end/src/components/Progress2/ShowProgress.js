@@ -114,7 +114,7 @@ const ShowProgress = (props) => {
 
     useEffect(() => {
         goToLogInIfNotUser();
-        actBasedOnUrlParams();
+        // actBasedOnUrlParams();
         getData();
     }, []);
 
@@ -187,7 +187,11 @@ const ShowProgress = (props) => {
 
                     <Row  >
                         <Col xs={12} md={7} style={{ backgroundColor: '#E4E2F230', paddingTop: '30px' }}>
+                            {console.log('ok!')}
+
                             <ProgressesBars />
+                            {console.log('ProgressesBars!')}
+
                         </Col>
                         <Col xs={12} md={5} style={{ backgroundColor: '#E4E2F2C2', textAlign: 'center', paddingTop: '30px', paddingBottom: '10px' }}>
                             <Row>
@@ -197,6 +201,7 @@ const ShowProgress = (props) => {
                                         <Col>
                                             <div style={{ height: '200px', width: '200px', marginTop: '20px' }}>
                                                 {chaptersAndCups ? <PictureOfPart width={200} /> : <Spinner animation="grow" />}
+                                                {console.log('ok!')}
 
                                             </div>
                                         </Col>
@@ -206,12 +211,14 @@ const ShowProgress = (props) => {
                                             <h4 className="youInText" style={{ color: '#C68E30', textAlign: 'center', fontFamily: 'Avigul' }}>{chaptersAndCups ? getChapterLastReaded().part_number + ' בחלק' : <Spinner animation="border" />}</h4>
                                             <h4 className="youInText" style={{ color: '#C68E30', textAlign: 'center', fontFamily: 'Avigul' }}>
                                                 {chaptersAndCups ? getFirstPartOfNameFromChapter(getChapterLastReaded()) : ''}
+                                                {console.log('ok!')}
                                             </h4>
                                         </Col>
                                     </Row>
                                     <Row>
                                         <Col >
                                             <CupsAccumulation></CupsAccumulation>
+                                            {console.log('CupsAccumulation!')}
 
                                         </Col>
                                     </Row>
@@ -238,6 +245,8 @@ const ShowProgress = (props) => {
                                 <div onClick={() => onPersonalDevelopmentTextbunClick()} name='personalDevelopmentTextbun' className="btnFiddback" style={{ marginTop: '50px', marginBottom: '50px', border: 'none' }} > ניתוח ההתפתחות האישי שלי </div>
                                 : ''
                             }
+                            {console.log('Example2!')}
+
                         </Col>
                         <Col></Col>
                     </Row>
@@ -255,22 +264,27 @@ const ShowProgress = (props) => {
                                 </>
                                 : ''
                             }
+                            {console.log('FeadbackTextArea!')}
+
                         </Col>
                     </Row>
 
                     <Row className='justify-content-center'>
                         <Col xs='auto' style={{ marginBottom: '20px' }}><QuickFillCupsBtn history={props.history} /></Col>
+                        {console.log('QuickFillCupsBtn!')}
 
                     </Row>
                     <Row className='justify-content-center'>
                         <Col style={{ marginBottom: '20px', textAlign: 'center' }}>
-                            {/* <ResetCups />
-                            <ConncetToBotBtn /> */}
+                            <ResetCups />
+                            <ConncetToBotBtn />
                         </Col>
+                        {console.log('ConncetToBotBtn!')}
                     </Row>
                     <Row className='justify-content-center'>
                         <Col style={{ textAlign: 'center' }}>
-                            {/* <Credit /> */}
+                            <Credit />
+                            {console.log('ConncetToBotBtn!')}
                         </Col>
                     </Row>
                 </Col>

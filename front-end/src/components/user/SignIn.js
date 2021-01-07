@@ -198,6 +198,7 @@ class SignIn extends Component {
               </Row>
               <Row>
                 <Col>
+                  <h2>היי</h2>
                   <div onClick={this.facebookSignIn} className='btnSignIn facebookBtn'>התחבר באמצעות פייסבוק</div>
                 </Col>
               </Row>
