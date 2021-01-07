@@ -39,13 +39,22 @@
 
   .AccumulatedCupsFont{
       /* font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-bold) 58px/76px var(--unnamed-font-family-assistant); */
-      font: normal normal bold 58px/76px ;
-     font-family:  Assistant;
+      font-size:  25px ;
+      font-weight: bold;
+     /* font-family:  Assistant; */
+    /* font-family:  'Avigul'; */
+    margin-left: 15px;
+    color: #C68E30;
+    display: inline-block;
+    line-height: 25px;
   }
 
   .sumOfAllCupsFont{
-    font: normal normal normal 28px/37px ;
-    font-family:  Segoe UI;
+    color: #707070;
+     /* margin-top: 5px; */
+     margin-bottom: 5px;
+      /* margin-right: 15px; */
+    
   }
 
   .cupsText{
@@ -55,4 +64,10 @@
     font-size: 20px;
     margin-top: 13px;
     margin-bottom: 0px;
+  }
+
+  .cupsNubersContainer{
+    /* display: inline-block; */
+     /* width: 30px;  */
+     margin-left: 50px;
   }

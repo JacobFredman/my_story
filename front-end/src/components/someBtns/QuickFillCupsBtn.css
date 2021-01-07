@@ -26,3 +26,8 @@
     cursor: pointer;
     background: #e9e5e5;
 }
+
+
+.LinkInViewOfBtn:hover{
+    text-decoration: none;
+}

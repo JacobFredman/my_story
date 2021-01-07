@@ -110,7 +110,8 @@ class SignIn extends Component {
       .catch(error => {
         this.setState({ loading: false });
         console.log(error);
-        message.error('אירעה תקלה בכניסה עם גוגל, נא נסה שנית');
+        message.error('אירעה תקלה בכניסה באמצעות גוגל, נא נסה שנית', 4);
+        message.error(' יתכן שכבר נרשמת למערכת עם אותו אימייל שנרשמת איתו לגוגל', 5);
         this.setState({ showUnAuthMsg: true });
       })
   }
@@ -126,6 +127,8 @@ class SignIn extends Component {
       .catch(error => {
         this.setState({ loading: false });
         console.log(error);
+        message.error('אירעה תקלה בכניסה באמצעות פייסבוק, נא נסה שנית', 4);
+        message.error(' יתכן שכבר נרשמת למערכת עם אותו אימייל שנרשמת איתו לפייסבוק', 5);
         this.setState({ showUnAuthMsg: true });
       })
   }

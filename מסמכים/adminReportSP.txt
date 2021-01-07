@@ -1,0 +1,32 @@
+ (SELECT victory_cups_wined FROM user_cups WHERE chapter_id='2' AND user_name = t1.user_name) AS `פרק א :סוד האושר`,
+        (SELECT victory_cups_wined FROM user_cups WHERE chapter_id='3' AND user_name = t1.user_name) AS `משימת הקרמבו - אגף המשימות`,
+    (SELECT victory_cups_wined FROM user_cups WHERE chapter_id='4' AND user_name = t1.user_name) AS `פרק ב: האנשים הגדולים`,
+    (SELECT victory_cups_wined FROM user_cups WHERE chapter_id='5' AND user_name = t1.user_name) AS `פרק ג: אני טוב`,
+
+    (SELECT victory_cups_wined FROM user_cups WHERE chapter_id='6' AND user_name = t1.user_name) AS `פרק ד: להוקיר את החיים`,
+    (SELECT victory_cups_wined FROM user_cups WHERE chapter_id='7' AND user_name = t1.user_name) AS `פרק ה: נעים להכיר`,
+    (SELECT victory_cups_wined FROM user_cups WHERE chapter_id='8' AND user_name = t1.user_name) AS `פרק ו: מגשימי החלומות`,
+    (SELECT victory_cups_wined FROM user_cups WHERE chapter_id='9' AND user_name = t1.user_name) AS `פרק ז: החופש הגדול`,
+    (SELECT victory_cups_wined FROM user_cups WHERE chapter_id='10' AND user_name = t1.user_name) AS `פרק ח: לרוץ עם הרצון`,
+
+    (SELECT victory_cups_wined FROM user_cups WHERE chapter_id='11' AND user_name = t1.user_name) AS `פרק ט: המסלול הבטוח - הרגלים`,
+    (SELECT victory_cups_wined FROM user_cups WHERE chapter_id='13' AND user_name = t1.user_name) AS `פרק י: לתת ולצמוח`,
+    (SELECT victory_cups_wined FROM user_cups WHERE chapter_id='14' AND user_name = t1.user_name) AS `פרק יא: ההחמצות`,
+    (SELECT victory_cups_wined FROM user_cups WHERE chapter_id='15' AND user_name = t1.user_name) AS `פרק יב: מה הם יודעים שאנחנו לא`,
+    (SELECT victory_cups_wined FROM user_cups WHERE chapter_id='16' AND user_name = t1.user_name) AS `פרק יג`,
+
+    (SELECT victory_cups_wined FROM user_cups WHERE chapter_id='17' AND user_name = t1.user_name) AS `פרק יד:הבלו-פרינט`,
+    (SELECT victory_cups_wined FROM user_cups WHERE chapter_id='18' AND user_name = t1.user_name) AS `פרק טו: למלא את החלל`,
+    (SELECT victory_cups_wined FROM user_cups WHERE chapter_id='19' AND user_name = t1.user_name) AS `פרק טז: מדיה – הסיפור האמיתי`,
+    (SELECT victory_cups_wined FROM user_cups WHERE chapter_id='20' AND user_name = t1.user_name) AS `פרק יז: מישהו לרוץ איתו`,
+    (SELECT victory_cups_wined FROM user_cups WHERE chapter_id='21' AND user_name = t1.user_name) AS `פרק יח: טיפים של אלופים`,
+
+    (SELECT victory_cups_wined FROM user_cups WHERE chapter_id='22' AND user_name = t1.user_name) AS `פרק יט: אמא אדמה`,
+    (SELECT victory_cups_wined FROM user_cups WHERE chapter_id='23' AND user_name = t1.user_name) AS `פרק כג: יום השחרור`,
+
+    (SELECT victory_cups_wined FROM user_cups WHERE chapter_id='24' AND user_name = t1.user_name) AS `פרק כה: חוזרים לשליטה`,
+    (SELECT victory_cups_wined FROM user_cups WHERE chapter_id='25' AND user_name = t1.user_name) AS `פרק כו: אין לי כוח`,
+    (SELECT victory_cups_wined FROM user_cups WHERE chapter_id='26' AND user_name = t1.user_name) AS `פרק כז: לבחור נכון`,
+    (SELECT victory_cups_wined FROM user_cups WHERE chapter_id='27' AND user_name = t1.user_name) AS `פרק כח: מה הסיפור שלי`,
+    
+        (SELECT victory_cups_wined FROM user_cups WHERE chapter_id='28' AND user_name = t1.user_name) AS `פרק כט: תמיד מוכן`

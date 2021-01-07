@@ -1,0 +1,12 @@
+.goToBotBun{
+    border-radius: 15px;
+    border: solid;
+    text-align: center;
+    width: 60px;
+    /* font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-bold) 37px/35px var(--unnamed-font-family-assistant); */
+    /* letter-spacing: var(--unnamed-character-spacing-0); */
+    letter-spacing: 0px;
+    /* font: normal normal 600 11px/12px Assistant; */
+    font: normal normal 600  Assistant;
+    /* padding: 5px; */
+}

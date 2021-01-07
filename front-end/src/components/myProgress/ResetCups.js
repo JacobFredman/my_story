@@ -30,7 +30,13 @@ const ResetCups = () => {
         <span>
 
             {/* <p onClick={() => setShowResetMsg(true)} style={{ font: 'normal normal 600 16px/13px Assistant', color: '#AB3C96', position: 'absolute', top: '20%', cursor: 'pointer' }}>אפס מסע</p> */}
-            <p onClick={() => setShowResetMsg(true)} style={{ font: 'normal normal 600 16px/13px Assistant', color: '#AB3C96', top: '20%', cursor: 'pointer' }}>אפס מסע</p>
+            <div className="goalsOrHobitsBtn notActiveBtn" style={{ display: 'inline-flex', textAlign: 'center', width: '80px', borderColor: 'gray', color: 'gray' }}>
+
+                <p onClick={() => setShowResetMsg(true)}
+                    style={{ marginBottom: '0', marginLeft: '10px', marginRight: '10px', fontSize: '15px', lineHeight: '30px' }}>
+                    אפס מסע
+                    </p>
+            </div>
 
             <Example2
                 text="המסע ימחק ולא יהיה ניתן לשחזר אותו"

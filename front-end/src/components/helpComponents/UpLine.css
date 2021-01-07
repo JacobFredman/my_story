@@ -4,4 +4,8 @@
     background: transparent linear-gradient(88deg, #F15F33 0%, #BF1A84 100%);
     /* border-radius: 66px; */
     opacity: 1;
+
+    position: sticky;
+    top: 0px;
+    z-index: 1020;
 }

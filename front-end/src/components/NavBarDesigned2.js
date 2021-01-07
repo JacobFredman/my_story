@@ -76,9 +76,15 @@ const NavBarDesigned2 = (props) => {
     }
 
     return (
-        <div>
+        <>
             <style type="text/css">
                 {`
+                .sticky-top {
+                    position: sticky;
+                    top: 15px;
+                    z-index: 100;
+                }
+
     .bg-light {
         background-color: #FFFFFF !important;
     }
@@ -89,7 +95,7 @@ const NavBarDesigned2 = (props) => {
     }
     `}
             </style>
-            <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
+            <Navbar collapseOnSelect sticky='top' expand="lg" bg="light" variant="light">
                 {/* <Navbar.Brand href="#home"> */}
                 <ProgressComponents />
                 {/* </Navbar.Brand> */}
@@ -117,7 +123,7 @@ const NavBarDesigned2 = (props) => {
                             <Admin />
                         </NavDropdown>
                         <Nav.Link eventKey={2} >
-                            :(היי חבר
+                            :)היי חבר
                         </Nav.Link>
                         {/* <Nav.Link href="#deets">
                             <BoyImage />
@@ -131,7 +137,7 @@ const NavBarDesigned2 = (props) => {
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>
-        </div >
+        </>
     );
 };
 

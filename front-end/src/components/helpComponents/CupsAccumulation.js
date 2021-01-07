@@ -35,21 +35,19 @@ const CupsAccumulation = () => {
 
                 <div className="cupAccumBorder">
                     <p className="cupsText" style={{ marginRight: "70px", fontSize: '20px' }}>הגביעים שצברת:</p>
+                    {/* <div className="cupsNubersContainer"> */}
 
-                    <h6 style={{ color: '#707070', marginTop: '5px', marginRight: '15px', }}>{chaptersAndCups ? CountPossibleCups() + '/' : <Spinner animation="border" size="sm" />}</h6>
-                    <h4 style={{ color: '#C68E30', marginRight: '3px' }}>{chaptersAndCups ? CountUserCups() : ''}</h4>
+                    <h6 style={{ color: '#707070', marginTop: '5px', marginRight: '15px', display: 'inline-block', lineHeight: '19px' }}>{chaptersAndCups ? CountPossibleCups() + '/' : <Spinner animation="border" size="sm" />}</h6>
+                    {/* <h4 style={{ color: '#C68E30', marginRight: '3px' }}>{chaptersAndCups ? CountUserCups() : ''}</h4> */}
+                    <h4 className="AccumulatedCupsFont">{chaptersAndCups ? CountUserCups() : ''}</h4>
+                    {/* </div> */}
 
                 </div>
                 <div className="circleAroundCup" style={{ backgroundImage: "require('../../Photos/cup.png')" }} >
-                    <Cup
-                        key={1}
-                        height={35}
-                        marginPx={3}
-                        gold={true}
-                    />
+                    <Cup key={1} height={35} marginPx={3} gold={true} />
                 </div>
             </div>
-        </React.Fragment>
+        </React.Fragment >
     );
 };
 

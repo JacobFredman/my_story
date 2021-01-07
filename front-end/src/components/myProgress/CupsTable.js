@@ -24,6 +24,7 @@ const CupsTable = (props) => {
         // await getGoalsOrHabits();
         const rowsData = await getChaptersAndCups();
         dispatch({ type: 'CHAPTERSANDCUPS', val: rowsData.data.rows });
+        message.info('אם קראת פרק- פשוט הקלק עליו', 5);
     }
 
 

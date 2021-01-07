@@ -1,5 +1,5 @@
 // import { React, Component, useRef } from 'react';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import UpLine from '../helpComponents/UpLine';
 
 // import Table from 'react-bootstrap/Table';
@@ -36,7 +36,6 @@ const ShowProgress2 = (props) => {
     const reRenderComponent = useSelector(state => state.updateGoalsOrHabitChanged);
 
     const dispatch = useDispatch();
-    // const chaptersAndCups = useSelector(state => state.chaptersAndCups);
 
 
     const goToLogInIfNotUser = async () => {
@@ -55,10 +54,6 @@ const ShowProgress2 = (props) => {
         cleanDivsPointers();
         goToLogInIfNotUser();
     }, [reRenderComponent]);
-
-    useEffect(() => {
-        message.info('אם קראת פרק- פשוט הקלק עליו', 10);
-    }, [])
 
 
 

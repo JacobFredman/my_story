@@ -33,6 +33,12 @@ import FirebaseContext from '../Firebase/context';
 import NavBarDesigned2 from '../../components/NavBarDesigned2';
 import queryString from 'query-string';
 import botImg from '../../Photos/bot.jpg'; // with import
+import ConncetToBotBtn from '../someBtns/ConncetToBotBtn';
+import { readCookie } from '../../utils/helper';
+// import logoNaama from '../../Photos/logoNaamaMdr.png'; // with import
+import Credit from '../someBtns/Credit';
+
+
 
 
 
@@ -89,16 +95,7 @@ const ShowProgress = (props) => {
         // alert('not auth');
     }
 
-    const readCookie = (name) => {
-        var nameEQ = name + "=";
-        var ca = document.cookie.split(';');
-        for (var i = 0; i < ca.length; i++) {
-            var c = ca[i];
-            while (c.charAt(0) == ' ') c = c.substring(1, c.length);
-            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
-        }
-        return null;
-    }
+
 
     const actBasedOnUrlParams = () => {
         const value = queryString.parse(props.location.search);
@@ -175,16 +172,16 @@ const ShowProgress = (props) => {
 
 
     return (
-
-        <React.Fragment>
+        <>
             <Row>
                 <Col >
                     <NewUserMsg />
                     <Row>
-                        <Col style={{ padding: 0 }}><UpLine /></Col>
+                        <Col style={{ padding: 0 }}>
+                            <UpLine />
+                        </Col>
                         {console.log(firebase)}
                     </Row>
-                    {/* <NavBarDesigned></NavBarDesigned> */}
                     <Row>
                         <Col style={{ padding: '0' }}><NavBarDesigned2 history={props.history} /></Col>
                     </Row>
@@ -263,19 +260,25 @@ const ShowProgress = (props) => {
                     </Row>
 
                     <Row className='justify-content-center'>
-                        <Col xs='auto' style={{ marginBottom: '20px' }}><a href={"https://m.me/MyStory.Book.Bot?ref=refreshToken--" + readCookie('refreshToken')} target="_blank" >התחבר לבוט</a> </Col>
+                        {/* <Col xs='auto' style={{ marginBottom: '20px' }}><a href={"https://m.me/MyStory.Book.Bot?ref=refreshToken--" + readCookie('refreshToken')} target="_blank" >התחבר לבוט</a> </Col> */}
                         <Col xs='auto' style={{ marginBottom: '20px' }}><QuickFillCupsBtn history={props.history} /></Col>
-                        {console.log(document.cookie)}
-                        {console.log(readCookie('tokenId'))}
 
-                        <Col xs='auto' style={{ marginRight: '20px', marginBottom: '20px' }}><ResetCups /></Col>
                         {/* <Col xs='auto'><a href={"https://m.me/MyStory.Book.Bot?ref=token--" + readCookie('tokenId')} target="_blank" >התחבר לבוט</a> </Col> */}
-                        {/* <Col></Col> */}
-                        {/* <Col></Col> */}
+                    </Row>
+                    <Row className='justify-content-center'>
+                        <Col style={{ marginBottom: '20px', textAlign: 'center' }}>
+                            <ResetCups />
+                            <ConncetToBotBtn />
+                        </Col>
+                    </Row>
+                    <Row className='justify-content-center'>
+                        <Col style={{ textAlign: 'center' }}>
+                            <Credit />
+                        </Col>
                     </Row>
                 </Col>
             </Row>
-        </React.Fragment >
+        </>
     );
 };
 
