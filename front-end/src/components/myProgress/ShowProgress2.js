@@ -66,9 +66,7 @@ const ShowProgress2 = (props) => {
             <Row className="backStyle">
                 <Col>
                     <UpLine />
-                    <h1>kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk</h1>
                     <NavBarDesigned2 history={props.history} />
-
                     <Row className="justify-content-md-center">
                         <Col xs={12} md={7} style={{ paddingRight: '0', paddingLeft: '0' }}>
                             <Container>

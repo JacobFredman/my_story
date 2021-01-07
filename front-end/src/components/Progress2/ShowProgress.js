@@ -264,13 +264,13 @@ const ShowProgress = (props) => {
                     </Row>
                     <Row className='justify-content-center'>
                         <Col style={{ marginBottom: '20px', textAlign: 'center' }}>
-                            <ResetCups />
-                            <ConncetToBotBtn />
+                            {/* <ResetCups />
+                            <ConncetToBotBtn /> */}
                         </Col>
                     </Row>
                     <Row className='justify-content-center'>
                         <Col style={{ textAlign: 'center' }}>
-                            <Credit />
+                            {/* <Credit /> */}
                         </Col>
                     </Row>
                 </Col>
