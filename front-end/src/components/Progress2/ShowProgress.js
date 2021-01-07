@@ -50,7 +50,6 @@ const ShowProgress = (props) => {
     const firebase = useContext(FirebaseContext);
     const chaptersAndCups = useSelector(state => state.chaptersAndCups);
     const userId = useSelector(state => state.tokenAndDetails.userId);
-    console.log(userId);
     const [showFeedback, setshowFeedback] = useState(false);
     const [shoeNewUserMsg, setShoeNewUserMsg] = useState(false);
     const [showNotFinishedTheJurnyMsg, setShowNotFinishedTheJurnyMsg] = useState(false);

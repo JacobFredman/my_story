@@ -7,16 +7,6 @@ import { readCookie } from '../../utils/helper';
 import './QuickFillCupsBtn.css';
 
 const ConncetToBotBtn = () => {
-    // const readCookie = (name) => {
-    //     var nameEQ = name + "=";
-    //     var ca = document.cookie.split(';');
-    //     for (var i = 0; i < ca.length; i++) {
-    //         var c = ca[i];
-    //         while (c.charAt(0) == ' ') c = c.substring(1, c.length);
-    //         if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
-    //     }
-    //     return null;
-    // }
 
     return (
         <a className="LinkInViewOfBtn" href={"https://m.me/MyStory.Book.Bot?ref=refreshToken--" + readCookie('refreshToken')} target="_blank">
@@ -24,7 +14,6 @@ const ConncetToBotBtn = () => {
                 <p style={{ fontSize: '15px', lineHeight: '30px', marginRight: '5px', marginLeft: '10px', marginBottom: '0' }}>
                     התחבר לבוט
                     </p>
-                {/* <p style={{ fontSize: '15px', lineHeight: '30px', marginRight: '5px', marginLeft: '10px', marginBottom: '0' }}>התחבר לבוט</p> */}
 
                 <LittlebotImage style={{ display: 'inline-block' }} />
             </div>
