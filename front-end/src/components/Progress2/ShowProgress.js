@@ -260,10 +260,8 @@ const ShowProgress = (props) => {
                     </Row>
 
                     <Row className='justify-content-center'>
-                        {/* <Col xs='auto' style={{ marginBottom: '20px' }}><a href={"https://m.me/MyStory.Book.Bot?ref=refreshToken--" + readCookie('refreshToken')} target="_blank" >התחבר לבוט</a> </Col> */}
                         <Col xs='auto' style={{ marginBottom: '20px' }}><QuickFillCupsBtn history={props.history} /></Col>
 
-                        {/* <Col xs='auto'><a href={"https://m.me/MyStory.Book.Bot?ref=token--" + readCookie('tokenId')} target="_blank" >התחבר לבוט</a> </Col> */}
                     </Row>
                     <Row className='justify-content-center'>
                         <Col style={{ marginBottom: '20px', textAlign: 'center' }}>
