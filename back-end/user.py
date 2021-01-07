@@ -94,7 +94,7 @@ def initial_user_golas_or_habits(userLocalId):
 
 
 def user_exists(user):
-    sql = "select count(*) as a  from user where user.user_name = %s;"
+    sql = "select count(*) as a  from user where user.user_name =%s;"
     try:
         cursor = get_db_conn().cursor()
         cursor.execute(sql, (user,))
@@ -105,7 +105,7 @@ def user_exists(user):
 
 
 def isUserAdmin(user):
-    sql = "select is_admin from user where user_name =%s;"
+    sql = "select is_admin as a from user where user.user_name =%s;"
     try:
         cursor = get_db_conn().cursor()
         cursor.execute(sql, (user,))
@@ -118,7 +118,7 @@ def isUserAdmin(user):
 def delete_user(user):
     cursor = get_db_conn().cursor()
     try:
-        cursor.callproc("delete_user_data", (user_name,))
+        cursor.callproc("delete_user_data", (user,))
     except Exception as e:
         return 0
     return 1
