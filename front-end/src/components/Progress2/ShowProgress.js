@@ -114,7 +114,7 @@ const ShowProgress = (props) => {
 
     useEffect(() => {
         goToLogInIfNotUser();
-        // actBasedOnUrlParams();
+        actBasedOnUrlParams();
         getData();
     }, []);
 

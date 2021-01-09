@@ -29,7 +29,7 @@ const RefreshToken = (props) => {
                     props.setIsTokenRefreshed(true); // for the app will run anyway
             });
 
-        setTimeout(checkUserAndRefresh, 18000);
+        setTimeout(checkUserAndRefresh, 1200000);
     }
 
     useEffect(() => {
