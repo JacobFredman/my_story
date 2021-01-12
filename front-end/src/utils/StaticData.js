@@ -5,8 +5,8 @@
 
 
 
-export const baseUrl = "https://my-story-pro.ew.r.appspot.com/api/";
-// export const baseUrl = "http://localhost:5000/api/";
+// export const baseUrl = "https://my-story-pro.ew.r.appspot.com/api/";
+export const baseUrl = "http://localhost:5000/api/";
 
 
 
