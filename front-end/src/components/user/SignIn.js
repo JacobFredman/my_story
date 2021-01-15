@@ -137,6 +137,9 @@ class SignIn extends Component {
   genericSignIn = result => {
     this.setState({ loading: true });
     console.log(result);
+    console.log(result.user.email);
+    console.log(result.user.displayName);
+    console.log(result.user.photoURL);
 
     document.cookie = 'refreshToken=' + result.user.refreshToken + '; expires=' + new Date(new Date().setFullYear(new Date().getFullYear() + 1)) + '; path=/';
     console.log(result);

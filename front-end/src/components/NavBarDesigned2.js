@@ -53,6 +53,15 @@ const NavBarDesigned2 = (props) => {
         return '';
     }
 
+    const RealBoyPhoto = () => {
+        //  console.log(firebase.getCurrentUser().email) 
+
+        if (firebase.getCurrentUser().photoURL)
+            return <img width='70px' height='70px' src={firebase.getCurrentUser().photoURL} />;
+        else
+            return <BoyImage />;
+    };
+
 
 
     const ProgressComponents = () => {
@@ -132,7 +141,8 @@ const NavBarDesigned2 = (props) => {
                     <Nav>
 
                         <Nav.Link >
-                            <BoyImage />
+                            <RealBoyPhoto />
+                            {/* <BoyImage /> */}
                         </Nav.Link>
                     </Nav>
                 </Navbar.Collapse>

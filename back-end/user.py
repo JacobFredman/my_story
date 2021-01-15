@@ -1,7 +1,5 @@
 from firebase import Firebase
 from flask import Blueprint, request, jsonify, json, session, g
-from staticData import connDict
-import mysql.connector
 from functools import wraps
 from staticData import fireBaseConfig
 from initApp import get_db_conn
@@ -59,11 +57,11 @@ def is_user_admin(tokenId):
 #     return decorated_function
 
 
-def add_new_user_in_local_db(user_name, user_first_name, user_last_name, conn):
+def add_new_user_in_local_db(user_name, user_first_name=None, user_last_name=None, display_name=None, email=None):
     # ._open_connection()
     cursor = get_db_conn().cursor()
     try:
-        cursor.callproc("add_new_user", (user_name, user_first_name, user_last_name))
+        cursor.callproc("add_new_user", (user_name, user_first_name, user_last_name, display_name, email))
     except Exception as e:
         return 0
     return 1

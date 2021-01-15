@@ -22,7 +22,10 @@ const NavBarDesigned = () => {
                     </div>
                 </Col>
                 <Col>
-                    <h2 style={{ color: '#F15F33', fontFamily: 'Avigul', fontWeight: 'bold', padding: '20px 20px 20px 20px' }}>ההתקדמות במסע</h2>
+                    <h2 style={{
+                        color: '#F15F33', fontFamily: 'Avigul',
+                        Weight: 'bold', padding: '20px 20px 20px 20px'
+                    }}>ההתקדמות במסע</h2>
                     {/* <h2 style={{
                     color: '#F15F33',
                     // verticalAlign: 'middle',

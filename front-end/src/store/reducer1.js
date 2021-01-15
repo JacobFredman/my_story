@@ -26,7 +26,8 @@ const initState = {
     tokenAndDetails: {
         email: null,
         is_admin: 0,
-        userId: undefined
+        userId: undefined,
+        photoUrl: null
     },
     loading: { val: false },
     chaptersAndCups: undefined,
