@@ -7,7 +7,8 @@ from user import (
     isUserAdmin,
     get_user_firebase,
     delete_user,
-    initial_user_golas_or_habits
+    initial_user_golas_or_habits,
+    getUserData
 )
 from cups_menage import initial_user_cups
 
@@ -25,7 +26,7 @@ def signUp():
         # if user_exists(newUser['localId']):
         #     return 'user_allready_exists', 203
         add_new_user_in_local_db(
-            newUser["localId"], user_first_name, user_last_name, get_db_conn()
+            newUser["localId"], user_first_name, user_last_name, None, email
         )
         initial_user_cups(newUser["localId"])
         initial_user_golas_or_habits(newUser["localId"])
@@ -39,12 +40,6 @@ def signUp():
 
 @app.route("/api/sign_in", methods=["POST"])
 def signIn():
-    # request_paremeters_as_dict = request.get_json(force=True)
-    # email = request_paremeters_as_dict['email']
-    # password = request_paremeters_as_dict['password']
-    # user_first_name = request_paremeters_as_dict['user_first_name']
-    # user_last_name = request_paremeters_as_dict['user_last_name']
-    # tokenId = request.cookies.get('tokenId')
     tokenId = request.get_json(force=True)["tokenId"]
     try:
         user = get_auth().get_account_info(tokenId)["users"][0]
@@ -54,16 +49,16 @@ def signIn():
     try:
         localId = user["localId"]
         if not user_exists(localId):
-            add_new_user_in_local_db(localId, None, None, get_db_conn())
+            add_new_user_in_local_db(localId, None, None, user["displayName"], user["email"])
             initial_user_cups(localId)
+            initial_user_golas_or_habits(localId)
         isAdmin = isUserAdmin(localId)
     except Exception as e:
         print(e)
         return "error", 500
-    # finally:
-    #     conn.close()
-    # return json.dumps({"is_admin": isAdmin, "email": user["email"]}), 200
-    return json.dumps({"is_admin": isAdmin, "email": 'notExist'}), 200
+    objectToReturn = getUserData(localId) 
+    return objectToReturn, 200
+    # return json.dumps({"is_admin": isAdmin, "email": 'notExist'}), 200
 
 
 @app.route("/api/get_user_data", methods=["POST"])
@@ -71,8 +66,9 @@ def get_user_data():
     tokenId = request.get_json(force=True)["tokenId"]
     user = get_auth().get_account_info(tokenId)["users"][0]
     localId = user["localId"]
-    isAdmin = isUserAdmin(localId)
-    return json.dumps({"is_admin": isAdmin, "email": user["email"]}), 200
+    return getUserData(localId), 200
+    # isAdmin = isUserAdmin(localId)
+    # return json.dumps({"is_admin": isAdmin, "email": user["email"]}), 200
 
 
 @app.route("/api/is_authed_user", methods=["POST"])

@@ -4,6 +4,7 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import ProgressGradient from './ProgressGradient';
 import { baseUrl } from '../../utils/StaticData';
+import { axiosInstance } from '../../utils/StaticData';
 import axios from 'axios';
 import "./ProgressesBars.css";
 import "../myProgress/tooltip.css";
@@ -26,11 +27,12 @@ const ProgressesBars = () => {
 
 
     const getData = async (url, stateToUpdate) => {
-        const response = await axios.post(
-            baseUrl + url,
-            { "a": "a" },
-            { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
-        );
+        // const response = await axios.post(
+        //     baseUrl + url,
+        //     { "a": "a" },
+        //     { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
+        // );
+        const response = await axiosInstance.post('/' + url);
 
 
         if (stateToUpdate === 'my_your_control')

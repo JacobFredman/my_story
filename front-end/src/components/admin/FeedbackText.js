@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { baseUrl } from '../../utils/StaticData';
+import { axiosInstance } from '../../utils/StaticData';
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
@@ -37,10 +38,13 @@ class FeedbackText extends Component {
 
 
     getData = async () => {
-        const response = await axios.post(
-            baseUrl + 'admin/feedback_texts',
-            { "a": "a" },
-            { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
+        // const response = await axios.post(
+        //     baseUrl + 'admin/feedback_texts',
+        //     { "a": "a" },
+        //     { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
+        // );
+        const response = await axiosInstance.post(
+            '/admin/feedback_texts'
         );
         // let cupsAndPointsView = this.mapToView(response.data.rows)
         this.setState({ FeedbackTexts: response.data.rows });

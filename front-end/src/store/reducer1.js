@@ -1,7 +1,7 @@
 // const { fromJS } = require('immutable');
 // const structur = fromJS(
 //     {
-//         tokenAndDetails: {
+//         user_details: {
 //             email: null,
 //             is_admin: 0
 //         },
@@ -13,7 +13,7 @@
 // const reducer1 = (state = structur, action) => {
 //     switch (action.type) {
 //         case 'AUTH':
-//             const updatedAuth = state.updateIn(['tokenAndDetails'], () => action.val)
+//             const updatedAuth = state.updateIn(['user_details'], () => action.val)
 //             return updatedAuth;
 //         default:
 //             return state;
@@ -23,10 +23,22 @@
 
 // const initState = { token: '', userId: '', loginModalOpened: true, msgsList: [] };
 const initState = {
-    tokenAndDetails: {
+    // user_details: {
+    //     email: null,
+    //     is_admin: 0,
+    //     userId: undefined,
+    //     photoUrl: null
+    // },
+    user_details: {
+        date_of_birth: null,
+        date_of_registering: null,
+        display_name: null,
         email: null,
+        filled_feedback: null,
         is_admin: 0,
-        userId: undefined
+        user_first_name: null,
+        user_last_name: null,
+        user_name: null
     },
     loading: { val: false },
     chaptersAndCups: undefined,
@@ -47,12 +59,14 @@ const ChangeChapterReadStatus = (chapter, is_readed) => {
 
 
 const reducer1 = (state = initState, action) => {
+    console.log(action);
     switch (action.type) {
         case 'AUTH':
-            state = { ...state, tokenAndDetails: { ...state.tokenAndDetails, email: action.val.email, is_admin: action.val.is_admin } }
+            // state = { ...state, user_details: { ...state.user_details, email: action.val.email, is_admin: action.val.is_admin } }
+            state = { ...state, user_details: { ...action.val } }
             break;
         case 'UPDATEUSERID':
-            state = { ...state, tokenAndDetails: { ...state.tokenAndDetails, userId: action.val } }
+            state = { ...state, user_details: { ...state.user_details, userId: action.val } }
             break;
         case 'CHAPTERSANDCUPS':
             state = { ...state, chaptersAndCups: action.val }

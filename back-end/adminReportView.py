@@ -5,8 +5,42 @@ from admin_report import (
     get_users_and_cups,
     calcAverages,
     createCSVFile1,
+    createCSVFile
 )
 from user import is_user_admin
+from utils import pythonValuesToFileValues
+
+
+
+
+
+
+@app.route('/api/admin/get_all_useres_cups.csv', methods=['GET'])
+def getReportDemands():
+    try:
+        if not is_user_admin(request.cookies.get("tokenId")):
+            return "not admin user", 401
+    except Exception as e:
+        print(e)
+        return "not admin user", 401
+
+    cursor = get_db_conn().cursor()
+    
+    # cursor.execute("call all_useres_cups();", multi=True)
+    cursor.callproc( "all_useres_cups", () )
+    data = []
+    for result in cursor.stored_results():
+            for row in result.fetchall():
+                data.append(row)
+    # rows = cursor.fetchall()
+    # fieldNames = [column[0] for column in cursor.description]
+    description = result.description
+    fieldNames = [i[0] for i in description]
+    fileToSend = createCSVFile(fieldNames, data)
+    # res = make_response(fileToSend)
+    # res.headers['Content-Disposition'] = 'inline'
+    # res.headers['Content-Type'] = 'application/xls'
+    return fileToSend, 200
 
 
 @app.route("/api/admin/get_users_statistics", methods=["POST"])

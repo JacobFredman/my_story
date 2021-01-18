@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { baseUrl } from '../../utils/StaticData';
+import { axiosInstance } from '../../utils/StaticData';
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
@@ -35,10 +36,14 @@ class CupsAndPoints extends Component {
 
 
     getData = async () => {
-        const response = await axios.post(
-            baseUrl + 'admin/cups_and_points',
-            { "a": "a" },
-            { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
+        // const response = await axios.post(
+        //     baseUrl + 'admin/cups_and_points',
+        //     { "a": "a" },
+        //     { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
+        // );
+        const response = await axiosInstance.post(
+            '/admin/cups_and_points'
+            // { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
         );
         // let cupsAndPointsView = this.mapToView(response.data.rows)
         this.setState({ cupsAndPoints: response.data.rows });
@@ -66,10 +71,15 @@ class CupsAndPoints extends Component {
 
 
     updateWorkingRowInServer = async () => {
-        await axios.post(
-            baseUrl + 'update_chapter_points_max',
-            { ...this.state.workingRow },
-            { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
+        // await axios.post(
+        //     baseUrl + 'update_chapter_points_max',
+        //     { ...this.state.workingRow },
+        //     { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
+        // );
+        await axiosInstance.post(
+            '/update_chapter_points_max',
+            { ...this.state.workingRow }
+            // { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
         );
         this.getData();
     }

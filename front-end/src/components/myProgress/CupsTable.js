@@ -4,8 +4,6 @@ import TableCupsHeader from './TableCupsHeader';
 import TableCupsBottom from './TableCupsBottom';
 import TableCupsRows from './TableCupsRows';
 import { useSelector, useDispatch } from 'react-redux';
-import { baseUrl } from '../../utils/StaticData';
-import axios from 'axios';
 import { getChaptersAndCups } from './UpdateCups';
 import LoadingPage from '../LoadingPage';
 import { message } from 'antd';

@@ -1,4 +1,5 @@
 import { baseUrl } from '../../utils/StaticData';
+import { axiosInstance } from '../../utils/StaticData';
 import React, { Component } from 'react';
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
@@ -21,11 +22,15 @@ class ConnectUs extends Component {
 
 
     postMessage = async () => {
-        await axios.post(
-            baseUrl + 'about_us',
-            // { "senderName": "יעקב", "massage": " הכל בסדר?", "emailtopic": "סתם נושא" },
-            { "senderName": this.state.senderName, "massage": this.state.massage, "emailtopic": this.state.emailtopic },
-            { headers: { 'Content-Type': 'application/json' } }
+        // await axios.post(
+        //     baseUrl + 'about_us',
+        //     // { "senderName": "יעקב", "massage": " הכל בסדר?", "emailtopic": "סתם נושא" },
+        //     { "senderName": this.state.senderName, "massage": this.state.massage, "emailtopic": this.state.emailtopic },
+        //     { headers: { 'Content-Type': 'application/json' } }
+        // );
+        await axiosInstance.post(
+            '/about_us',
+            { "senderName": this.state.senderName, "massage": this.state.massage, "emailtopic": this.state.emailtopic }
         );
         this.setState({ showSeccessMsg: true });
         // if(response.status == 200)   

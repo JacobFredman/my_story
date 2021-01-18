@@ -3,6 +3,7 @@ import axios from 'axios';
 import { getCookie } from './helper';
 import { connect } from 'react-redux';
 import { baseUrl } from './StaticData';
+import { axiosInstance } from './StaticData';
 
 
 class UpdateRedux extends Component {
@@ -13,10 +14,14 @@ class UpdateRedux extends Component {
 
 
     getData = async () => {
-        const respone = await axios.post(
-            baseUrl + 'get_user_data',
+        // const respone = await axios.post(
+        //     baseUrl + 'get_user_data',
+        //     { "tokenId": getCookie('tokenId') },
+        //     { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
+        // );
+        const respone = await axiosInstance.post(
+            '/get_user_data',
             { "tokenId": getCookie('tokenId') },
-            { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
         );
         this.props.onGetAuth(respone.data);
     }

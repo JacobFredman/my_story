@@ -1,7 +1,5 @@
 from firebase import Firebase
 from flask import Blueprint, request, jsonify, json, session, g
-from staticData import connDict
-import mysql.connector
 from functools import wraps
 from staticData import fireBaseConfig
 from initApp import get_db_conn
@@ -59,11 +57,22 @@ def is_user_admin(tokenId):
 #     return decorated_function
 
 
-def add_new_user_in_local_db(user_name, user_first_name, user_last_name, conn):
-    # ._open_connection()
+def add_new_user_in_local_db(user_name, user_first_name=None, user_last_name=None, display_name=None, email=None):
     cursor = get_db_conn().cursor()
+    sql = """
+    UPDATE user
+    SET
+    `user_first_name` = %s
+    WHERE `user_name` = 'z2HtyaX43zUmib9ufa9VjNXdcW13';
+    """
+    sql2 = """  
+    INSERT  INTO user (user_name, date_of_registering, user_first_name, user_last_name, display_name, email)
+	VALUES (%s, CURDATE(), %s , %s , %s , %s );
+    """
     try:
-        cursor.callproc("add_new_user", (user_name, user_first_name, user_last_name))
+        cursor.execute(sql2, (user_name, user_first_name, user_last_name, display_name, email))
+        get_db_conn().commit()
+        # cursor.callproc("add_new_user", (user_name, user_first_name, user_last_name, display_name, email))
     except Exception as e:
         return 0
     return 1
@@ -114,6 +123,18 @@ def isUserAdmin(user):
         return "error"
     return row[0]
 
+def getUserData(user):
+    sql = "SELECT * FROM user WHERE user_name =%s;"
+    try:
+        cursor = get_db_conn().cursor()
+        cursor.execute(sql, (user,))
+        user_details = {}
+        row = cursor.fetchone()
+        for i in range(len(cursor.description)):
+            user_details[cursor.description[i][0]] = row[i] 
+    except Exception as e:
+        return "error"
+    return user_details
 
 def delete_user(user):
     cursor = get_db_conn().cursor()

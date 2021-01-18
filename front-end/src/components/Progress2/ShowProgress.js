@@ -49,7 +49,8 @@ import Credit from '../someBtns/Credit';
 const ShowProgress = (props) => {
     const firebase = useContext(FirebaseContext);
     const chaptersAndCups = useSelector(state => state.chaptersAndCups);
-    const userId = useSelector(state => state.tokenAndDetails.userId);
+    const user_details = useSelector(state => state.user_details);
+    const userId = useSelector(state => state.user_details.userId);
     const [showFeedback, setshowFeedback] = useState(false);
     const [shoeNewUserMsg, setShoeNewUserMsg] = useState(false);
     const [showNotFinishedTheJurnyMsg, setShowNotFinishedTheJurnyMsg] = useState(false);
@@ -116,6 +117,7 @@ const ShowProgress = (props) => {
         goToLogInIfNotUser();
         actBasedOnUrlParams();
         getData();
+        console.log(user_details);
     }, []);
 
 

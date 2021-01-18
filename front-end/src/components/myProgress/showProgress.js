@@ -6,6 +6,7 @@ import Button from 'react-bootstrap/Button';
 import './Cup.css';
 import axios from 'axios';
 import { baseUrl } from '../../utils/StaticData';
+import { axiosInstance } from '../../utils/StaticData';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -74,22 +75,27 @@ class showProgress extends Component {
 
     updateCups = async (chapterId, winedCups) => {
         alert('update cups');
-        await axios.post(
-            baseUrl + 'update_user_cups',
-            { "newCups": winedCups, "chapterId": chapterId },
-            { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
+        // await axios.post(
+        //     baseUrl + 'update_user_cups',
+        //     { "newCups": winedCups, "chapterId": chapterId },
+        //     { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
+        // );
+        await axiosInstance.post(
+            '/update_user_cups',
+            { "newCups": winedCups, "chapterId": chapterId }
         );
         this.getData();
     }
 
 
     getChaptersAndCups = async () => {
-        const response = await axios.post(
-            baseUrl + 'get_user_cups',
-            { "a": "a" },
-            { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
-            // { headers: { 'Content-Type': 'application/json' } }
-        );
+        // const response = await axios.post(
+        //     baseUrl + 'get_user_cups',
+        //     { "a": "a" },
+        //     { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
+        //     // { headers: { 'Content-Type': 'application/json' } }
+        // );
+        const response = await axiosInstance.post('/get_user_cups');
         this.setState({ chaptersAndCups: response.data.rows });
         this.props.OnGetChaptersAndCups({ chaptersAndCups: response.data.rows });
         // this.props.OnGetChaptersAndCups({ chaptersAndCups: 'aaaaaaaaaaaaaaa' }, () => console.log(this.props.chaptersAndCups + '2121'));
@@ -197,20 +203,25 @@ class showProgress extends Component {
 
     updateGoals = async (goals_selected) => {
         this.setState({ open: false });
-        await axios.post(
-            baseUrl + 'update_user_goals',
-            { "max_goals": this.state.maxGoals, "goals_selected": goals_selected, "numOfGoalsAchived": this.state.numOfGoalsAchived },
-            { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
+        // await axios.post(
+        //     baseUrl + 'update_user_goals',
+        //     { "max_goals": this.state.maxGoals, "goals_selected": goals_selected, "numOfGoalsAchived": this.state.numOfGoalsAchived },
+        //     { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
+        // );
+        await axiosInstance.post(
+            '/update_user_goals',
+            { "max_goals": this.state.maxGoals, "goals_selected": goals_selected, "numOfGoalsAchived": this.state.numOfGoalsAchived }
         );
     }
 
     getGoalsOrHabits = async () => {
-        const response = await axios.post(
-            baseUrl + 'get_goals_or_habits',
-            { "a": "a" },
-            { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
-            // { headers: { 'Content-Type': 'application/json' } }
-        );
+        // const response = await axios.post(
+        //     baseUrl + 'get_goals_or_habits',
+        //     { "a": "a" },
+        //     { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
+        //     // { headers: { 'Content-Type': 'application/json' } }
+        // );
+        const response = await axiosInstance.post('/get_goals_or_habits');
         this.setState({ ...response.data.val[0], open: false });
     }
 
@@ -364,8 +375,8 @@ class showProgress extends Component {
 
 const mapStateToProps = state => {
     return {
-        is_admin: state.tokenAndDetails.is_admin,
-        email: state.tokenAndDetails.email,
+        is_admin: state.user_details.is_admin,
+        email: state.user_details.email,
         chaptersAndCups: state.chaptersAndCups
     };
 }

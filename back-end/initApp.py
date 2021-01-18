@@ -3,6 +3,7 @@ from flask_cors import CORS
 import mysql.connector
 from staticData import connDict
 
+
 # app = Flask(__name__)
 app = Flask(__name__, static_folder="build")
 # app = Flask(__name__, static_folder="build/static", template_folder="build")
