@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { baseUrl } from '../../utils/StaticData';
+import { axiosInstance } from '../../utils/StaticData';
 import Table from 'react-bootstrap/Table';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -26,9 +27,13 @@ class AdminReport extends Component {
 
 
     getData = async () => {
-        const response = await axios.post(
-            baseUrl + 'admin/get_users_statistics',
-            { "a": "a" },
+        // const response = await axios.post(
+        //     baseUrl + 'admin/get_users_statistics',
+        //     { "a": "a" },
+        //     { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
+        // );
+        const response = await axiosInstance.post(
+            '/admin/get_users_statistics',
             { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
         );
         // let cupsAndPointsView = this.mapToView(response.data.rows)

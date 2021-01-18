@@ -52,36 +52,32 @@ class SignUp extends Component {
     handleSubmit = async () => {
         this.setState({ loading: true });
         const { first_name, last_name, email_user_name, passwordOne } = this.state;
-        await axios.post(
-            baseUrl + 'sign_up',
+        // await axios.post(
+        //     baseUrl + 'sign_up',
+        //     {
+        //         "email": email_user_name,
+        //         "password": passwordOne,
+        //         "user_first_name": first_name,
+        //         "user_last_name": last_name
+        //     },
+        //     { headers: { 'Content-Type': 'application/json' } }
+        // )
+        axiosInstance.post(
+            '/sign_up',
             {
                 "email": email_user_name,
                 "password": passwordOne,
                 "user_first_name": first_name,
                 "user_last_name": last_name
-            },
-            { headers: { 'Content-Type': 'application/json' } }
-        )
-            // axiosInstance.post(
-            //     '/sign_up',
-            //     {
-            //         "email": email_user_name,
-            //         "password": passwordOne,
-            //         "user_first_name": first_name,
-            //         "user_last_name": last_name
-            //     }
-            // )
-            .then(res => {
-                this.setState({ loading: false });
-                this.props.history.push("/sign_in");
             }
-            )
-            .catch(error => {
-                console.log(error);
-                message.error('משהו השתבש, האם אתה בטוח שכתובת המייל תקינה?  ');
-                this.setState({ loading: false });
-            })
-
+        ).then(res => {
+            this.setState({ loading: false });
+            this.props.history.push("/sign_in");
+        }).catch(error => {
+            console.log(error);
+            message.error('משהו השתבש, האם אתה בטוח שכתובת המייל תקינה?  ');
+            this.setState({ loading: false });
+        })
     }
 
     isPasswordOneOk = () => {

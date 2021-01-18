@@ -7,7 +7,8 @@ from user import (
     isUserAdmin,
     get_user_firebase,
     delete_user,
-    initial_user_golas_or_habits
+    initial_user_golas_or_habits,
+    getUserData
 )
 from cups_menage import initial_user_cups
 
@@ -55,9 +56,9 @@ def signIn():
     except Exception as e:
         print(e)
         return "error", 500
-    # objectToReturn = getUserData() 
-    # return objectToReturn, 200
-    return json.dumps({"is_admin": isAdmin, "email": 'notExist'}), 200
+    objectToReturn = getUserData(localId) 
+    return objectToReturn, 200
+    # return json.dumps({"is_admin": isAdmin, "email": 'notExist'}), 200
 
 
 @app.route("/api/get_user_data", methods=["POST"])

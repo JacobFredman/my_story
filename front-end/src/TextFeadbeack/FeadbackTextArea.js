@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { baseUrl } from '../utils/StaticData';
+import { axiosInstance } from '../utils/StaticData';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import './FeedbackText.css';
@@ -23,11 +24,15 @@ const FeadbackTextArea = (props) => {
 
 
     const getFeadbackText = async () => {
-        const msg = await axios.post(
-            baseUrl + 'get_feadback',
-            // { parameterName: 'your_control' },
+        // const msg = await axios.post(
+        //     baseUrl + 'get_feadback',
+        //     // { parameterName: 'your_control' },
+        //     { parameterName: props.parameterName },
+        //     { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
+        // );
+        const msg = await axiosInstance.post(
+            '/get_feadback',
             { parameterName: props.parameterName },
-            { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
         );
         console.log(msg);
         setFeadbackText(msg.data.val[0]);

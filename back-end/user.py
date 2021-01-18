@@ -123,6 +123,18 @@ def isUserAdmin(user):
         return "error"
     return row[0]
 
+def getUserData(user):
+    sql = "SELECT * FROM user WHERE user_name =%s;"
+    try:
+        cursor = get_db_conn().cursor()
+        cursor.execute(sql, (user,))
+        user_details = {}
+        row = cursor.fetchone()
+        for i in range(len(cursor.description)):
+            user_details[cursor.description[i][0]] = row[i] 
+    except Exception as e:
+        return "error"
+    return user_details
 
 def delete_user(user):
     cursor = get_db_conn().cursor()

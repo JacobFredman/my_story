@@ -3,6 +3,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import axios from 'axios';
 import { baseUrl } from '../../utils/StaticData';
+import { axiosInstance } from '../../utils/StaticData';
 import ProggressGraph from './ProggressGraph';
 
 
@@ -54,20 +55,24 @@ class UserStatistics extends Component {
     }
 
     getData = async (url, stateToUpdate) => {
-        const response = await axios.post(
-            baseUrl + url,
-            { "a": "a" },
-            { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
-        );
-
+        // const response = await axios.post(
+        //     baseUrl + url,
+        //     { "a": "a" },
+        //     { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
+        // );
+        const response = await axiosInstance.post('/' + url);
         this.setState({ [stateToUpdate]: response.data.val });
     }
 
     getTexts = async (url, stateToUpdate, parameterName) => {
-        const response = await axios.post(
-            baseUrl + url,
+        // const response = await axios.post(
+        //     baseUrl + url,
+        //     { "parameterName": parameterName },
+        //     { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
+        // );
+        const response = await axiosInstance.post(
+            '/' + url,
             { "parameterName": parameterName },
-            { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
         );
         this.setState({ [stateToUpdate]: response.data.val });
     }

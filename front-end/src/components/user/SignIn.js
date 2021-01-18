@@ -3,6 +3,7 @@ import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import { baseUrl } from '../../utils/StaticData';
+import { axiosInstance } from '../../utils/StaticData';
 import { connect } from 'react-redux';
 import { WarnningWithOk } from '../../masseges/Warnnings';
 import Row from 'react-bootstrap/Row';
@@ -92,10 +93,14 @@ class SignIn extends Component {
 
 
   updateMyDb = async (tokenId) => {
-    const response = await axios.post(
-      baseUrl + 'sign_in',
+    // const response = await axios.post(
+    //   baseUrl + 'sign_in',
+    //   { "tokenId": tokenId },
+    //   { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
+    // );
+    const response = await axiosInstance.post(
+      '/sign_in',
       { "tokenId": tokenId },
-      { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
     );
     this.props.onGetAuth(response.data);
 
