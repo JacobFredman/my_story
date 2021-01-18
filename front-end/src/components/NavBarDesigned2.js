@@ -22,7 +22,7 @@ import { baseUrl } from '../utils/StaticData';
 const NavBarDesigned2 = (props) => {
     const { width, height, screenLayout } = useWindowSize();
     const dispatch = useDispatch();
-    const tokenAndDetails = useSelector(state => state.tokenAndDetails);
+    const user_details = useSelector(state => state.user_details);
     const firebase = useContext(FirebaseContext);
 
 
@@ -41,7 +41,7 @@ const NavBarDesigned2 = (props) => {
     }
 
     const Admin = () => {
-        if (tokenAndDetails.is_admin)
+        if (user_details.is_admin)
             return <> <NavDropdown.Divider />
                 {/* <LinkContainer to="/admin/users_statistics">
                     <NavDropdown.Item >מנהל</NavDropdown.Item>
@@ -61,6 +61,23 @@ const NavBarDesigned2 = (props) => {
         else
             return <BoyImage />;
     };
+
+    const Display_name = () => {
+        const smaily = '(:';
+        let show_name = 'חבר';
+        if (user_details.display_name)
+            show_name = user_details.display_name;
+        else if (user_details.user_first_name && user_details.user_last_name)
+            show_name = user_details.user_first_name + ' ' + user_details.user_last_name;
+        return " היי " + show_name + smaily;
+        // {
+        //     user_details.display_name
+        //         ?
+        //         'היי ' + user_details.display_name
+        //         :
+        //         'היי ' + user_details.user_first_name + ' ' + user_details.user_last_name
+        // }
+    }
 
 
 
@@ -131,8 +148,11 @@ const NavBarDesigned2 = (props) => {
                             </div>
                             <Admin />
                         </NavDropdown>
-                        <Nav.Link eventKey={2} >
-                            :)היי חבר
+                        <Nav.Link eventKey={2} style={{ direction: 'rtl' }} >
+                            {/* :)היי חבר */}
+                            <Display_name />
+                            {console.log(user_details)}
+
                         </Nav.Link>
                         {/* <Nav.Link href="#deets">
                             <BoyImage />

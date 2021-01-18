@@ -66,8 +66,9 @@ def get_user_data():
     tokenId = request.get_json(force=True)["tokenId"]
     user = get_auth().get_account_info(tokenId)["users"][0]
     localId = user["localId"]
-    isAdmin = isUserAdmin(localId)
-    return json.dumps({"is_admin": isAdmin, "email": user["email"]}), 200
+    return getUserData(localId), 200
+    # isAdmin = isUserAdmin(localId)
+    # return json.dumps({"is_admin": isAdmin, "email": user["email"]}), 200
 
 
 @app.route("/api/is_authed_user", methods=["POST"])

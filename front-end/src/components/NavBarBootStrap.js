@@ -73,8 +73,8 @@ class NavBarBootStrap extends Component {
 const mapStateToProps = state => {
     state = state.toJS();
     return {
-        is_admin: state.tokenAndDetails.is_admin,
-        email: state.tokenAndDetails.email
+        is_admin: state.user_details.is_admin,
+        email: state.user_details.email
     };
 }
 

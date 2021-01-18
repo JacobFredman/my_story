@@ -61,7 +61,7 @@ class UserInNavBar extends Component {
 const mapStateToProps = state => {
     state = state.toJS();
     return {
-        userName: state.tokenAndDetails.email
+        userName: state.user_details.email
     };
 }
 

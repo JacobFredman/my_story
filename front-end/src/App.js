@@ -49,7 +49,7 @@ import Credit from '../src/components/someBtns/Credit';
 
 
 
-function App(props) {
+function App() {
   const [isTokenRefreshed, setIsTokenRefreshed] = useState(false);
 
 
