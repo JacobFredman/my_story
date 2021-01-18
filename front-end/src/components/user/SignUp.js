@@ -6,6 +6,7 @@ import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
 import { WarnningWithOk } from '../../masseges/Warnnings';
 import { baseUrl } from '../../utils/StaticData';
+import { axiosInstance } from '../../utils/StaticData';
 import axios from 'axios';
 import Container from 'react-bootstrap/Container';
 import Helmet from 'react-helmet';
@@ -60,11 +61,21 @@ class SignUp extends Component {
                 "user_last_name": last_name
             },
             { headers: { 'Content-Type': 'application/json' } }
-        ).then(res => {
-            this.setState({ loading: false });
-            this.props.history.push("/sign_in");
-        }
         )
+            // axiosInstance.post(
+            //     '/sign_up',
+            //     {
+            //         "email": email_user_name,
+            //         "password": passwordOne,
+            //         "user_first_name": first_name,
+            //         "user_last_name": last_name
+            //     }
+            // )
+            .then(res => {
+                this.setState({ loading: false });
+                this.props.history.push("/sign_in");
+            }
+            )
             .catch(error => {
                 console.log(error);
                 message.error('משהו השתבש, האם אתה בטוח שכתובת המייל תקינה?  ');

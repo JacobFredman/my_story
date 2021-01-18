@@ -25,7 +25,7 @@ def signUp():
         # if user_exists(newUser['localId']):
         #     return 'user_allready_exists', 203
         add_new_user_in_local_db(
-            newUser["localId"], user_first_name.encode('UTF-8'), user_last_name, None, email
+            newUser["localId"], user_first_name, user_last_name, None, email
         )
         initial_user_cups(newUser["localId"])
         initial_user_golas_or_habits(newUser["localId"])
@@ -50,6 +50,7 @@ def signIn():
         if not user_exists(localId):
             add_new_user_in_local_db(localId, None, None, user["displayName"], user["email"])
             initial_user_cups(localId)
+            initial_user_golas_or_habits(localId)
         isAdmin = isUserAdmin(localId)
     except Exception as e:
         print(e)

@@ -7,6 +7,9 @@ from staticData import connDict
 import csv
 from initApp import get_db_conn
 import os.path
+from utils import pythonValuesToFileValues
+import datetime
+
 
 
 def calcAverages(users_details):
@@ -51,6 +54,23 @@ def calcAverages(users_details):
         "cupsByChapterAvg": cupsByChapterAvg,
         "users_age_ave": users_age_ave,
     }
+
+
+
+def createCSVFile(fieldNames,  rows):
+    # generateQuery()
+    # milliseconds = int(round(time.time() * 1000))
+    strNow = datetime.datetime.now().strftime("%d-%m-%Y--%H_%M_%S")
+    fileName = 'ReportsFiles/demand' + strNow + '.csv'
+    with open(fileName, mode='w', newline='') as csv_file:
+        writer = csv.DictWriter(csv_file, fieldnames=fieldNames)
+        writer.writeheader()
+        for row in rows:
+            rowForWrite = {}
+            for i in range(len(fieldNames)):
+                rowForWrite[fieldNames[i]] = pythonValuesToFileValues(row[i])
+            writer.writerow(rowForWrite)
+    return send_file(fileName)
 
 
 def getChapterDetails(conn):
@@ -133,6 +153,9 @@ def get_users_and_cups(conn):
             }
         )
     return clientRows
+
+
+
 
 
 def createCSVFile1(fieldNames, averagesRowExe, users_details):

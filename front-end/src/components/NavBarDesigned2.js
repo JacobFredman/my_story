@@ -43,10 +43,10 @@ const NavBarDesigned2 = (props) => {
     const Admin = () => {
         if (tokenAndDetails.is_admin)
             return <> <NavDropdown.Divider />
-                <LinkContainer to="/admin/users_statistics">
+                {/* <LinkContainer to="/admin/users_statistics">
                     <NavDropdown.Item >מנהל</NavDropdown.Item>
-                </LinkContainer>
-                <div onClick={() => window.open(baseUrl + "admin/user_statistics.csv", "_blank")}>
+                </LinkContainer> */}
+                <div onClick={() => window.open(baseUrl + "admin/get_all_useres_cups.csv?t=" + Date.now(), "_blank")}>
                     <NavDropdown.Item >נתוני משתמשים באקסל</NavDropdown.Item>
                 </div>
             </>;
@@ -56,8 +56,8 @@ const NavBarDesigned2 = (props) => {
     const RealBoyPhoto = () => {
         //  console.log(firebase.getCurrentUser().email) 
 
-        if (firebase.getCurrentUser().photoURL)
-            return <img width='70px' height='70px' src={firebase.getCurrentUser().photoURL} />;
+        if (firebase.getCurrentUser() && firebase.getCurrentUser().photoURL)
+            return <img width='70px' height='70px' src={firebase.getCurrentUser().photoURL} style={{ borderRadius: '50%' }} />;
         else
             return <BoyImage />;
     };
