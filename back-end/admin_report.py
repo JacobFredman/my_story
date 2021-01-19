@@ -61,8 +61,8 @@ def createCSVFile(fieldNames,  rows):
     # generateQuery()
     # milliseconds = int(round(time.time() * 1000))
     strNow = datetime.datetime.now().strftime("%d-%m-%Y--%H_%M_%S")
-    fileName = 'ReportsFiles/demand' + strNow + '.csv'
-    with open(fileName, mode='w', newline='') as csv_file:
+    fileName = '/tmp/all_users_info.csv'
+    with open(fileName, mode='w', newline='', encoding='cp1255') as csv_file:
         writer = csv.DictWriter(csv_file, fieldnames=fieldNames)
         writer.writeheader()
         for row in rows:

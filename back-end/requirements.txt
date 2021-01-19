@@ -8,6 +8,7 @@ Flask==1.1.2
 Flask-Cors==3.0.9
 gcloud==0.18.3
 googleapis-common-protos==1.52.0
+google-cloud-storage==1.35.0
 httplib2==0.18.1
 idna==2.10
 itsdangerous==1.1.0
