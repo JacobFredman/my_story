@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export const axiosInstance = axios.create({
     // baseURL: 'http://localhost:5000/api/',
-    baseURL: 'https://achraiut-test.et.r.appspot.com/api/',
+    baseURL: '/api/',
     // timeout: 1000,
     headers: { 'Content-Type': 'application/json' },
     withCredentials: true
