@@ -37,6 +37,7 @@ import NavBarDesigned2 from './components/NavBarDesigned2';
 import FirebaseContext from './components/Firebase/context';
 import ProgressBarMobile from './components/mobile/ProgressBarMobile';
 import Credit from '../src/components/someBtns/Credit';
+import Test1 from '../src/components/Test1';
 
 
 // process.env.NODE_ENV = 'development';
@@ -77,6 +78,7 @@ function App() {
                 <Route path="/navBar_antd" component={NavBarAntd} />
                 <Route path="/mobile_progress" component={ProgressBarMobile} />
                 <Route path="/credit" component={Credit} />
+                <Route path="/100" component={Test1} />
                 <Route path="/" component={ShowProgress} />
                 {/* <Route path="/exapmle_modal" component={Example2} />
                 <Route path="/private_policy" component={PrivatePolicy} /> */}
