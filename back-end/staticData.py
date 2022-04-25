@@ -8,7 +8,8 @@
 
 # for production !!!!!!!!!!!
 connDict = {
-    "host": "139.162.132.71",
+    #"host": "139.162.132.71",
+    "host": "85.90.246.115",
     "user": "azimcoil_jac",
     "password": "Asdf#5432",
     "database": "azimcoil_story",
