@@ -7,12 +7,22 @@
 
 
 # for production !!!!!!!!!!!
+# connDict = {
+#     #"host": "139.162.132.71",
+#     "host": "85.90.246.115",
+#     "user": "azimcoil_jac",
+#     "password": "Asdf#5432",
+#     "database": "azimcoil_story",
+#     "port": "3306",
+#     "charset": "utf8",
+#     "use_unicode": True
+# }
+# connection to google cloud sql
 connDict = {
-    #"host": "139.162.132.71",
-    "host": "85.90.246.115",
-    "user": "azimcoil_jac",
+    "host": "104.199.47.122",
+    "user": "jac",
     "password": "Asdf#5432",
-    "database": "azimcoil_story",
+    "database": "my_story_db",
     "port": "3306",
     "charset": "utf8",
     "use_unicode": True
