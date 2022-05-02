@@ -340,14 +340,12 @@ def resetUserCups():
             return "Unauthorized user", 401
     except:
         return "Unauthorized user", 401
-    SP_paremeters_as_dict = request.get_json(force=True)
     cursor = get_db_conn().cursor()
     try:
         cursor.callproc(
             "reset_user_cups", (localId,),
         )
         get_db_conn().commit()
-        val = cursor.fetchone()
     except Exception as e:
         print(str(e))
         return "error", 500
