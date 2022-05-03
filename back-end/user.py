@@ -59,18 +59,12 @@ def is_user_admin(tokenId):
 
 def add_new_user_in_local_db(user_name, user_first_name=None, user_last_name=None, display_name=None, email=None):
     cursor = get_db_conn().cursor()
-    sql = """
-    UPDATE user
-    SET
-    `user_first_name` = %s
-    WHERE `user_name` = 'z2HtyaX43zUmib9ufa9VjNXdcW13';
-    """
-    sql2 = """  
-    INSERT  INTO user (user_name, date_of_registering, user_first_name, user_last_name, display_name, email)
-	VALUES (%s, CURDATE(), %s , %s , %s , %s );
+    sql = """  
+    INSERT  INTO user (user_name, is_admin, date_of_registering, user_first_name, user_last_name, display_name, email)
+	VALUES (%s, 0, CURDATE(), %s , %s , %s , %s );
     """
     try:
-        cursor.execute(sql2, (user_name, user_first_name, user_last_name, display_name, email))
+        cursor.execute(sql, (user_name, user_first_name, user_last_name, display_name, email))
         get_db_conn().commit()
         # cursor.callproc("add_new_user", (user_name, user_first_name, user_last_name, display_name, email))
     except Exception as e:
